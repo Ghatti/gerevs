@@ -1,3 +1,6 @@
+from organizador import Organizador
+from participante import Participante
+
 class Evento:
 
     def __init__(self, titulo: str, data: str, horario: str, local, capacidade: int, organizador):
