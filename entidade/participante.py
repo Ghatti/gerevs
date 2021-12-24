@@ -1,8 +1,9 @@
 from pessoa import Pessoa
+from endereco import Endereco
 
 class Participante(Pessoa):
 
-    def __init__(self, cpf: str, nome: str, nascimento: str, endereco: str, cartao_de_vacina):
+    def __init__(self, cpf: str, nome: str, nascimento: str, endereco: Endereco, cartao_de_vacina):
 
         super().__init__(cpf, nome, nascimento, endereco)
         self.__cartao_de_vacina = cartao_de_vacina

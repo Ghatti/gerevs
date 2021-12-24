@@ -1,9 +1,10 @@
 from organizador import Organizador
 from participante import Participante
+from endereco import Endereco
 
 class Evento:
 
-    def __init__(self, titulo: str, data: str, horario: str, local, capacidade: int, organizador):
+    def __init__(self, titulo: str, data: str, horario: str, local: Endereco, capacidade: int, organizador: Organizador):
 
         self.__titulo = titulo
         self.__data = data
@@ -59,24 +60,24 @@ class Evento:
         self.__horario = horario
 
     @local.setter
-    def local(self, local: str):
+    def local(self, local: Endereco):
         self.__local = local
 
     @capacidade.setter
     def capacidade(self, capacidade: int):
         self.__capacidade = capacidade
 
-    def adicionar_organizador(self, organizador):
+    def adicionar_organizador(self, organizador: Organizador):
         pass
 
-    def remover_organizador(self, organizador):
+    def remover_organizador(self, organizador: Organizador):
         pass
 
-    def adicionar_participante(self, participante):
+    def adicionar_participante(self, participante: Participante):
         pass
 
-    def remover_participante(self, participante):
+    def remover_participante(self, participante: Participante):
         pass
 
-    def confirmar_participante(self, participante):
+    def confirmar_participante(self, participante: Participante):
         pass
