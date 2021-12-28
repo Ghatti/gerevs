@@ -16,8 +16,16 @@ class Controlador(ABC):
     def entidades(self):
         return self.__entidades
 
+    @property
+    def tela(self):
+        return self.__tela
+
+    def inicializar(self):
+        self.abrir_menu_inicial()
+
+    @abstractmethod
     def abrir_menu_inicial(self):
-        self.__tela.mostrar_menu_inicial()
+        pass
 
     def abrir_menu_visualizacao(self):
         pass
@@ -53,7 +61,7 @@ class Controlador(ABC):
         pass
 
     def cadastrar(self):
-        pass
+        print("Cadastrar selecionado")
 
     def obter(self, id):
         pass

@@ -1,3 +1,4 @@
+from controle.controlador_organizador import ControladorOrganizador
 from limite.tela_sistema import TelaSistema
 
 
@@ -6,7 +7,7 @@ class ControladorSistema:
     def __init__(self):
 
         self.__controlador_evento = None
-        self.__controlador_organizador = None
+        self.__controlador_organizador = ControladorOrganizador(self)
         self.__controlador_participante = None
         self.__controlador_cartao_de_vacina = None
         self.__controlador_exame = None
@@ -62,7 +63,7 @@ class ControladorSistema:
         
 
     def iniciar_modulo_organizadores(self):
-        print("Modulo de organizadores escolhido")
+        self.controlador_organizador.inicializar()
 
     def iniciar_modulo_participantes(self):
         print("Modulo de participantes escolhido")
