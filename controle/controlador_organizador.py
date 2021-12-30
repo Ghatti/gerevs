@@ -1,4 +1,5 @@
 from entidade.organizador import Organizador
+from entidade.endereco import Endereco
 from controle.controlador import Controlador
 from limite.tela_organizador import TelaOrganizador
 
@@ -24,6 +25,8 @@ class ControladorOrganizador(Controlador):
         dados = self.tela.mostrar_tela_cadastro()
         
         #Procurar se há organizador com o cpf
+        #criar endereco
+        endereco = Endereco(dados["endereco"])
         #criar organizador
         #incluir organizador
         print(dados)
