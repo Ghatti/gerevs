@@ -33,3 +33,16 @@ class Tela(ABC):
 
     def mostrar_mensagem(self, mensagem):
         pass
+
+    def ler_inteiro(self, opcoes = []):
+      
+        while True:
+            opcao = input("Escolha a opcao:")
+
+            try:
+                opcao = int(opcao)
+                if(opcao not in opcoes):
+                    raise ValueError
+                return opcao
+            except ValueError:
+                print("Valor incorreto. Digite um valor numérico válido.")

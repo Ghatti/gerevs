@@ -15,11 +15,11 @@ class ControladorOrganizador(Controlador):
         opcoes = {1: self.cadastrar}
 
         while True:
-            opcao_escolhida = self.tela.mostrar_menu_inicial()
+            self.tela.mostrar_menu_inicial()
+            opcoes_validas = [0, 1]
+            opcao_escolhida = self.tela.ler_inteiro(opcoes_validas)
             funcao_escolhida = opcoes[opcao_escolhida]
             funcao_escolhida()
-
-            opcoes = range(1)
 
 
         

@@ -11,15 +11,3 @@ class TelaOrganizador(Tela):
         print("Escolha sua opção:")
         print("1 - Cadastrar Organizador")
         print("0 - Encerrar Sistema")
-
-        opcoes = [1]
-        while True:
-            opcao = input("Escolha a opcao:")
-
-            try:
-                opcao = int(opcao)
-                if(opcao not in opcoes):
-                    raise ValueError
-                return opcao
-            except ValueError:
-                print("Valor incorreto. Digite um valor numérico válido.")                    
