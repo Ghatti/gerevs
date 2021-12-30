@@ -1,3 +1,4 @@
+from entidade.organizador import Organizador
 from controle.controlador import Controlador
 from limite.tela_organizador import TelaOrganizador
 
@@ -17,6 +18,12 @@ class ControladorOrganizador(Controlador):
         menu = self.tela.mostrar_menu_inicial
 
         self.abrir_menu(menu, opcoes, opcoes_validas)
+
+    def cadastrar(self):
+
+        dados = self.tela.mostrar_tela_cadastro()
+        print(dados)
+        
 
     #move function to parent class
     def abrir_menu(self, menu = None, opcoes = {}, opcoes_validas = []):

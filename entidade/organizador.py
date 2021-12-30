@@ -1,5 +1,5 @@
-from pessoa import Pessoa
-from endereco import Endereco
+from entidade.pessoa import Pessoa
+from entidade.endereco import Endereco
 
 class Organizador(Pessoa):
 

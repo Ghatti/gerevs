@@ -1,15 +1,17 @@
+import re
 from abc import ABC, abstractmethod
+
 
 class Tela(ABC):
 
     @abstractmethod
     def __init__(self, controlador):
         self.__controlador = controlador
-    
+
     @property
     def controlador(self):
         return self.__controlador
-    
+
     def mostrar_menu_inicial(self):
         pass
 
@@ -34,8 +36,8 @@ class Tela(ABC):
     def mostrar_mensagem(self, mensagem):
         pass
 
-    def ler_inteiro(self, opcoes = []):
-      
+    def ler_inteiro(self, opcoes=[]):
+
         while True:
             opcao = input("Escolha a opcao:")
 
@@ -46,3 +48,46 @@ class Tela(ABC):
                 return opcao
             except ValueError:
                 print("Valor incorreto. Digite um valor numérico válido.")
+
+    def ler_string(self, input_msg, err_msg, validators = []):
+
+        while True:
+            try:
+                valor_informado = input(input_msg)
+
+                for validator in validators:
+                    if(not validator(valor_informado)):
+                        raise ValueError
+                
+                return valor_informado
+
+            except ValueError:
+                print(err_msg)
+
+
+    def validar_string(self, min = None, max = None, equal = None, formato = None):
+
+        validators = []
+
+        if(min):
+            def validar_minimo(valor):
+                return len(valor) > min
+            validators.append(validar_minimo)
+
+        if(max):
+            def validar_maximo(valor):
+                return len(valor) < max
+            validators.append(validar_maximo)
+
+        if(equal):
+            def validar_igual(valor):
+                return len(valor) == equal
+            validators.append(validar_maximo)
+
+        if(formato):
+            def validar_formato(valor, formato):
+                return re.match(formato, valor)
+            validators.append(validar_formato)
+        
+
+        return validators

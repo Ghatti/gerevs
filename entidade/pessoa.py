@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from endereco import Endereco
+from entidade.endereco import Endereco
 
 
 class Pessoa(ABC):
