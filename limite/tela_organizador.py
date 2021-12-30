@@ -16,132 +16,42 @@ class TelaOrganizador(Tela):
         print("------ Cadastrar Organizador ------")
 
         organizador = {}
-        organizador["nome"] = self.ler_string("Informe o nome do organizador: ", "O nome informado não é válido", self.validar_string(min = 4, max = 31))
-        #while True:
-        #    try:
-        #        organizador["nome"] = input("Informe o nome do organizador: ")
-#
-        #        if(len(organizador["nome"]) <= 5 or len(organizador["nome"]) >= 30):
-        #            raise ValueError
-        #        else:
-        #            break
-#
-        #    except ValueError:
-        #        print("O nome informado não é válido")
-
-        while True:
-            try:
-                organizador.cpf = input("Informe o cpf do organizador: ")
-
-                if(not re.match(r"^\d{3}\.\d{3}\.\d{3}\-\d{2}$", cpf)):
-                    raise ValueError
-                else:
-                    break
-
-            except ValueError:
-                print("O CPF informado não é válido. Utilize o formado 000.000.000-00")
-
-        while True:
-            try:
-                organizador.nasc = input(
-                    "Informe a data de nascimento do organizador: ")
-
-                if(not re.match(r"^\d{2}\/\d{2}\/\d{4}$", nasc)):
-                    raise ValueError
-                else:
-                    break
-
-            except ValueError:
-                print(
-                    "A data de nascimento informada não é válida. Utilize o formado 01/01/1900")
+        organizador["nome"] = self.ler_string(
+            "Informe o nome do organizador: ", "O nome informado não é válido", self.validar_string(min=4, max=31))
+        organizador["cpf"] = self.ler_string(
+            "Informe o cpf do organizador: ", "O CPF informado não é válido. Utilize o formado 000.000.000-00", self.validar_string(formato=r"^\d{3}\.\d{3}\.\d{3}\-\d{2}$"))
+        organizador["nasc"] = self.ler_string("Informe a data de nascimento do organizador: ",
+                                              "A data de nascimento informada não é válida. Utilize o formado 01/01/1900", self.validar_string(formato=r"^\d{2}\/\d{2}\/\d{4}$"))
 
         print("Agora, informe o endereço do organizador.")
-
         endereco = {}
 
+        endereco["cep"] = self.ler_string(
+            "CEP: ", "O CEP informado não é válido. Utilize o formado 00.000-000", self.validar_string(formato=r"^\d{2}\.\d{3}\-\d{3}$"))
+        endereco["rua"] = self.ler_string(
+            "Rua: ", "A rua informada não é válido", self.validar_string(equal=0))
+
+        # probably make a function to validate int later
         while True:
             try:
-                endereco.cep = input("CEP: ")
-
-                if(not re.match(r"^\d{2}\.\d{3}\-\d{3}$", endereco.cep)):
-                    raise ValueError
-                else:
-                    break
-
-            except ValueError:
-                print(
-                    "O CEP informado não é válido. Utilize o formado 00.000-000")
-
-        while True:
-            try:
-                endereco.rua = input("Rua: ")
-
-                if(len(endereco.rua) == 0):
-                    raise ValueError
-                else:
-                    break
-
-            except ValueError:
-                print("A rua informada não é válido")
-
-        while True:
-            try:
-                endereco.rua = input("Rua: ")
-
-                if(len(endereco.rua) == 0):
-                    raise ValueError
-                else:
-                    break
-
-            except ValueError:
-                print("A rua informada não é válido")
-
-        while True:
-            try:
-                endereco.numero = input("Numero: ")
-                int(endereco.numero)
+                endereco["numero"] = input("Informe o número: ")
+                int(endereco["numero"])
                 break
 
             except ValueError:
-                print("Por favor, informe um número")
+                print()
 
-        while True:
-            try:
-                endereco.bairro = input("Bairro: ")
-
-                if(len(endereco.bairro) == 0):
-                    raise ValueError
-                else:
-                    break
-
-            except ValueError:
-                print("O bairro informado não é válido")
-
-        while True:
-            try:
-                endereco.cidade = input("Cidade: ")
-
-                if(len(endereco.cidade) == 0):
-                    raise ValueError
-                else:
-                    break
-
-            except ValueError:
-                print("A cidade informada não é válido")
-
-        while True:
-            try:
-                endereco.estado = input("Estado: ")
-
-                if(len(endereco.estado) == 0):
-                    raise ValueError
-                else:
-                    break
-
-            except ValueError:
-                print("O estado informada não é válido")
-
-        organizador.endereco = endereco.copy()
-
-
-        
+        endereco["bairro"] = self.ler_string(
+            "Bairro: ", "O bairro informado não é válido", self.validar_string(
+                equal=0)
+        )
+        endereco["cidade"] = self.ler_string(
+            "Cidade: ", "A cidade informada não é válida", self.validar_string(
+                equal=0)
+        )
+        endereco["estado"] = self.ler_string(
+            "Estado: ", "O estado informado não é válido", self.validar_string(
+                equal=0)
+        )
+        organizador["endereco"] = endereco.copy()
+        return organizador

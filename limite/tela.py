@@ -80,12 +80,12 @@ class Tela(ABC):
             validators.append(validar_maximo)
 
         if(equal):
-            def validar_igual(valor):
-                return len(valor) == equal
-            validators.append(validar_maximo)
+            def validar_not_igual(valor):
+                return not len(valor) == equal
+            validators.append(validar_not_igual)
 
         if(formato):
-            def validar_formato(valor, formato):
+            def validar_formato(valor):
                 return re.match(formato, valor)
             validators.append(validar_formato)
         

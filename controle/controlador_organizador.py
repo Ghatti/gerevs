@@ -22,6 +22,10 @@ class ControladorOrganizador(Controlador):
     def cadastrar(self):
 
         dados = self.tela.mostrar_tela_cadastro()
+        
+        #Procurar se há organizador com o cpf
+        #criar organizador
+        #incluir organizador
         print(dados)
         
 
