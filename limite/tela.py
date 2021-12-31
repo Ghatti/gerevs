@@ -34,7 +34,7 @@ class Tela(ABC):
         pass
 
     def mostrar_mensagem(self, mensagem):
-        pass
+        print(mensagem)
 
     def ler_inteiro(self, opcoes=[]):
 

@@ -10,7 +10,7 @@ class Pessoa(ABC):
         self.__cpf = cpf
         self.__nome = nome
         self.__nascimento = nascimento
-        self.__endereco = endereco  # placeholder - vai mudar
+        self.__endereco = endereco
 
     @property
     def cpf(self):

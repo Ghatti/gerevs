@@ -23,22 +23,31 @@ class ControladorOrganizador(Controlador):
     def cadastrar(self):
 
         dados = self.tela.mostrar_tela_cadastro()
-        
-        #Procurar se há organizador com o cpf
-        #criar endereco
-        endereco = Endereco(dados["endereco"])
-        #criar organizador
-        #incluir organizador
-        print(dados)
-        
 
-    #move function to parent class
-    def abrir_menu(self, menu = None, opcoes = {}, opcoes_validas = []):
+        try:
+            # Procurar se há organizador com o cpf
+            for organizador in self.entidades:
+                if(organizador["cpf"] == dados["cpf"]):
+                    raise KeyError
+        except KeyError:
+            self.tela.mostrar_mensagem(
+                "Erro: Já existe um organizador cadastrado com esse CPF.")
+        else:
+
+            # criar organizador
+            novo_organizador = Organizador(
+                dados["cpf"], dados["nome"], dados["nascimento"], dados["endereco"])
+
+            # incluir organizador
+            self.entidades.append(novo_organizador)
+
+        self.tela.mostrar_mensagem("Organizador cadastrado com sucesso")
+
+    # move function to parent class
+    def abrir_menu(self, menu=None, opcoes={}, opcoes_validas=[]):
 
         while True:
             menu()
             opcao_escolhida = self.tela.ler_inteiro(opcoes_validas)
             funcao_escolhida = opcoes[opcao_escolhida]
             funcao_escolhida()
-        
-
