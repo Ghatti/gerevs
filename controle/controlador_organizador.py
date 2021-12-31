@@ -28,8 +28,8 @@ class ControladorOrganizador(Controlador):
             # Procurar se há organizador com o cpf
             for organizador in self.entidades:
                 if(organizador["cpf"] == dados["cpf"]):
-                    raise KeyError
-        except KeyError:
+                    raise ValueError
+        except ValueError:
             self.tela.mostrar_mensagem(
                 "Erro: Já existe um organizador cadastrado com esse CPF.")
         else:
@@ -43,11 +43,5 @@ class ControladorOrganizador(Controlador):
 
         self.tela.mostrar_mensagem("Organizador cadastrado com sucesso")
 
-    # move function to parent class
-    def abrir_menu(self, menu=None, opcoes={}, opcoes_validas=[]):
 
-        while True:
-            menu()
-            opcao_escolhida = self.tela.ler_inteiro(opcoes_validas)
-            funcao_escolhida = opcoes[opcao_escolhida]
-            funcao_escolhida()
+

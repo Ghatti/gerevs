@@ -72,4 +72,10 @@ class Controlador(ABC):
     def remover(self, entidade):
         pass
 
+    def abrir_menu(self, menu=None, opcoes={}, opcoes_validas=[]):
 
+        while True:
+            menu()
+            opcao_escolhida = self.tela.ler_inteiro(opcoes_validas)
+            funcao_escolhida = opcoes[opcao_escolhida]
+            funcao_escolhida()
