@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 class Controlador(ABC):
 
     @abstractmethod
@@ -31,7 +32,7 @@ class Controlador(ABC):
         pass
 
     def abrir_tela_confirmacao(self):
-        pass    
+        pass
 
     def abrir_tela_mostrar(self):
         pass
@@ -43,7 +44,7 @@ class Controlador(ABC):
         pass
 
     def abrir_tela_selecionar(self):
-        pass  
+        pass
 
     def ver_todos(self):
         pass
@@ -52,7 +53,13 @@ class Controlador(ABC):
         pass
 
     def listar(self):
-        pass
+
+        if(len(self.entidades) == 0):
+            self.tela.mostrar_mensagem(
+                "Ainda não há organizadores cadastrados")
+        else:
+            for entidade in self.entidades:
+                self.tela.mostrar(entidade)
 
     def mostrar(self, entidade):
         pass
@@ -74,8 +81,7 @@ class Controlador(ABC):
 
     def abrir_menu(self, menu=None, opcoes={}, opcoes_validas=[]):
 
-        while True:
-            menu()
-            opcao_escolhida = self.tela.ler_inteiro(opcoes_validas)
-            funcao_escolhida = opcoes[opcao_escolhida]
-            funcao_escolhida()
+        menu()
+        opcao_escolhida = self.tela.ler_inteiro(opcoes_validas)
+        funcao_escolhida = opcoes[opcao_escolhida]
+        funcao_escolhida()

@@ -12,6 +12,10 @@ class TelaOrganizador(Tela):
         print("1 - Cadastrar Organizador")
         print("0 - Encerrar Sistema")
 
+    def mostrar(self, organizador):
+        print(organizador.nome)
+
+
     def mostrar_tela_cadastro(self):
         print("------ Cadastrar Organizador ------")
 

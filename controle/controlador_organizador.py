@@ -18,7 +18,9 @@ class ControladorOrganizador(Controlador):
         opcoes_validas = [0, 1]
         menu = self.tela.mostrar_menu_inicial
 
-        self.abrir_menu(menu, opcoes, opcoes_validas)
+        while(True):
+            self.listar()
+            self.abrir_menu(menu, opcoes, opcoes_validas)
 
     def cadastrar(self):
 
@@ -27,7 +29,7 @@ class ControladorOrganizador(Controlador):
         try:
             # Procurar se há organizador com o cpf
             for organizador in self.entidades:
-                if(organizador["cpf"] == dados["cpf"]):
+                if(organizador.cpf == dados["cpf"]):
                     raise ValueError
         except ValueError:
             self.tela.mostrar_mensagem(
@@ -40,8 +42,4 @@ class ControladorOrganizador(Controlador):
 
             # incluir organizador
             self.entidades.append(novo_organizador)
-
-        self.tela.mostrar_mensagem("Organizador cadastrado com sucesso")
-
-
-
+            self.tela.mostrar_mensagem("Organizador cadastrado com sucesso")
