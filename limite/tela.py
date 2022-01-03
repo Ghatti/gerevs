@@ -29,7 +29,7 @@ class Tela(ABC):
         print("Escolha sua opção:")
         print("1 - Alterar")
         print("2 - Remover")
-        print("0 - Encerrar Sistema")
+        print("0 - Voltar")
 
     def confirmar(self):
         pass
