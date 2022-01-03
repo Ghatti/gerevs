@@ -28,8 +28,9 @@ class Controlador(ABC):
     def abrir_menu_inicial(self):
         pass
 
+    @abstractmethod
     def abrir_menu_visualizacao(self):
-        pass
+        self.tela.mostrar_mensagem("Menu de visualização")
 
     def abrir_tela_confirmacao(self):
         pass
@@ -44,13 +45,23 @@ class Controlador(ABC):
         pass
 
     def abrir_tela_selecionar(self):
-        pass
+        return self.tela.ler_inteiro(range(len(self.entidades)))
 
     def ver_todos(self):
         pass
 
     def ver_detalhes(self):
-        pass
+
+        # solicitar seleção de um entidade
+        opcao = self.abrir_tela_selecionar()
+        # obter entidade
+        entidade = self.entidades[opcao]
+        # mostrar organizador
+        #self.mostrar(entidade)
+        self.tela.mostrar_detalhes(entidade)
+        #mostrar menu entidade
+        self.abrir_menu_visualizacao()
+
 
     def listar(self):
 
@@ -58,6 +69,7 @@ class Controlador(ABC):
             self.tela.mostrar_mensagem(
                 "Ainda não há organizadores cadastrados")
         else:
+            self.tela.mostrar_mensagem("------ Lista ------")
             for entidade in self.entidades:
                 self.tela.mostrar(entidade)
 

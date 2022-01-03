@@ -14,13 +14,19 @@ class ControladorOrganizador(Controlador):
 
     def abrir_menu_inicial(self):
 
-        opcoes = {1: self.cadastrar}
-        opcoes_validas = [0, 1]
+        opcoes = {1: self.cadastrar, 2: self.ver_detalhes}
+        opcoes_validas = [0, 1, 2]
         menu = self.tela.mostrar_menu_inicial
 
         while(True):
+            
             self.listar()
             self.abrir_menu(menu, opcoes, opcoes_validas)
+
+    def abrir_menu_visualizacao(self):
+        pass
+
+
 
     def cadastrar(self):
 

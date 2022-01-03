@@ -10,11 +10,18 @@ class TelaOrganizador(Tela):
         print("------ Modulo de Organizadores ------")
         print("Escolha sua opção:")
         print("1 - Cadastrar Organizador")
+        print("2 - Ver Organizador")
         print("0 - Encerrar Sistema")
 
     def mostrar(self, organizador):
         print(organizador.nome)
 
+    def mostrar_detalhes(self, organizador):
+        print("------ Visualizar Organizador ------")
+        print("Nome: {}".format(organizador.nome))
+        print("Cpf: {}".format(organizador.cpf))
+        print("Nascimento: {}".format(organizador.nascimento))
+        
 
     def mostrar_tela_cadastro(self):
         print("------ Cadastrar Organizador ------")
