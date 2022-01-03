@@ -30,8 +30,8 @@ class Controlador(ABC):
 
     def abrir_menu_visualizacao(self, entidade):
 
-        opcoes = {1: self.alterar}
-        opcoes_validas = [0, 1]
+        opcoes = {1: self.alterar, 2: self.remover}
+        opcoes_validas = [0, 1, 2]
         menu = self.tela.mostrar_menu_visualizacao
 
         self.abrir_menu(menu, opcoes, opcoes_validas, entidade)

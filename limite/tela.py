@@ -32,7 +32,10 @@ class Tela(ABC):
         print("0 - Voltar")
 
     def confirmar(self):
-        pass
+        confirmacao = "t"
+        while(confirmacao not in ["n", "s"]):
+            confirmacao = input("Deseja confirmar a operação? s/n").lower()
+        return confirmacao == "s"
 
     def selecionar(self):
         pass

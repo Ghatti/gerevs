@@ -42,14 +42,21 @@ class ControladorOrganizador(Controlador):
             # incluir organizador
             self.entidades.append(novo_organizador)
             self.tela.mostrar_mensagem("Organizador cadastrado com sucesso")
+            self.listar()
 
-    def alterar(self, entidade):
+    def alterar(self, organizador):
 
         dados = self.tela.mostrar_tela_cadastro(alterar=True)
 
-        print(dados)
+        organizador.nome = dados["nome"]
+        organizador.cpf = dados["cpf"]
+        organizador.nascimento = dados["nascimento"]
+        organizador.endereco = dados["endereco"]
 
-        entidade.nome = dados["nome"]
-        entidade.cpf = dados["cpf"]
-        entidade.nascimento = dados["nascimento"]
-        entidade.endereco = dados["endereco"]
+    def remover(self, organizador):
+        # first version
+        # Later, add verification for events that have the organizador listed
+
+        confirmacao = self.tela.confirmar()
+        if(confirmacao):
+            self.entidades.remove(organizador)
