@@ -13,8 +13,8 @@ class TelaOrganizador(Tela):
         print("2 - Ver Organizador")
         print("0 - Encerrar Sistema")
 
-    def mostrar(self, organizador):
-        print(organizador.nome)
+    def mostrar(self, organizador, i):
+        print(i, organizador.nome)
 
     def mostrar_detalhes(self, organizador):
         print("------ Visualizar Organizador ------")

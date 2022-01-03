@@ -55,7 +55,7 @@ class Controlador(ABC):
         # solicitar seleção de um entidade
         opcao = self.abrir_tela_selecionar()
         # obter entidade
-        entidade = self.entidades[opcao]
+        entidade = self.entidades[opcao-1]
         # mostrar organizador
         # self.mostrar(entidade)
         self.tela.mostrar_detalhes(entidade)
@@ -70,8 +70,8 @@ class Controlador(ABC):
                 "Ainda não há organizadores cadastrados")
         else:
             self.tela.mostrar_mensagem("------ Lista ------")
-            for entidade in self.entidades:
-                self.tela.mostrar(entidade)
+            for i, entidade in enumerate(self.entidades):
+                self.tela.mostrar(entidade, i+1)
 
     def mostrar(self, entidade):
         pass

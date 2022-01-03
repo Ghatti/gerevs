@@ -18,7 +18,7 @@ class Tela(ABC):
     def mostrar_tela_cadastro(self):
         pass
 
-    def mostrar(self, entidade):
+    def mostrar(self, entidade, i):
         pass
 
     def mostrar_detalhes(self, entidade):
