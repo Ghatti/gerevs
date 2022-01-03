@@ -19,14 +19,9 @@ class ControladorOrganizador(Controlador):
         menu = self.tela.mostrar_menu_inicial
 
         while(True):
-            
+
             self.listar()
             self.abrir_menu(menu, opcoes, opcoes_validas)
-
-    def abrir_menu_visualizacao(self):
-        pass
-
-
 
     def cadastrar(self):
 

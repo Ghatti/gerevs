@@ -28,8 +28,8 @@ class Controlador(ABC):
     def abrir_menu_inicial(self):
         pass
 
-    @abstractmethod
     def abrir_menu_visualizacao(self):
+
         self.tela.mostrar_mensagem("Menu de visualização")
 
     def abrir_tela_confirmacao(self):
@@ -57,11 +57,11 @@ class Controlador(ABC):
         # obter entidade
         entidade = self.entidades[opcao]
         # mostrar organizador
-        #self.mostrar(entidade)
+        # self.mostrar(entidade)
         self.tela.mostrar_detalhes(entidade)
-        #mostrar menu entidade
-        self.abrir_menu_visualizacao()
+        # mostrar menu entidade
 
+        self.abrir_menu_visualizacao()
 
     def listar(self):
 
