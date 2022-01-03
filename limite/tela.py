@@ -53,7 +53,7 @@ class Tela(ABC):
             except ValueError:
                 print("Valor incorreto. Digite um valor numérico válido.")
 
-    def ler_string(self, input_msg, err_msg, validators = []):
+    def ler_string(self, input_msg, err_msg, validators=[]):
 
         while True:
             try:
@@ -62,14 +62,13 @@ class Tela(ABC):
                 for validator in validators:
                     if(not validator(valor_informado)):
                         raise ValueError
-                
+
                 return valor_informado
 
             except ValueError:
                 print(err_msg)
 
-
-    def validar_string(self, min = None, max = None, equal = None, formato = None):
+    def validar_string(self, min=None, max=None, equal=None, formato=None):
 
         validators = []
 
@@ -92,6 +91,5 @@ class Tela(ABC):
             def validar_formato(valor):
                 return re.match(formato, valor)
             validators.append(validar_formato)
-        
 
         return validators

@@ -42,3 +42,14 @@ class ControladorOrganizador(Controlador):
             # incluir organizador
             self.entidades.append(novo_organizador)
             self.tela.mostrar_mensagem("Organizador cadastrado com sucesso")
+
+    def alterar(self, entidade):
+
+        dados = self.tela.mostrar_tela_cadastro(alterar=True)
+
+        print(dados)
+
+        entidade.nome = dados["nome"]
+        entidade.cpf = dados["cpf"]
+        entidade.nascimento = dados["nascimento"]
+        entidade.endereco = dados["endereco"]

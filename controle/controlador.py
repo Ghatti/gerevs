@@ -28,13 +28,13 @@ class Controlador(ABC):
     def abrir_menu_inicial(self):
         pass
 
-    def abrir_menu_visualizacao(self):
+    def abrir_menu_visualizacao(self, entidade):
 
         opcoes = {1: self.alterar}
         opcoes_validas = [0, 1]
         menu = self.tela.mostrar_menu_visualizacao
 
-        self.abrir_menu(menu, opcoes, opcoes_validas)
+        self.abrir_menu(menu, opcoes, opcoes_validas, entidade)
 
     def abrir_tela_confirmacao(self):
         pass
@@ -63,7 +63,7 @@ class Controlador(ABC):
             opcao = self.abrir_tela_selecionar()
             entidade = self.entidades[opcao-1]
             self.tela.mostrar_detalhes(entidade)
-            self.abrir_menu_visualizacao()
+            self.abrir_menu_visualizacao(entidade)
 
     def listar(self):
 
@@ -93,7 +93,7 @@ class Controlador(ABC):
     def remover(self, entidade):
         pass
 
-    def abrir_menu(self, menu=None, opcoes={}, opcoes_validas=[]):
+    def abrir_menu(self, menu=None, opcoes={}, opcoes_validas=[], entidade=None):
 
         while(True):
             menu()
@@ -103,4 +103,4 @@ class Controlador(ABC):
                 break
 
             funcao_escolhida = opcoes[opcao_escolhida]
-            funcao_escolhida()
+            funcao_escolhida(entidade) if entidade else funcao_escolhida()

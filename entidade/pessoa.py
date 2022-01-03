@@ -41,5 +41,6 @@ class Pessoa(ABC):
         self.__nascimento = nascimento
 
     @endereco.setter
-    def endereco(self, endereco: Endereco):
-        self.__endereco = endereco
+    def endereco(self, endereco):
+        self.__endereco = Endereco(endereco["cep"], endereco["rua"], endereco["numero"],
+                                                         endereco["bairro"], endereco["cidade"], endereco["estado"])
