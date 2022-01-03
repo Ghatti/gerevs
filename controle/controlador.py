@@ -52,16 +52,14 @@ class Controlador(ABC):
 
     def ver_detalhes(self):
 
-        # solicitar seleção de um entidade
-        opcao = self.abrir_tela_selecionar()
-        # obter entidade
-        entidade = self.entidades[opcao-1]
-        # mostrar organizador
-        # self.mostrar(entidade)
-        self.tela.mostrar_detalhes(entidade)
-        # mostrar menu entidade
-
-        self.abrir_menu_visualizacao()
+        if(len(self.entidades) == 0):
+            self.tela.mostrar_mensagem("Não há cadastros")
+        else:
+            
+            opcao = self.abrir_tela_selecionar()
+            entidade = self.entidades[opcao-1]
+            self.tela.mostrar_detalhes(entidade)
+            self.abrir_menu_visualizacao()
 
     def listar(self):
 
