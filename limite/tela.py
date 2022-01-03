@@ -25,7 +25,11 @@ class Tela(ABC):
         pass
 
     def mostrar_menu_visualizacao(self):
-        pass
+        print("------ Menu de Detalhes ------")
+        print("Escolha sua opção:")
+        print("1 - Alterar")
+        print("2 - Remover")
+        print("0 - Encerrar Sistema")
 
     def confirmar(self):
         pass

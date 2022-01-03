@@ -30,7 +30,11 @@ class Controlador(ABC):
 
     def abrir_menu_visualizacao(self):
 
-        self.tela.mostrar_mensagem("Menu de visualização")
+        opcoes = {1: self.alterar}
+        opcoes_validas = [0, 1]
+        menu = self.tela.mostrar_menu_visualizacao
+
+        self.abrir_menu(menu, opcoes, opcoes_validas)
 
     def abrir_tela_confirmacao(self):
         pass
@@ -55,7 +59,7 @@ class Controlador(ABC):
         if(len(self.entidades) == 0):
             self.tela.mostrar_mensagem("Não há cadastros")
         else:
-            
+
             opcao = self.abrir_tela_selecionar()
             entidade = self.entidades[opcao-1]
             self.tela.mostrar_detalhes(entidade)
@@ -91,7 +95,12 @@ class Controlador(ABC):
 
     def abrir_menu(self, menu=None, opcoes={}, opcoes_validas=[]):
 
-        menu()
-        opcao_escolhida = self.tela.ler_inteiro(opcoes_validas)
-        funcao_escolhida = opcoes[opcao_escolhida]
-        funcao_escolhida()
+        while(True):
+            menu()
+            opcao_escolhida = self.tela.ler_inteiro(opcoes_validas)
+
+            if(opcao_escolhida == 0):
+                break
+
+            funcao_escolhida = opcoes[opcao_escolhida]
+            funcao_escolhida()

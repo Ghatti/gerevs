@@ -10,8 +10,9 @@ class TelaOrganizador(Tela):
         print("------ Modulo de Organizadores ------")
         print("Escolha sua opção:")
         print("1 - Cadastrar Organizador")
-        print("2 - Ver Organizador")
-        print("0 - Encerrar Sistema")
+        print("2 - Listar Organizadores")
+        print("3 - Ver Organizador")
+        print("0 - Voltar")
 
     def mostrar(self, organizador, i):
         print(i, organizador.nome)
