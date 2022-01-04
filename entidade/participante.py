@@ -8,7 +8,7 @@ class Participante(Pessoa):
     def __init__(self, cpf: str, nome: str, nascimento: str, endereco: Endereco, cartao_de_vacina: Cartao_de_vacina):
 
         super().__init__(cpf, nome, nascimento, endereco)
-        self.__cartao_de_vacina = cartao_de_vacina
+        self.__cartao_de_vacina = None # cartao_de_vacina
         self.__exames = []
 
     @property

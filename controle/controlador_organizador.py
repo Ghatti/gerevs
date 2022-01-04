@@ -53,6 +53,8 @@ class ControladorOrganizador(Controlador):
         organizador.nascimento = dados["nascimento"]
         organizador.endereco = dados["endereco"]
 
+        self.tela.mostrar_detalhes(organizador)
+
     def remover(self, organizador):
         # first version
         # Later, add verification for events that have the organizador listed
