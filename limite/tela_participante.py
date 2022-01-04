@@ -18,6 +18,12 @@ class TelaParticipante(Tela):
     def mostrar(self, participante, i):
         print(i, participante.nome)
 
+    def mostrar_detalhes(self, participante):
+        print("------ Visualizar Participante ------")
+        print("Nome: {}".format(participante.nome))
+        print("Cpf: {}".format(participante.cpf))
+        print("Nascimento: {}".format(participante.nascimento))        
+
     def mostrar_tela_cadastro(self, alterar=False):
         print("------ Cadastrar Participante ------") if not alterar else print(
             "------ Alterar Participante ------")
