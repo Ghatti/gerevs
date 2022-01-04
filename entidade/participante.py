@@ -5,7 +5,7 @@ from entidade.exame import Exame
 
 class Participante(Pessoa):
 
-    def __init__(self, cpf: str, nome: str, nascimento: str, endereco: Endereco, cartao_de_vacina: Cartao_de_vacina):
+    def __init__(self, cpf: str, nome: str, nascimento: str, endereco: Endereco):
 
         super().__init__(cpf, nome, nascimento, endereco)
         self.__cartao_de_vacina = None # cartao_de_vacina
