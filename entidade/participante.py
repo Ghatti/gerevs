@@ -1,7 +1,7 @@
-from pessoa import Pessoa
-from endereco import Endereco
-from cartao_de_vacina import Cartao_de_vacina
-from exame import Exame
+from entidade.pessoa import Pessoa
+from entidade.endereco import Endereco
+from entidade.cartao_de_vacina import Cartao_de_vacina
+from entidade.exame import Exame
 
 class Participante(Pessoa):
 

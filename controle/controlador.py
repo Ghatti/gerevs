@@ -57,7 +57,7 @@ class Controlador(ABC):
     def ver_detalhes(self):
 
         if(len(self.entidades) == 0):
-            self.tela.mostrar_mensagem("Não há cadastros")
+            self.tela.mostrar_mensagem("Ainda não foram realizados cadastros")
         else:
 
             opcao = self.abrir_tela_selecionar()
@@ -69,7 +69,7 @@ class Controlador(ABC):
 
         if(len(self.entidades) == 0):
             self.tela.mostrar_mensagem(
-                "Ainda não há organizadores cadastrados")
+                "Ainda não foram realizados cadastros")
         else:
             self.tela.mostrar_mensagem("------ Lista ------")
             for i, entidade in enumerate(self.entidades):

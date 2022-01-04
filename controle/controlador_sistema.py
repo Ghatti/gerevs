@@ -1,4 +1,5 @@
 from controle.controlador_organizador import ControladorOrganizador
+from controle.controlador_participante import ControladorParticipante
 from limite.tela_sistema import TelaSistema
 
 
@@ -8,7 +9,7 @@ class ControladorSistema:
 
         self.__controlador_evento = None
         self.__controlador_organizador = ControladorOrganizador(self)
-        self.__controlador_participante = None
+        self.__controlador_participante = ControladorParticipante(self)
         self.__controlador_cartao_de_vacina = None
         self.__controlador_exame = None
         self.__controlador_registro_de_presenca = None
@@ -42,7 +43,6 @@ class ControladorSistema:
     def controlador_registro_de_presenca(self):
         return self.__controlador_registro_de_presenca
 
-
     def inicializar(self):
         self.abrir_menu_inicial()
 
@@ -56,17 +56,14 @@ class ControladorSistema:
             funcao_escolhida = opcoes[opcao_escolhida]
             funcao_escolhida()
 
-
-
     def iniciar_modulo_eventos(self):
         print("Modulo de eventos escolhido")
-        
 
     def iniciar_modulo_organizadores(self):
         self.controlador_organizador.inicializar()
 
     def iniciar_modulo_participantes(self):
-        print("Modulo de participantes escolhido")
+        self.controlador_participante.inicializar()
 
     def iniciar_modulo_registro_de_presenca(self):
         print("Módulo de registro de presenca escolhido")
