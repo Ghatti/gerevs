@@ -1,6 +1,6 @@
-from organizador import Organizador
-from participante import Participante
-from endereco import Endereco
+from entidade.organizador import Organizador
+from entidade.participante import Participante
+from entidade.endereco import Endereco
 
 class Evento:
 
