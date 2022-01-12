@@ -19,35 +19,35 @@ class Evento:
 
     @property
     def titulo(self):
-        return self.titulo
+        return self.__titulo
 
     @property
     def data(self):
-        return self.data
+        return self.__data
 
     @property
     def horario(self):
-        return self.horario
+        return self.__horario
 
     @property
     def local(self):
-        return self.local
+        return self.__local
 
     @property
     def capacidade(self):
-        return self.capacidade
+        return self.__capacidade
 
     @property
     def organizadores(self):
-        return self.organizadores
+        return self.__organizadores
 
     @property
     def participantes_a_confirmar(self):
-        return self.participantes_a_confirmar
+        return self.__participantes_a_confirmar
 
     @property
     def participantes_confirmados(self):
-        return self.participantes_confirmados
+        return self.__participantes_confirmados
 
     @titulo.setter
     def titulo(self, titulo: str):

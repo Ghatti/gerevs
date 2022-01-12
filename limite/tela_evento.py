@@ -15,6 +15,9 @@ class TelaEvento(Tela):
         print("3 - Ver Evento")
         print("0 - Voltar")
 
+    def mostrar(self, evento, i):
+        print(i, evento.titulo)        
+
     def mostrar_tela_cadastro(self, alterar=False):
         print("------ Cadastrar Evento ------") if not alterar else print(
             "------ Alterar Evento ------")
