@@ -2,14 +2,16 @@ from entidade.organizador import Organizador
 from entidade.participante import Participante
 from entidade.endereco import Endereco
 
+
 class Evento:
 
-    def __init__(self, titulo: str, data: str, horario: str, local: Endereco, capacidade: int, organizador: Organizador):
+    def __init__(self, titulo: str, data: str, horario: str, endereco, capacidade: int, organizador: Organizador):
 
         self.__titulo = titulo
         self.__data = data
         self.__horario = horario
-        self.__local = local
+        self.__local = Endereco(endereco["cep"], endereco["rua"], endereco["numero"],
+                                endereco["bairro"], endereco["cidade"], endereco["estado"])
         self.__capacidade = capacidade
         self.__organizadores = [organizador]
         self.__participantes_a_confirmar = []

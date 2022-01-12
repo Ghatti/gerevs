@@ -43,10 +43,6 @@ class TelaEvento(Tela):
             except ValueError:
                 print()
 
-        # implement selection of organizador
-        # evento["organizador"] =
-
-        print("Agora, informe o endereço do evento.")
         evento["endereco"] = self.mostrar_tela_endereco()
 
         return evento

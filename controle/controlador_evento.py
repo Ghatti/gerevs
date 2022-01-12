@@ -26,7 +26,17 @@ class ControladorEvento(Controlador):
                 raise ValueError
 
             dados = self.tela.mostrar_tela_cadastro()
+            dados["organizador"] = self.controlador_sistema.controlador_organizador.selecionar(
+                listar=True)
             print(dados)
+
+            # Cadastrar evento
+            novo_evento = Evento(dados["titulo"], dados["data"], dados["horario"],
+                                 dados["endereco"], dados["capacidade"], dados["organizador"])
+
+            self.entidades.append(novo_evento)
+            self.tela.mostrar_mensagem("Evento cadastrado!")
+            self.listar()
 
         except ValueError:
 
