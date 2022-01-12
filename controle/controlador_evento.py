@@ -18,10 +18,17 @@ class ControladorEvento(Controlador):
         self.listar()
         self.abrir_menu(menu, opcoes, opcoes_validas)
 
-
     def cadastrar(self):
 
-        #if no organizador = mensagem nenhum organizador cadastrado
+        try:
 
-        dados = self.tela.mostrar_tela_cadastro()
-        print(dados)
+            if(not self.controlador_sistema.controlador_organizador.tem_entidades()):
+                raise ValueError
+
+            dados = self.tela.mostrar_tela_cadastro()
+            print(dados)
+
+        except ValueError:
+
+            self.tela.mostrar_mensagem(
+                "Não é possível cadastrar um evento porque ainda não há organizadores cadastrados")

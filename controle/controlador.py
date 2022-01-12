@@ -51,6 +51,9 @@ class Controlador(ABC):
     def abrir_tela_selecionar(self):
         return self.tela.ler_inteiro(range(1, len(self.entidades)+1))
 
+    def tem_entidades(self):
+        return len(self.entidades) != 0
+
     def ver_todos(self):
         pass
 
