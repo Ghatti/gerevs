@@ -18,3 +18,10 @@ class ControladorEvento(Controlador):
         self.listar()
         self.abrir_menu(menu, opcoes, opcoes_validas)
 
+
+    def cadastrar(self):
+
+        #if no organizador = mensagem nenhum organizador cadastrado
+
+        dados = self.tela.mostrar_tela_cadastro()
+        print(dados)
