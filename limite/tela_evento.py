@@ -19,13 +19,6 @@ class TelaEvento(Tela):
         print("------ Cadastrar Evento ------") if not alterar else print(
             "------ Alterar Evento ------")
 
-        #self.__titulo = titulo
-        #self.__data = data
-        #self.__horario = horario
-        #self.__local = local
-        #self.__capacidade = capacidade
-        #self.__organizadores = [organizador]
-
         evento = {}
 
         evento["titulo"] = self.ler_string(
