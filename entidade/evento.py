@@ -70,6 +70,9 @@ class Evento:
     def capacidade(self, capacidade: int):
         self.__capacidade = capacidade
 
+    def get_all_participantes(self):
+        return self.participantes_a_confirmar + self.participantes_confirmados
+
     def adicionar_organizador(self, organizador: Organizador):
         pass
 

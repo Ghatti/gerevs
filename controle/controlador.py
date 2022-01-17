@@ -55,7 +55,7 @@ class Controlador(ABC):
         return len(self.entidades) != 0
 
     def ver_todos(self):
-        pass
+        self.listar(self.entidades)
 
     def ver_detalhes(self):
 
@@ -67,14 +67,14 @@ class Controlador(ABC):
             self.tela.mostrar_detalhes(entidade)
             self.abrir_menu_visualizacao(entidade)
 
-    def listar(self):
+    def listar(self, lista=[]):
 
-        if(len(self.entidades) == 0):
+        if(len(lista) == 0):
             self.tela.mostrar_mensagem(
-                "Ainda não foram realizados cadastros")
+                "Não há elementos para listar")
         else:
             self.tela.mostrar_mensagem("------ Lista ------")
-            for i, entidade in enumerate(self.entidades):
+            for i, entidade in enumerate(lista):
                 self.tela.mostrar(entidade, i+1)
 
     def mostrar(self, entidade):
@@ -83,7 +83,7 @@ class Controlador(ABC):
     def selecionar(self, listar=False):
 
         if(listar):
-            self.listar()
+            self.ver_todos()
 
         opcao = self.abrir_tela_selecionar()
         entidade = self.entidades[opcao-1]

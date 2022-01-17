@@ -15,6 +15,20 @@ class TelaEvento(Tela):
         print("3 - Ver Evento")
         print("0 - Voltar")
 
+    def mostrar_menu_visualizacao(self):
+        print("------ Menu de Detalhes ------")
+        print("Escolha sua opção:")
+        print("1 - Alterar")
+        print("2 - Remover")
+        print("3 - Ver Participantes")
+        print("4 - Ver Organizadores")
+        print("0 - Voltar")
+
+    def mostrar_menu_participantes(self):
+        print("------ Menu de Participantes ------")
+        print("Escolha sua opção:")
+        print("0 - Voltar")
+
     def mostrar(self, evento, i):
         print(i, evento.titulo)
 

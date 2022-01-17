@@ -11,11 +11,11 @@ class ControladorParticipante(Controlador):
 
     def abrir_menu_inicial(self):
 
-        opcoes = {1: self.cadastrar, 2: self.listar, 3: self.ver_detalhes}
+        opcoes = {1: self.cadastrar, 2: self.ver_todos, 3: self.ver_detalhes}
         opcoes_validas = [0, 1, 2, 3]
         menu = self.tela.mostrar_menu_inicial
 
-        self.listar()
+        self.ver_todos()
         self.abrir_menu(menu, opcoes, opcoes_validas)
 
     def cadastrar(self):
@@ -39,7 +39,7 @@ class ControladorParticipante(Controlador):
             # incluir participante
             self.entidades.append(novo_participante)
             self.tela.mostrar_mensagem("Participante cadastrado com sucesso")
-            self.listar()
+            self.ver_todos()
 
     def alterar(self, participante):
 

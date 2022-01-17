@@ -11,11 +11,20 @@ class ControladorEvento(Controlador):
 
     def abrir_menu_inicial(self):
 
-        opcoes = {1: self.cadastrar, 2: self.listar, 3: self.ver_detalhes}
-        opcoes_validas = [0, 1, 2, 3]
+        opcoes = {1: self.cadastrar, 2: self.ver_todos,
+                  3: self.ver_detalhes, 4: self}
+        opcoes_validas = [0, 1, 2, 3, 4]
         menu = self.tela.mostrar_menu_inicial
 
-        self.listar()
+        self.ver_todos()
+        self.abrir_menu(menu, opcoes, opcoes_validas)
+
+    def abrir_menu_participantes(self):
+
+        opcoes = {}
+        opcoes_validas = [0]
+        menu = self.tela_mostrar_menu_participantes
+
         self.abrir_menu(menu, opcoes, opcoes_validas)
 
     def cadastrar(self):
@@ -36,7 +45,7 @@ class ControladorEvento(Controlador):
 
             self.entidades.append(novo_evento)
             self.tela.mostrar_mensagem("Evento cadastrado!")
-            self.listar()
+            self.ver_todos()
 
         except ValueError:
 
@@ -56,7 +65,15 @@ class ControladorEvento(Controlador):
         self.tela.mostrar_detalhes(evento)
 
     def remover(self, evento):
-        
+
         confirmacao = self.tela.confirmar()
         if(confirmacao):
             self.entidades.remove(evento)
+
+    def listar_participantes(self, evento):
+
+        participantes = evento.get_all_participantes()
+        self.controlador_sistema.controlador_participantes.listar(
+            participantes)
+
+        self.abrir_menu_participantes()
