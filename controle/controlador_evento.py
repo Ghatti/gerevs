@@ -46,13 +46,13 @@ class ControladorEvento(Controlador):
 
         self.abrir_menu(menu, opcoes, opcoes_validas)
 
-    def abrir_menu_organizadores(self):
+    def abrir_menu_organizadores(self, evento):
 
-        opcoes = {}
-        opcoes_validas = [0]
-        menu = self.tela.mostrar_menu_participantes
+        opcoes = {1: self.adicionar_organizador, 2: self.remover_organizador}
+        opcoes_validas = [0, 1, 2]
+        menu = self.tela.mostrar_menu_organizadores
 
-        self.abrir_menu(menu, opcoes, opcoes_validas)
+        self.abrir_menu(menu, opcoes, opcoes_validas, evento)
 
     def cadastrar(self):
 
@@ -116,4 +116,30 @@ class ControladorEvento(Controlador):
         self.controlador_sistema.controlador_organizador.listar(
             evento.organizadores)
 
-        self.abrir_menu_organizadores()
+        self.abrir_menu_organizadores(evento)
+
+    def adicionar_organizador(self, evento):
+
+        organizador = self.controlador_sistema.controlador_organizador.selecionar(
+            listar=True)
+
+        if(organizador not in evento.organizadores):
+            evento.organizadores.append(organizador)
+            self.tela.mostrar_mensagem("Organizador incluído!")
+        else:
+            #mudar para erro?
+            self.tela.mostrar_mensage("Organizador já registrado no evento.")
+
+    def remover_organizador(self, evento):
+
+        if(len(evento.organizadores) == 1):
+            self.tela.mostrar_mensagem(
+                "Evento possui apenas um organizador. É necessário adicionar outro organizador antes de removê-lo.")
+        else:
+            self.controlador_sistema.controlador_organizador.listar(
+                evento.organizadores)
+
+            opcao = self.abrir_tela_selecionar()
+            evento.organizadores.pop(opcao-1)
+
+            self.tela.mostrar_mensagem("Organizador removido!")
