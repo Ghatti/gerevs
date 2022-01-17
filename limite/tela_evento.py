@@ -24,6 +24,13 @@ class TelaEvento(Tela):
         print("4 - Ver Organizadores")
         print("0 - Voltar")
 
+    def mostrar_menu_listar_participantes(self):
+        print("Escolha sua opção:")
+        print("1 - Ver todos os participantes")
+        print("2 - Ver participantes a confirmar")
+        print("3 - Ver participantes confirmados")
+        print("0 - Voltar")
+
     def mostrar_menu_participantes(self):
         print("------ Menu de Participantes ------")
         print("Escolha sua opção:")
