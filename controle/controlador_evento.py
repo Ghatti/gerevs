@@ -42,3 +42,21 @@ class ControladorEvento(Controlador):
 
             self.tela.mostrar_mensagem(
                 "Não é possível cadastrar um evento porque ainda não há organizadores cadastrados")
+
+    def alterar(self, evento):
+
+        dados = self.tela.mostrar_tela_cadastro(alterar=True)
+
+        evento.titulo = dados["titulo"]
+        evento.data = dados["data"]
+        evento.horario = dados["horario"]
+        evento.endereco = dados["endereco"]
+        evento.capacidade = dados["capacidade"]
+
+        self.tela.mostrar_detalhes(evento)
+
+    def remover(self, evento):
+        
+        confirmacao = self.tela.confirmar()
+        if(confirmacao):
+            self.entidades.remove(evento)

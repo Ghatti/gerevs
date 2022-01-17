@@ -62,8 +62,9 @@ class Evento:
         self.__horario = horario
 
     @local.setter
-    def local(self, local: Endereco):
-        self.__local = local
+    def local(self, endereco):
+        self.__local = Endereco(endereco["cep"], endereco["rua"], endereco["numero"],
+                                endereco["bairro"], endereco["cidade"], endereco["estado"])
 
     @capacidade.setter
     def capacidade(self, capacidade: int):
