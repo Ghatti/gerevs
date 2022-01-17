@@ -38,13 +38,14 @@ class ControladorEvento(Controlador):
 
         self.abrir_menu(menu, opcoes, opcoes_validas)
 
-    def abrir_menu_participantes(self):
+    def abrir_menu_participantes(self, evento, filtro):
 
-        opcoes = {}
-        opcoes_validas = [0]
+        opcoes = {1: self.adicionar_participante,
+                  2: self.remover_participante}
+        opcoes_validas = [0, 1, 2]
         menu = self.tela.mostrar_menu_participantes
 
-        self.abrir_menu(menu, opcoes, opcoes_validas)
+        self.abrir_menu(menu, opcoes, opcoes_validas, evento)
 
     def abrir_menu_organizadores(self, evento):
 
@@ -109,7 +110,43 @@ class ControladorEvento(Controlador):
         self.controlador_sistema.controlador_participante.listar(
             participantes)
 
-        self.abrir_menu_participantes()
+        self.abrir_menu_participantes(evento, filtro)
+
+    def adicionar_participante(self, evento):
+
+        participantes_registrados = evento.get_all_participantes()
+
+        if(len(participantes_registrados) == evento.capacidade):
+            self.tela.mostrar_mensagem("Evento lotado!")
+        else:
+
+            participante = self.controlador_sistema.controlador_participante.selecionar(
+                listar=True)
+
+            if(participante not in participantes_registrados):
+                evento.participantes_a_confirmar.append(participante)
+                self.tela.mostrar_mensagem("Participante incluído!")
+            else:
+                # mudar para erro?
+                self.tela.mostrar_mensage(
+                    "Participante já registrado no evento.")
+
+    def remover_participante(self, evento):
+
+        participantes_registrados = evento.get_all_participantes()
+
+        self.controlador_sistema.controlador_participante.listar(
+            participantes_registrados)
+
+        opcao = self.abrir_tela_selecionar()
+        participante = participantes_registrados[opcao-1]
+        
+        if(participante in evento.participantes_a_confirmar):
+            evento.participantes_a_confirmar.remove(participante)
+        else:
+            evento.participantes_confirmados.remove(participante)
+
+        self.tela.mostrar_mensagem("Participante removido!")
 
     def listar_organizadores(self, evento):
 
@@ -127,7 +164,7 @@ class ControladorEvento(Controlador):
             evento.organizadores.append(organizador)
             self.tela.mostrar_mensagem("Organizador incluído!")
         else:
-            #mudar para erro?
+            # mudar para erro?
             self.tela.mostrar_mensage("Organizador já registrado no evento.")
 
     def remover_organizador(self, evento):
