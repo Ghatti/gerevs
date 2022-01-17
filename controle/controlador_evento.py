@@ -22,8 +22,8 @@ class ControladorEvento(Controlador):
     def abrir_menu_visualizacao(self, entidade):
 
         opcoes = {1: self.alterar, 2: self.remover,
-                  3: self.abrir_menu_listar_participantes}
-        opcoes_validas = [0, 1, 2, 3]
+                  3: self.abrir_menu_listar_participantes, 4: self.listar_organizadores}
+        opcoes_validas = [0, 1, 2, 3, 4]
         menu = self.tela.mostrar_menu_visualizacao
 
         self.abrir_menu(menu, opcoes, opcoes_validas, entidade)
@@ -39,6 +39,14 @@ class ControladorEvento(Controlador):
         self.abrir_menu(menu, opcoes, opcoes_validas)
 
     def abrir_menu_participantes(self):
+
+        opcoes = {}
+        opcoes_validas = [0]
+        menu = self.tela.mostrar_menu_participantes
+
+        self.abrir_menu(menu, opcoes, opcoes_validas)
+
+    def abrir_menu_organizadores(self):
 
         opcoes = {}
         opcoes_validas = [0]
@@ -102,3 +110,10 @@ class ControladorEvento(Controlador):
             participantes)
 
         self.abrir_menu_participantes()
+
+    def listar_organizadores(self, evento):
+
+        self.controlador_sistema.controlador_organizador.listar(
+            evento.organizadores)
+
+        self.abrir_menu_organizadores()

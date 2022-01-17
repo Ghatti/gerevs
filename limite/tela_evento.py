@@ -36,6 +36,11 @@ class TelaEvento(Tela):
         print("Escolha sua opção:")
         print("0 - Voltar")
 
+    def mostrar_menu_participantes(self):
+        print("------ Menu de Organizadores ------")
+        print("Escolha sua opção:")
+        print("0 - Voltar")
+
     def mostrar(self, evento, i):
         print(i, evento.titulo)
 
