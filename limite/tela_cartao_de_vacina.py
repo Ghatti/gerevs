@@ -17,3 +17,9 @@ class TelaCartaoDeVacina(Tela):
             "A segunda dose já foi aplicada? s/n", "Valor inválido").strip().lower()
 
         return (dose1 == "s", dose2 == "s")
+
+    def mostrar_detalhes(self, cartao):
+
+        print("------ Cadastrar Cartão de Vacina ------")
+        print("Dose 1: {}".format(cartao.doses[0]))
+        print("Dose 2: {}".format(cartao.doses[1]))

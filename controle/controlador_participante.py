@@ -19,6 +19,23 @@ class ControladorParticipante(Controlador):
         self.ver_todos()
         self.abrir_menu(menu, opcoes, opcoes_validas)
 
+    def abrir_menu_visualizacao(self, entidade):
+
+        opcoes = {1: self.alterar, 2: self.remover, 3: self.mostrar_vacinas}
+        opcoes_validas = [0, 1, 2, 3]
+        menu = self.tela.mostrar_menu_visualizacao
+
+        self.abrir_menu(menu, opcoes, opcoes_validas, entidade)
+
+
+    def mostrar_vacinas(self, participante):
+
+        cartao = participante.cartao_de_vacina
+
+        self.controlador_sistema.controlador_cartao_de_vacina.mostrar(cartao)
+        
+
+
     def cadastrar(self):
 
         dados = self.tela.mostrar_tela_cadastro()

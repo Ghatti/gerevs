@@ -13,6 +13,11 @@ class ControladorCartaoDeVacina(Controlador):
         doses = self.tela.mostrar_tela_cadastro()
         return CartaoDeVacina(doses)
 
+    def mostrar(self, cartao):
+
+        self.tela.mostrar_detalhes(cartao)
+
+
     def registrar_dose(self, cartao=CartaoDeVacina):
 
         cartao.registrar_dose()

@@ -15,7 +15,7 @@ class Participante(Pessoa):
 
     @property
     def cartao_de_vacina(self):
-        return self.cartao_de_vacina
+        return self.__cartao_de_vacina
 
     @property
     def exames(self):

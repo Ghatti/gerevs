@@ -15,6 +15,15 @@ class TelaParticipante(Tela):
         print("3 - Ver Participante")
         print("0 - Voltar")
 
+    def mostrar_menu_visualizacao(self):
+        print("------ Menu de Detalhes ------")
+        print("Escolha sua opção:")
+        print("1 - Alterar")
+        print("2 - Remover")
+        print("3 - Ver Cartão de Vacinas")
+        print("4 - Ver Exame")
+        print("0 - Voltar")
+
     def mostrar(self, participante, i):
         print(i, participante.nome)
 
