@@ -41,8 +41,8 @@ class ControladorEvento(Controlador):
     def abrir_menu_participantes(self, evento, filtro):
 
         opcoes = {1: self.adicionar_participante,
-                  2: self.remover_participante}
-        opcoes_validas = [0, 1, 2]
+                  2: self.remover_participante, 3: self.confirmar_participante}
+        opcoes_validas = [0, 1, 2, 3]
         menu = self.tela.mostrar_menu_participantes
 
         self.abrir_menu(menu, opcoes, opcoes_validas, evento)
@@ -140,13 +140,37 @@ class ControladorEvento(Controlador):
 
         opcao = self.abrir_tela_selecionar()
         participante = participantes_registrados[opcao-1]
-        
+
         if(participante in evento.participantes_a_confirmar):
             evento.participantes_a_confirmar.remove(participante)
         else:
             evento.participantes_confirmados.remove(participante)
 
         self.tela.mostrar_mensagem("Participante removido!")
+
+    def confirmar_participante(self, evento):
+
+        # exibe participantes não confirmados
+
+        self.controlador_sistema.controlador_participante.listar(
+            evento.participantes_a_confirmar)
+
+        # pede seleção de um participante
+
+        opcao = self.abrir_tela_selecionar()
+        participante = evento.participantes_a_confirmar[opcao-1]
+
+        # verifica vacinação
+
+        if(participante.cartao_de_vacina.is_complete()):
+            # remove participante da lista de a confirmar
+            evento.participantes_a_confirmar.remove(participante)
+        # inclui na lista de participantes confirmados
+            evento.participantes_confirmados.append(participante)
+            self.tela.mostrar_mensagem("Participante confirmado!")
+        else:
+            self.tela.mostrar_mensagem(
+                "Participante não completou a vacinação")
 
     def listar_organizadores(self, evento):
 
