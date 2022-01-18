@@ -16,4 +16,4 @@ class CartaoDeVacina:
         if(self.doses[0]):
             self.__doses[1] = True
         else:
-            self.__doses[0] == True
+            self.__doses[0] = True

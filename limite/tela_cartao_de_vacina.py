@@ -16,7 +16,13 @@ class TelaCartaoDeVacina(Tela):
         dose2 = self.ler_string(
             "A segunda dose já foi aplicada? s/n", "Valor inválido").strip().lower()
 
-        return (dose1 == "s", dose2 == "s")
+        return [dose1 == "s", dose2 == "s"]
+
+    def mostrar_menu_visualizacao(self):
+        print("------ Menu de Cartão de Vacinas ------")
+        print("Escolha sua opção:")
+        print("1 - Registrar dose")
+        print("0 - Voltar")
 
     def mostrar_detalhes(self, cartao):
 
