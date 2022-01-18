@@ -24,7 +24,6 @@ class Controlador(ABC):
     def inicializar(self):
         self.abrir_menu_inicial()
 
-    @abstractmethod
     def abrir_menu_inicial(self):
         pass
 

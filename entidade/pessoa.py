@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from entidade import cartao_de_vacina
 from entidade.endereco import Endereco
 
 
@@ -43,4 +44,4 @@ class Pessoa(ABC):
     @endereco.setter
     def endereco(self, endereco):
         self.__endereco = Endereco(endereco["cep"], endereco["rua"], endereco["numero"],
-                                                         endereco["bairro"], endereco["cidade"], endereco["estado"])
+                                   endereco["bairro"], endereco["cidade"], endereco["estado"])

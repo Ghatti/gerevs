@@ -11,7 +11,7 @@ class ControladorCartaoDeVacina(Controlador):
     def cadastrar(self):
 
         doses = self.tela.mostrar_tela_cadastro()
-        return CartaoDeVacina(doses[0], doses[1])
+        return CartaoDeVacina(doses)
 
     def registrar_dose(self, cartao=CartaoDeVacina):
 

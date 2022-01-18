@@ -1,3 +1,4 @@
+from entidade import cartao_de_vacina
 from entidade.participante import Participante
 from entidade.endereco import Endereco
 from controle.controlador import Controlador
@@ -21,6 +22,7 @@ class ControladorParticipante(Controlador):
     def cadastrar(self):
 
         dados = self.tela.mostrar_tela_cadastro()
+        cartao_de_vacina = self.controlador_sistema.controlador_cartao_de_vacina.cadastrar()
 
         try:
             # Procurar se há participante com o cpf
@@ -34,7 +36,7 @@ class ControladorParticipante(Controlador):
 
             # criar participante
             novo_participante = Participante(
-                dados["cpf"], dados["nome"], dados["nascimento"], dados["endereco"])
+                dados["cpf"], dados["nome"], dados["nascimento"], dados["endereco"], cartao_de_vacina)
 
             # incluir participante
             self.entidades.append(novo_participante)
