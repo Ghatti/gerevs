@@ -19,14 +19,14 @@ class ControladorParticipante(Controlador):
         self.ver_todos()
         self.abrir_menu(menu, opcoes, opcoes_validas)
 
-    def abrir_menu_visualizacao(self, entidade):
+    def abrir_menu_visualizacao(self, participante):
 
         opcoes = {1: self.alterar, 2: self.remover,
                   3: self.mostrar_vacinas, 4: self.mostrar_exame}
         opcoes_validas = [0, 1, 2, 3, 4]
         menu = self.tela.mostrar_menu_visualizacao
 
-        self.abrir_menu(menu, opcoes, opcoes_validas, entidade)
+        self.abrir_menu(menu, opcoes, opcoes_validas, participante)
 
     def mostrar_vacinas(self, participante):
 
@@ -35,14 +35,13 @@ class ControladorParticipante(Controlador):
         self.controlador_sistema.controlador_cartao_de_vacina.mostrar(cartao)
 
     def registrar_exame(self, participante):
-        print("registrar exame")
+
+        participante.exame = self.controlador_sistema.controlador_exame.cadastrar()
 
     def mostrar_exame(self, participante):
 
-        exame = participante.exame
-
         try:
-            self.controlador_sistema.controlador_exame.mostrar(exame)
+            self.controlador_sistema.controlador_exame.mostrar(participante)
         except AttributeError:
 
             registrar = self.tela.mostrar_tela_erro_exame()

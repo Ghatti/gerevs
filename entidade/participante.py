@@ -21,5 +21,10 @@ class Participante(Pessoa):
     def exame(self):
         return self.__exame
 
+    @exame.setter
+    def exame(self, exame):
+
+        self.__exame = exame
+
     def adicionar_exame(self, exame: Exame):
         pass

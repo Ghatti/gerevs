@@ -2,6 +2,7 @@ from controle.controlador_organizador import ControladorOrganizador
 from controle.controlador_participante import ControladorParticipante
 from controle.controlador_evento import ControladorEvento
 from controle.controlador_cartao_de_vacina import ControladorCartaoDeVacina
+from controle.controlador_exame import ControladorExame
 from limite.tela_sistema import TelaSistema
 
 
@@ -13,7 +14,7 @@ class ControladorSistema:
         self.__controlador_organizador = ControladorOrganizador(self)
         self.__controlador_participante = ControladorParticipante(self)
         self.__controlador_cartao_de_vacina = ControladorCartaoDeVacina(self)
-        self.__controlador_exame = None
+        self.__controlador_exame = ControladorExame(self)
         self.__controlador_registro_de_presenca = None
         self.__tela = TelaSistema(self)
 
