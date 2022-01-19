@@ -46,3 +46,12 @@ class TelaParticipante(Tela):
                                                      "A data de nascimento informada não é válida. Utilize o formado 01/01/1900", self.validar_string(formato=r"^\d{2}\/\d{2}\/\d{4}$"))
         participante["endereco"] = self.mostrar_tela_endereco()
         return participante
+
+    def mostrar_tela_erro_exame(self):
+
+        registrar = None
+        while(registrar not in ["n", "s"]):
+            registrar = self.ler_string(
+                "Participante não possui exame cadastrado. Deseja registrar um exame? s/n", "A resposta informada não é válida. Responda sim (s) ou não (n).").strip().lower()
+
+        return registrar == "s"

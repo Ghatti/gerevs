@@ -11,15 +11,15 @@ class Participante(Pessoa):
         super().__init__(cpf, nome, nascimento, Endereco(endereco["cep"], endereco["rua"], endereco["numero"],
                                                          endereco["bairro"], endereco["cidade"], endereco["estado"]))
         self.__cartao_de_vacina = cartao_de_vacina
-        self.__exames = []
+        self.__exame = None
 
     @property
     def cartao_de_vacina(self):
         return self.__cartao_de_vacina
 
     @property
-    def exames(self):
-        return self.__exames
+    def exame(self):
+        return self.__exame
 
     def adicionar_exame(self, exame: Exame):
         pass

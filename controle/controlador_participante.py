@@ -34,6 +34,21 @@ class ControladorParticipante(Controlador):
 
         self.controlador_sistema.controlador_cartao_de_vacina.mostrar(cartao)
 
+    def registrar_exame(self, participante):
+        print("registrar exame")
+
+    def mostrar_exame(self, participante):
+
+        exame = participante.exame
+
+        try:
+            self.controlador_sistema.controlador_exame.mostrar(exame)
+        except AttributeError:
+
+            registrar = self.tela.mostrar_tela_erro_exame()
+            if(registrar):
+                self.registrar_exame(participante)
+
     def cadastrar(self):
 
         dados = self.tela.mostrar_tela_cadastro()
