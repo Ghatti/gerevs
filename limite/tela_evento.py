@@ -46,6 +46,13 @@ class TelaEvento(Tela):
         print("1 - Adicionar organizador")
         print("2 - Remover Organizador")
 
+    def mostrar_menu_confirmar_participantes(self):
+        print("------ Menu de Confirmação ------")
+        print("Escolha sua opção:")
+        print("0 - Voltar")
+        print("1 - Confirmar com vacina")
+        print("2 - Confirmar com exame")
+
     def mostrar(self, evento, i):
         print(i, evento.titulo)
 

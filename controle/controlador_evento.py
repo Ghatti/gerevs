@@ -41,7 +41,7 @@ class ControladorEvento(Controlador):
     def abrir_menu_participantes(self, evento, filtro):
 
         opcoes = {1: self.adicionar_participante,
-                  2: self.remover_participante, 3: self.confirmar_participante}
+                  2: self.remover_participante, 3: self.abrir_menu_confirmar_participante}
         opcoes_validas = [0, 1, 2, 3]
         menu = self.tela.mostrar_menu_participantes
 
@@ -52,6 +52,14 @@ class ControladorEvento(Controlador):
         opcoes = {1: self.adicionar_organizador, 2: self.remover_organizador}
         opcoes_validas = [0, 1, 2]
         menu = self.tela.mostrar_menu_organizadores
+
+        self.abrir_menu(menu, opcoes, opcoes_validas, evento)
+
+    def abrir_menu_confirmar_participante(self, evento):
+        opcoes = {1: lambda evento: self.confirmar_participante(
+            evento, True), 2: lambda evento: self.confirmar_participante(evento, False)}
+        opcoes_validas = [0, 1, 2]
+        menu = self.tela.mostrar_menu_confirmar_participantes
 
         self.abrir_menu(menu, opcoes, opcoes_validas, evento)
 
@@ -148,7 +156,7 @@ class ControladorEvento(Controlador):
 
         self.tela.mostrar_mensagem("Participante removido!")
 
-    def confirmar_participante(self, evento):
+    def confirmar_participante(self, evento, modo=True):
 
         # exibe participantes não confirmados
 
@@ -162,7 +170,12 @@ class ControladorEvento(Controlador):
 
         # verifica vacinação
 
-        if(participante.cartao_de_vacina.is_complete()):
+        if(modo):
+            confirmacao = participante.cartao_de_vacina.is_complete()
+        else:
+            confirmacao = self.confirmar_com_exame(participante)
+
+        if(confirmacao):
             # remove participante da lista de a confirmar
             evento.participantes_a_confirmar.remove(participante)
         # inclui na lista de participantes confirmados
@@ -170,7 +183,11 @@ class ControladorEvento(Controlador):
             self.tela.mostrar_mensagem("Participante confirmado!")
         else:
             self.tela.mostrar_mensagem(
-                "Participante não completou a vacinação")
+                "Participante não completou os requisitos para confirmação")
+
+    def confirmar_com_exame(self, participante):
+        # will verify dates later
+        return not participante.exame.resultado if participante.exame else False
 
     def listar_organizadores(self, evento):
 
