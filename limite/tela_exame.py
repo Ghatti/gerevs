@@ -19,3 +19,15 @@ class TelaExame(Tela):
         exame["resultado"] = resultado == "p"
 
         return exame
+
+    def mostrar_menu_visualizacao(self):
+        print("------ Menu de Exame ------")
+        print("Escolha sua opção:")
+        print("1 - Registrar exame")
+        print("0 - Voltar")
+
+    def mostrar_detalhes(self, exame):
+        print("------ Cadastrar Cartão de Vacina ------")
+        print("Data: {}".format(exame.data))
+        print("Resultado: {}".format(
+            "Positivo" if exame.resultado else "Negativo"))
