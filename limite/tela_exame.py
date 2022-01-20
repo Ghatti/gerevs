@@ -10,8 +10,8 @@ class TelaExame(Tela):
         print("------ Cadastrar Exame ------")
 
         exame = {}
-        exame["data"] = self.ler_string("Informe a data do exame: ",
-                                        "A data informada não é válida. Utilize o formado 01/01/1900", self.validar_string(formato=r"^\d{2}\/\d{2}\/\d{4}$"))
+        exame["data"] = self.ler_data("Informe a data do exame ",
+                                      "A data não é válida. Utilize o formado 01/01/1900")
 
         resultado = None
         while(resultado not in ["p", "n"]):

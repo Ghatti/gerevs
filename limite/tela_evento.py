@@ -1,4 +1,5 @@
 from limite.tela import Tela
+from datetime import datetime, timedelta
 
 
 class TelaEvento(Tela):
@@ -72,8 +73,9 @@ class TelaEvento(Tela):
             "Informe o título do evento: ", "O título informado não é válido.", self.validar_string(min=3, max=50))
 
         # add validation for data. Allow only future eventos.
-        evento["data"] = self.ler_string(
-            "Informe a data do evento: ", "A data informada não é válida. Utilize o formato 01/01/1990", self.validar_string(formato=r"^\d{2}\/\d{2}\/\d{4}$"))
+        evento["data"] = self.ler_data("Data do evento: ",
+                                       "A data informada não é válida. Utilize o formado 01/01/1900",
+                                       self.validar_data(min=datetime.today()))
 
         # verify format of horario
         evento["horario"] = self.ler_string(

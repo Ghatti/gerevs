@@ -1,5 +1,6 @@
 import re
 from abc import ABC, abstractmethod
+from datetime import datetime
 
 
 class Tela(ABC):
@@ -77,7 +78,6 @@ class Tela(ABC):
 
         return endereco
 
-
     def ler_inteiro(self, opcoes=[]):
 
         while True:
@@ -106,6 +106,25 @@ class Tela(ABC):
             except ValueError:
                 print(err_msg)
 
+    def ler_data(self, input_msg, err_msg, validators=[]):
+
+        while True:
+
+            date_string = self.ler_string(
+                input_msg, err_msg, self.validar_string(formato=r"^\d{2}\/\d{2}\/\d{4}$"))
+
+            try:
+                date = datetime.strptime(date_string, "%d/%m/%Y")
+
+                for validator in validators:
+                    if(not validator(date)):
+                        raise ValueError
+
+                return date
+
+            except ValueError:
+                print("Data inválida")
+
     def validar_string(self, min=None, max=None, equal=None, formato=None):
 
         validators = []
@@ -129,5 +148,25 @@ class Tela(ABC):
             def validar_formato(valor):
                 return re.match(formato, valor)
             validators.append(validar_formato)
+
+        return validators
+
+    def validar_data(self, min=None, max=None, delta=None):
+
+        validators = []
+        if(min):
+            def validar_minimo(valor):
+                return valor > min
+            validators.append(validar_minimo)
+
+        if(max):
+            def validar_maximo(valor):
+                return valor < max
+            validators.append(validar_maximo)
+
+        if(delta):
+            def validar_delta(valor):
+                return datetime.today() - valor < delta
+            validators.append(validar_delta)
 
         return validators

@@ -1,4 +1,5 @@
 from limite.tela import Tela
+from datetime import datetime, timedelta
 
 
 class TelaOrganizador(Tela):
@@ -32,7 +33,8 @@ class TelaOrganizador(Tela):
             "Informe o nome do organizador: ", "O nome informado não é válido", self.validar_string(min=4, max=31))
         organizador["cpf"] = self.ler_string(
             "Informe o cpf do organizador: ", "O CPF informado não é válido. Utilize o formado 000.000.000-00", self.validar_string(formato=r"^\d{3}\.\d{3}\.\d{3}\-\d{2}$"))
-        organizador["nascimento"] = self.ler_string("Informe a data de nascimento do organizador: ",
-                                                    "A data de nascimento informada não é válida. Utilize o formado 01/01/1900", self.validar_string(formato=r"^\d{2}\/\d{2}\/\d{4}$"))
+        organizador["nascimento"] = self.ler_data("Data de nascimento: ",
+                                                  "A data de nascimento informada não é válida. Utilize o formado 01/01/1900",
+                                                  self.validar_data(max=datetime.today(), delta=timedelta(days=120*365)))
         organizador["endereco"] = self.mostrar_tela_endereco()
         return organizador
