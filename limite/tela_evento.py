@@ -1,5 +1,5 @@
 from limite.tela import Tela
-from datetime import datetime, timedelta
+from datetime import datetime, time
 
 
 class TelaEvento(Tela):
@@ -78,8 +78,8 @@ class TelaEvento(Tela):
                                        self.validar_data(min=datetime.today()))
 
         # verify format of horario
-        evento["horario"] = self.ler_string(
-            "Informe o horário do evento: ", "O horário informado não é válido. Utilize o formato hh:mm", self.validar_string(formato=r"^\d{2}\:\d{2}$"))
+        evento["horario"] = time.fromisoformat(self.ler_string(
+            "Informe o horário do evento: ", "O horário informado não é válido. Utilize o formato hh:mm", self.validar_string(formato=r"^\d{2}\:\d{2}$")))
 
         # add validation for capacidade
         while True:
