@@ -81,16 +81,8 @@ class TelaEvento(Tela):
         evento["horario"] = time.fromisoformat(self.ler_string(
             "Informe o horário do evento: ", "O horário informado não é válido. Utilize o formato hh:mm", self.validar_string(formato=r"^\d{2}\:\d{2}$")))
 
-        # add validation for capacidade
-        while True:
-            try:
-                evento["capacidade"] = input(
-                    "Informe a capacidade do evento: ")
-                int(evento["capacidade"])
-                break
-
-            except ValueError:
-                print()
+        evento["capacidade"] = self.ler_inteiro(
+            "Informe a capacidade máxima do evento: ", self.validar_inteiro(min=0))
 
         evento["endereco"] = self.mostrar_tela_endereco()
 

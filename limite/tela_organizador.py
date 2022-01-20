@@ -35,6 +35,6 @@ class TelaOrganizador(Tela):
             "Informe o cpf do organizador: ", "O CPF informado não é válido. Utilize o formado 000.000.000-00", self.validar_string(formato=r"^\d{3}\.\d{3}\.\d{3}\-\d{2}$"))
         organizador["nascimento"] = self.ler_data("Data de nascimento: ",
                                                   "A data de nascimento informada não é válida. Utilize o formado 01/01/1900",
-                                                  self.validar_data(max=datetime.today(), delta=timedelta(days=120*365)))
+                                                  self.validar_data(max=datetime.today(), delta=timedelta(days=150*365)))
         organizador["endereco"] = self.mostrar_tela_endereco()
         return organizador

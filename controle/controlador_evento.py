@@ -191,7 +191,7 @@ class ControladorEvento(Controlador):
     def confirmar_com_exame(self, data_evento, exame):
 
         prazo = data_evento - exame.data
-        if(not exame.resultado and prazo <= timedelta(days=2)):
+        if(not exame.resultado and prazo <= timedelta(days=3)):
             return True
 
         return False

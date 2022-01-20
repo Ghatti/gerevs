@@ -38,8 +38,9 @@ class Tela(ABC):
             confirmacao = input("Deseja confirmar a operação? s/n").lower()
         return confirmacao == "s"
 
-    def selecionar(self):
-        pass
+    def selecionar(self, opcoes):
+
+        return self.ler_inteiro(validators=self.validar_inteiro(opcoes=opcoes))
 
     def mostrar_mensagem(self, mensagem):
         print(mensagem)
@@ -53,15 +54,8 @@ class Tela(ABC):
         endereco["rua"] = self.ler_string(
             "Rua: ", "A rua informada não é válido", self.validar_string(equal=0))
 
-        # probably make a function to validate int later
-        while True:
-            try:
-                endereco["numero"] = input("Informe o número: ")
-                int(endereco["numero"])
-                break
-
-            except ValueError:
-                print()
+        endereco["numero"] = self.ler_inteiro(
+            "Informe o número: ", self.validar_inteiro(min=0))
 
         endereco["bairro"] = self.ler_string(
             "Bairro: ", "O bairro informado não é válido", self.validar_string(
@@ -78,18 +72,20 @@ class Tela(ABC):
 
         return endereco
 
-    def ler_inteiro(self, opcoes=[]):
+    def ler_inteiro(self, input_msg="Escolha a opção: ", validators=[]):
 
         while True:
-            opcao = input("Escolha a opcao:")
+            valor = input(input_msg)
 
             try:
-                opcao = int(opcao)
-                if(opcao not in opcoes):
-                    raise ValueError
-                return opcao
-            except ValueError:
-                print("Valor incorreto. Digite um valor numérico válido.")
+                valor = int(valor)
+
+                for validator in validators:
+                    validator(valor)
+
+                return valor
+            except ValueError as err:
+                print(err)
 
     def ler_string(self, input_msg, err_msg, validators=[]):
 
@@ -98,13 +94,12 @@ class Tela(ABC):
                 valor_informado = input(input_msg)
 
                 for validator in validators:
-                    if(not validator(valor_informado)):
-                        raise ValueError
+                    validator(valor_informado)
 
                 return valor_informado
 
-            except ValueError:
-                print(err_msg)
+            except ValueError as err:
+                print(err)
 
     def ler_data(self, input_msg, err_msg, validators=[]):
 
@@ -117,13 +112,12 @@ class Tela(ABC):
                 date = datetime.strptime(date_string, "%d/%m/%Y")
 
                 for validator in validators:
-                    if(not validator(date)):
-                        raise ValueError
+                    validator(date)
 
                 return date
 
-            except ValueError:
-                print("Data inválida")
+            except ValueError as err:
+                print(err)
 
     def validar_string(self, min=None, max=None, equal=None, formato=None):
 
@@ -131,23 +125,60 @@ class Tela(ABC):
 
         if(min):
             def validar_minimo(valor):
-                return len(valor) > min
+                if not (len(valor) > min):
+                    raise ValueError(
+                        "O valor informado deve ter ao menos {} caracteres".format(min))
             validators.append(validar_minimo)
 
         if(max):
             def validar_maximo(valor):
-                return len(valor) < max
+                if not (len(valor) < max):
+                    raise ValueError(
+                        "O valor informado deve ter no máximo {} caracteres".format(max))
             validators.append(validar_maximo)
 
         if(equal):
             def validar_not_igual(valor):
-                return not len(valor) == equal
+                if (not len(valor) == equal):
+                    raise ValueError(
+                        "O valor informado deve ter {} caracteres".format(equal))
+
             validators.append(validar_not_igual)
 
         if(formato):
             def validar_formato(valor):
-                return re.match(formato, valor)
+                if not re.match(formato, valor):
+                    raise ValueError(
+                        "O valor informado não atende ao formato adequado")
             validators.append(validar_formato)
+
+        return validators
+
+    def validar_inteiro(self, min=None, max=None, opcoes=None):
+
+        validators = []
+
+        if(min):
+            def validar_minimo(valor):
+                if not valor > min:
+                    raise ValueError(
+                        "O valor informado não pode ser menos que {}".format(min))
+            validators.append(validar_minimo)
+
+        if(max):
+            def validar_maximo(valor):
+                if not (valor < max):
+                    raise ValueError(
+                        "O valor informado não pode ser maior que {}".format(max))
+            validators.append(validar_maximo)
+
+        if(opcoes):
+            def validar_opcao(valor):
+                if valor not in opcoes:
+                    raise ValueError(
+                        "A opção informada não é válida."
+                    )
+            validators.append(validar_opcao)
 
         return validators
 

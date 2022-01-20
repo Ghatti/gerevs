@@ -105,7 +105,7 @@ class Controlador(ABC):
 
         while(True):
             menu()
-            opcao_escolhida = self.tela.ler_inteiro(opcoes_validas)
+            opcao_escolhida = self.tela.selecionar(opcoes_validas)
 
             if(opcao_escolhida == 0):
                 break
