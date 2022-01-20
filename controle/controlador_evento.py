@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from entidade.evento import Evento
 from entidade.endereco import Endereco
 from controle.controlador import Controlador
@@ -173,7 +175,8 @@ class ControladorEvento(Controlador):
         if(modo):
             confirmacao = participante.cartao_de_vacina.is_complete()
         else:
-            confirmacao = self.confirmar_com_exame(participante)
+            confirmacao = self.confirmar_com_exame(
+                evento.data, participante.exame)
 
         if(confirmacao):
             # remove participante da lista de a confirmar
@@ -185,9 +188,13 @@ class ControladorEvento(Controlador):
             self.tela.mostrar_mensagem(
                 "Participante não completou os requisitos para confirmação")
 
-    def confirmar_com_exame(self, participante):
-        # will verify dates later
-        return not participante.exame.resultado if participante.exame else False
+    def confirmar_com_exame(self, data_evento, exame):
+
+        prazo = data_evento - exame.data
+        if(not exame.resultado and prazo <= timedelta(days=2)):
+            return True
+
+        return False
 
     def listar_organizadores(self, evento):
 

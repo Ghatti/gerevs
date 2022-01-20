@@ -1,4 +1,5 @@
 from limite.tela import Tela
+from datetime import datetime
 
 
 class TelaExame(Tela):
@@ -11,7 +12,7 @@ class TelaExame(Tela):
 
         exame = {}
         exame["data"] = self.ler_data("Informe a data do exame ",
-                                      "A data não é válida. Utilize o formado 01/01/1900")
+                                      "A data não é válida. Utilize o formado 01/01/1900", self.validar_data(max=datetime.today()))
 
         resultado = None
         while(resultado not in ["p", "n"]):
