@@ -33,3 +33,5 @@ class ControladorCartaoDeVacina(Controlador):
         else:
             self.tela.mostrar_mensagem(
                 "O esquema de vacinação já está completo.")
+
+        self.tela.mostrar_detalhes(cartao)
