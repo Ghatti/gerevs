@@ -78,7 +78,7 @@ class TelaEvento(Tela):
         evento["horario"] = self.ler_horario("Informe o horário do evento: ")
 
         evento["capacidade"] = self.ler_inteiro(
-            "Informe a capacidade máxima do evento: ", self.validar_inteiro(min=0))
+            "Informe a capacidade máxima do evento: ", self.validar_inteiro(min=1))
 
         evento["endereco"] = self.mostrar_tela_endereco()
 

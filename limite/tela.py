@@ -154,21 +154,21 @@ class Tela(ABC):
 
         validators = []
 
-        if(min):
+        if(min is not None):
             def validar_minimo(valor):
                 if not (len(valor) >= min):
                     raise ValueError(
                         "O valor informado deve ter ao menos {} caracteres".format(min))
             validators.append(validar_minimo)
 
-        if(max):
+        if(max is not None):
             def validar_maximo(valor):
                 if not (len(valor) <= max):
                     raise ValueError(
                         "O valor informado deve ter no máximo {} caracteres".format(max))
             validators.append(validar_maximo)
 
-        if(equal):
+        if(equal is not None):
             def validar_not_igual(valor):
                 if (not len(valor) == equal):
                     raise ValueError(
@@ -176,14 +176,14 @@ class Tela(ABC):
 
             validators.append(validar_not_igual)
 
-        if(formato):
+        if(formato is not None):
             def validar_formato(valor):
                 if not re.match(formato, valor):
                     raise ValueError(
                         "O valor informado não atende ao formato adequado")
             validators.append(validar_formato)
 
-        if(opcoes):
+        if(opcoes is not None):
             def validar_opcoes(valor):
                 if(valor.strip().lower() not in opcoes):
                     raise ValueError(
@@ -197,21 +197,22 @@ class Tela(ABC):
 
         validators = []
 
-        if(min):
+        if(min is not None):
+
             def validar_minimo(valor):
-                if not valor > min:
+                if valor < min:
                     raise ValueError(
                         "O valor informado não pode ser menor que {}".format(min))
             validators.append(validar_minimo)
 
-        if(max):
+        if(max is not None):
             def validar_maximo(valor):
-                if not (valor < max):
+                if valor > max:
                     raise ValueError(
                         "O valor informado não pode ser maior que {}".format(max))
             validators.append(validar_maximo)
 
-        if(opcoes):
+        if(opcoes is not None):
             def validar_opcao(valor):
                 if valor not in opcoes:
                     raise ValueError(
@@ -224,7 +225,7 @@ class Tela(ABC):
     def validar_data(self, min=None, max=None, delta=None):
         # Error messages need improvement
         validators = []
-        if(min):
+        if(min is not None):
             def validar_minimo(valor):
                 if(valor < min):
                     raise ValueError(
@@ -232,14 +233,14 @@ class Tela(ABC):
                             min.date().strftime("%d/%m/%Y")))
             validators.append(validar_minimo)
 
-        if(max):
+        if(max is not None):
             def validar_maximo(valor):
                 if(valor > max):
                     raise ValueError(
                         "A data informada é posterior à data máxima: {}".format(max.date().strftime("%d/%m/%Y")))
             validators.append(validar_maximo)
 
-        if(delta):
+        if(delta is not None):
             def validar_delta(valor):
                 if(datetime.today() - valor > delta):
                     raise ValueError(
