@@ -78,7 +78,11 @@ class Tela(ABC):
             valor = input(input_msg)
 
             try:
-                valor = int(valor)
+
+                try:
+                    valor = int(valor)
+                except ValueError:
+                    raise ValueError("O valor informado não é um inteiro.")
 
                 for validator in validators:
                     validator(valor)
@@ -109,7 +113,10 @@ class Tela(ABC):
                 input_msg, err_msg, self.validar_string(formato=r"^\d{2}\/\d{2}\/\d{4}$"))
 
             try:
-                date = datetime.strptime(date_string, "%d/%m/%Y")
+                try:
+                    date = datetime.strptime(date_string, "%d/%m/%Y")
+                except ValueError:
+                    raise ValueError("A data informada não é válida.")
 
                 for validator in validators:
                     validator(date)
