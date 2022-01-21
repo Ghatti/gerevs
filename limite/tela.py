@@ -126,7 +126,7 @@ class Tela(ABC):
             except ValueError as err:
                 print(err)
 
-    def validar_string(self, min=None, max=None, equal=None, formato=None):
+    def validar_string(self, min=None, max=None, equal=None, formato=None, opcoes=None):
 
         validators = []
 
@@ -158,6 +158,14 @@ class Tela(ABC):
                     raise ValueError(
                         "O valor informado não atende ao formato adequado")
             validators.append(validar_formato)
+
+        if(opcoes):
+            def validar_opcoes(valor):
+                if(valor.strip().lower() not in opcoes):
+                    raise ValueError(
+                        "O valor informado não é uma opção válida."
+                    )
+            validators.append(validar_opcoes)
 
         return validators
 
