@@ -70,12 +70,12 @@ class ControladorEvento(Controlador):
         try:
 
             if(not self.controlador_sistema.controlador_organizador.tem_entidades()):
-                raise ValueError
+                raise ValueError(
+                    "Não é possível cadastrar um evento porque ainda não há organizadores cadastrados")
 
             dados = self.tela.mostrar_tela_cadastro()
             dados["organizador"] = self.controlador_sistema.controlador_organizador.selecionar(
                 listar=True)
-            print(dados)
 
             # Cadastrar evento
             novo_evento = Evento(dados["titulo"], dados["data"], dados["horario"],
@@ -85,10 +85,9 @@ class ControladorEvento(Controlador):
             self.tela.mostrar_mensagem("Evento cadastrado!")
             self.ver_todos()
 
-        except ValueError:
+        except ValueError as err:
 
-            self.tela.mostrar_mensagem(
-                "Não é possível cadastrar um evento porque ainda não há organizadores cadastrados")
+            self.tela.mostrar_mensagem(err)
 
     def alterar(self, evento):
 

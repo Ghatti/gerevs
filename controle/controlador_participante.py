@@ -58,10 +58,10 @@ class ControladorParticipante(Controlador):
             # Procurar se há participante com o cpf
             for participante in self.entidades:
                 if(participante.cpf == dados["cpf"]):
-                    raise ValueError
-        except ValueError:
-            self.tela.mostrar_mensagem(
-                "Erro: Já existe um participante cadastrado com esse CPF.")
+                    raise ValueError(
+                        "Já existe um participante cadastrado com esse CPF.")
+        except ValueError as err:
+            self.tela.mostrar_mensagem(err)
         else:
 
             # criar participante
