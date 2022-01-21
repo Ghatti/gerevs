@@ -32,5 +32,7 @@ class TelaCartaoDeVacina(Tela):
     def mostrar_detalhes(self, cartao):
 
         print("------ Cadastrar Cartão de Vacina ------")
-        print("Dose 1: {}".format(cartao.doses[0]))
-        print("Dose 2: {}".format(cartao.doses[1]))
+        print("Dose 1: {}".format(
+            "Aplicada." if cartao.doses[0] else "Pendente"))
+        print("Dose 2: {}".format(
+            "Aplicada." if cartao.doses[1] else "Pendente"))
