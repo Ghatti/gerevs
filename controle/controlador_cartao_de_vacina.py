@@ -27,11 +27,9 @@ class ControladorCartaoDeVacina(Controlador):
 
     def registrar_dose(self, cartao=CartaoDeVacina):
 
-        cartao.registrar_dose()
-        self.tela.mostrar_mensagem("Dose registrada!")
-
-#
-#
-#
-#
-#
+        if(not cartao.is_complete()):
+            cartao.registrar_dose()
+            self.tela.mostrar_mensagem("Dose registrada!")
+        else:
+            self.tela.mostrar_mensagem(
+                "O esquema de vacinação já está completo.")

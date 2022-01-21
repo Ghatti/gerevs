@@ -52,23 +52,18 @@ class Tela(ABC):
         endereco["cep"] = self.ler_string(
             "CEP: ", self.validar_string(formato=r"^\d{2}\.\d{3}\-\d{3}$"))
         endereco["rua"] = self.ler_string(
-            "Rua: ", self.validar_string(equal=0))
+            "Rua: ")
 
         endereco["numero"] = self.ler_inteiro(
             "Informe o número: ", self.validar_inteiro(min=0))
 
         endereco["bairro"] = self.ler_string(
-            "Bairro: ", self.validar_string(
-                equal=0)
-        )
+            "Bairro: ")
+
         endereco["cidade"] = self.ler_string(
-            "Cidade: ", self.validar_string(
-                equal=0)
-        )
+            "Cidade: ")
         endereco["estado"] = self.ler_string(
-            "Estado: ", self.validar_string(
-                equal=0)
-        )
+            "Estado: ")
 
         return endereco
 
