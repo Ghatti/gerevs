@@ -96,6 +96,8 @@ class Tela(ABC):
         while True:
             try:
                 valor_informado = input(input_msg)
+                if(len(valor_informado) == 0):
+                    raise ValueError("É necessário informar um valor.")
 
                 for validator in validators:
                     validator(valor_informado)
@@ -132,14 +134,14 @@ class Tela(ABC):
 
         if(min):
             def validar_minimo(valor):
-                if not (len(valor) > min):
+                if not (len(valor) >= min):
                     raise ValueError(
                         "O valor informado deve ter ao menos {} caracteres".format(min))
             validators.append(validar_minimo)
 
         if(max):
             def validar_maximo(valor):
-                if not (len(valor) < max):
+                if not (len(valor) <= max):
                     raise ValueError(
                         "O valor informado deve ter no máximo {} caracteres".format(max))
             validators.append(validar_maximo)
