@@ -75,9 +75,7 @@ class TelaEvento(Tela):
         evento["data"] = self.ler_data("Data do evento: ",
                                        self.validar_data(min=datetime.today()))
 
-        # verify format of horario
-        evento["horario"] = time.fromisoformat(self.ler_string(
-            "Informe o horário do evento: ", self.validar_string(formato=r"^\d{2}\:\d{2}$")))
+        evento["horario"] = self.ler_horario("Informe o horário do evento: ")
 
         evento["capacidade"] = self.ler_inteiro(
             "Informe a capacidade máxima do evento: ", self.validar_inteiro(min=0))

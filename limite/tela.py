@@ -1,7 +1,6 @@
 import re
 from abc import ABC, abstractmethod
-from datetime import datetime
-from xml.dom import ValidationErr
+from datetime import datetime, time
 
 
 class Tela(ABC):
@@ -126,6 +125,27 @@ class Tela(ABC):
                     validator(date)
 
                 return date
+
+            except ValueError as err:
+                print(err)
+
+    def ler_horario(self, input_msg="Informe o horário: ", validators=[]):
+        while True:
+
+            time_string = self.ler_string(
+                input_msg, self.validar_string(formato=r"^\d{2}\:\d{2}$"))
+
+            try:
+                try:
+                    horario = time.fromisoformat(time_string)
+                except ValueError:
+                    raise ValueError(
+                        "O horário informado não é válido. Utilize o formato hh:mm.")
+
+                for validator in validators:
+                    validator(horario)
+
+                return horario
 
             except ValueError as err:
                 print(err)
