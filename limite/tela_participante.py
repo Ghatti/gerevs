@@ -32,7 +32,8 @@ class TelaParticipante(Tela):
         print("------ Visualizar Participante ------")
         print("Nome: {}".format(participante.nome))
         print("Cpf: {}".format(participante.cpf))
-        print("Nascimento: {}".format(participante.nascimento))
+        print("Nascimento: {}".format(
+            participante.nascimento.strftime("%d/%m/%Y")))
 
     def mostrar_tela_cadastro(self, alterar=False):
         print("------ Cadastrar Participante ------") if not alterar else print(

@@ -22,7 +22,8 @@ class TelaOrganizador(Tela):
         print("------ Visualizar Organizador ------")
         print("Nome: {}".format(organizador.nome))
         print("Cpf: {}".format(organizador.cpf))
-        print("Nascimento: {}".format(organizador.nascimento))
+        print("Nascimento: {}".format(
+            organizador.nascimento.strftime("%d/%m/%Y")))
 
     def mostrar_tela_cadastro(self, alterar=False):
         print("------ Cadastrar Organizador ------") if not alterar else print(
