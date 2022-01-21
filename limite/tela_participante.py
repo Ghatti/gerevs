@@ -40,20 +40,17 @@ class TelaParticipante(Tela):
 
         participante = {}
         participante["nome"] = self.ler_string(
-            "Informe o nome do participante: ", "O nome informado não é válido", self.validar_string(min=4, max=31))
+            "Informe o nome do participante: ", self.validar_string(min=4, max=31))
         participante["cpf"] = self.ler_string(
-            "Informe o cpf do participante: ", "O CPF informado não é válido. Utilize o formado 000.000.000-00", self.validar_string(formato=r"^\d{3}\.\d{3}\.\d{3}\-\d{2}$"))
+            "Informe o cpf do participante: ", self.validar_string(formato=r"^\d{3}\.\d{3}\.\d{3}\-\d{2}$"))
         participante["nascimento"] = self.ler_data("Data de nascimento: ",
-                                                   "A data de nascimento informada não é válida. Utilize o formado 01/01/1900",
                                                    self.validar_data(max=datetime.today(), delta=timedelta(days=150*365)))
         participante["endereco"] = self.mostrar_tela_endereco()
         return participante
 
     def mostrar_tela_erro_exame(self):
 
-        registrar = None
-        while(registrar not in ["n", "s"]):
-            registrar = self.ler_string(
-                "Participante não possui exame cadastrado. Deseja registrar um exame? s/n", "A resposta informada não é válida. Responda sim (s) ou não (n).").strip().lower()
+        registrar = self.ler_string(
+            "Participante não possui exame cadastrado. Deseja registrar um exame? s/n", self.validar_string(opcoes=["n", "s"])).strip().lower()
 
         return registrar == "s"

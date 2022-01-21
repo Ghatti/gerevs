@@ -50,23 +50,23 @@ class Tela(ABC):
         endereco = {}
 
         endereco["cep"] = self.ler_string(
-            "CEP: ", "O CEP informado não é válido. Utilize o formado 00.000-000", self.validar_string(formato=r"^\d{2}\.\d{3}\-\d{3}$"))
+            "CEP: ", self.validar_string(formato=r"^\d{2}\.\d{3}\-\d{3}$"))
         endereco["rua"] = self.ler_string(
-            "Rua: ", "A rua informada não é válido", self.validar_string(equal=0))
+            "Rua: ", self.validar_string(equal=0))
 
         endereco["numero"] = self.ler_inteiro(
             "Informe o número: ", self.validar_inteiro(min=0))
 
         endereco["bairro"] = self.ler_string(
-            "Bairro: ", "O bairro informado não é válido", self.validar_string(
+            "Bairro: ", self.validar_string(
                 equal=0)
         )
         endereco["cidade"] = self.ler_string(
-            "Cidade: ", "A cidade informada não é válida", self.validar_string(
+            "Cidade: ", self.validar_string(
                 equal=0)
         )
         endereco["estado"] = self.ler_string(
-            "Estado: ", "O estado informado não é válido", self.validar_string(
+            "Estado: ", self.validar_string(
                 equal=0)
         )
 
@@ -91,7 +91,7 @@ class Tela(ABC):
             except ValueError as err:
                 print(err)
 
-    def ler_string(self, input_msg, err_msg, validators=[]):
+    def ler_string(self, input_msg, validators=[]):
 
         while True:
             try:
@@ -105,12 +105,12 @@ class Tela(ABC):
             except ValueError as err:
                 print(err)
 
-    def ler_data(self, input_msg, err_msg, validators=[]):
+    def ler_data(self, input_msg, validators=[]):
 
         while True:
 
             date_string = self.ler_string(
-                input_msg, err_msg, self.validar_string(formato=r"^\d{2}\/\d{2}\/\d{4}$"))
+                input_msg, self.validar_string(formato=r"^\d{2}\/\d{2}\/\d{4}$"))
 
             try:
                 try:

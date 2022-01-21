@@ -12,14 +12,10 @@ class TelaExame(Tela):
 
         exame = {}
         exame["data"] = self.ler_data("Informe a data do exame ",
-                                      "A data não é válida. Utilize o formado 01/01/1900", self.validar_data(max=datetime.today()))
+                                      self.validar_data(max=datetime.today()))
 
-        resultado = None
-        while(resultado not in ["p", "n"]):
-            resultado = self.ler_string("Informe se o resultado foi positivo ou negativo: (p/n) ",
-                                        "O valor informado não é válido, informe p para positivo ou n para negativo").strip().lower()
-
-        exame["resultado"] = resultado == "p"
+        exame["resultado"] = self.ler_string("Informe se o resultado foi positivo ou negativo: (p/n) ",
+                                             self.validar_string(opcoes=["p", "n"])).strip().lower() == "p"
 
         return exame
 

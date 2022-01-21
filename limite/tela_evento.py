@@ -70,16 +70,15 @@ class TelaEvento(Tela):
         evento = {}
 
         evento["titulo"] = self.ler_string(
-            "Informe o título do evento: ", "O título informado não é válido.", self.validar_string(min=3, max=50))
+            "Informe o título do evento: ", self.validar_string(min=3, max=50))
 
         # add validation for data. Allow only future eventos.
         evento["data"] = self.ler_data("Data do evento: ",
-                                       "A data informada não é válida. Utilize o formado 01/01/1900",
                                        self.validar_data(min=datetime.today()))
 
         # verify format of horario
         evento["horario"] = time.fromisoformat(self.ler_string(
-            "Informe o horário do evento: ", "O horário informado não é válido. Utilize o formato hh:mm", self.validar_string(formato=r"^\d{2}\:\d{2}$")))
+            "Informe o horário do evento: ", self.validar_string(formato=r"^\d{2}\:\d{2}$")))
 
         evento["capacidade"] = self.ler_inteiro(
             "Informe a capacidade máxima do evento: ", self.validar_inteiro(min=0))

@@ -12,11 +12,11 @@ class TelaCartaoDeVacina(Tela):
         print("------ Cadastrar Cartão de Vacina ------")
 
         dose1 = self.ler_string(
-            "A primeira dose já foi aplicada? s/n", "Valor inválido", self.validar_string(opcoes=["s", "n"])).strip().lower() == "s"
+            "A primeira dose já foi aplicada? s/n", self.validar_string(opcoes=["s", "n"])).strip().lower() == "s"
 
         if(dose1):
             dose2 = self.ler_string(
-                "A segunda dose já foi aplicada? s/n", "Valor inválido", self.validar_string(
+                "A segunda dose já foi aplicada? s/n", self.validar_string(
                     opcoes=["s", "n"])).strip().lower() == "s"
         else:
             dose2 = False
