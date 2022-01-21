@@ -72,7 +72,6 @@ class TelaEvento(Tela):
         evento["titulo"] = self.ler_string(
             "Informe o título do evento: ", self.validar_string(min=3, max=50))
 
-        # add validation for data. Allow only future eventos.
         evento["data"] = self.ler_data("Data do evento: ",
                                        self.validar_data(min=datetime.today()))
 

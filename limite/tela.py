@@ -1,6 +1,7 @@
 import re
 from abc import ABC, abstractmethod
 from datetime import datetime
+from xml.dom import ValidationErr
 
 
 class Tela(ABC):
@@ -118,7 +119,8 @@ class Tela(ABC):
                 try:
                     date = datetime.strptime(date_string, "%d/%m/%Y")
                 except ValueError:
-                    raise ValueError("A data informada não é válida.")
+                    raise ValueError(
+                        "A data informada não é válida. Utilize o formato dd/mm/aaaa.")
 
                 for validator in validators:
                     validator(date)
@@ -179,7 +181,7 @@ class Tela(ABC):
             def validar_minimo(valor):
                 if not valor > min:
                     raise ValueError(
-                        "O valor informado não pode ser menos que {}".format(min))
+                        "O valor informado não pode ser menor que {}".format(min))
             validators.append(validar_minimo)
 
         if(max):
@@ -200,21 +202,29 @@ class Tela(ABC):
         return validators
 
     def validar_data(self, min=None, max=None, delta=None):
-
+        # Error messages need improvement
         validators = []
         if(min):
             def validar_minimo(valor):
-                return valor > min
+                if(valor < min):
+                    raise ValueError(
+                        "A data informada é anterior à data mínima: {}".format(
+                            min.date().strftime("%d/%m/%Y")))
             validators.append(validar_minimo)
 
         if(max):
             def validar_maximo(valor):
-                return valor < max
+                if(valor > max):
+                    raise ValueError(
+                        "A data informada é posterior à data máxima: {}".format(max.date().strftime("%d/%m/%Y")))
             validators.append(validar_maximo)
 
         if(delta):
             def validar_delta(valor):
-                return datetime.today() - valor < delta
+                if(datetime.today() - valor > delta):
+                    raise ValueError(
+                        "A data informada é muito antiga. Informe uma data mais recente.")
+
             validators.append(validar_delta)
 
         return validators
