@@ -39,11 +39,12 @@ class ControladorParticipante(Controlador):
         participante.exame = self.controlador_sistema.controlador_exame.cadastrar()
 
     def mostrar_exame(self, participante):
-
+        # the lambda function is a workaround for now. Not liking this solution.
         try:
-            self.controlador_sistema.controlador_exame.mostrar(participante)
-        except AttributeError:
-
+            self.controlador_sistema.controlador_exame.mostrar(
+                participante.exame, lambda: self.registrar_exame(participante))
+        except AttributeError as err:
+            print(err)
             registrar = self.tela.mostrar_tela_erro_exame()
             if(registrar):
                 self.registrar_exame(participante)

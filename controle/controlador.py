@@ -91,7 +91,7 @@ class Controlador(ABC):
         return entidade
 
     def cadastrar(self):
-        print("Cadastrar selecionado")
+        pass
 
     def obter(self, id):
         pass

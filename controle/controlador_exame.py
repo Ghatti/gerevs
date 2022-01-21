@@ -8,24 +8,20 @@ class ControladorExame(Controlador):
     def __init__(self, controlador_sistema):
         super().__init__(controlador_sistema, TelaExame(self))
 
-    def abrir_menu_visualizacao(self, participante):
-        opcoes = {1: self.registrar_exame}
+    def abrir_menu_visualizacao(self, registrar_exame):
+        opcoes = {1: registrar_exame}
         opcoes_validas = [0, 1]
         menu = self.tela.mostrar_menu_visualizacao
 
-        self.abrir_menu(menu, opcoes, opcoes_validas, participante)
-
-    def registrar_exame(self, participante):
-        # not happy with this
-        # Quick workoround, will change this class overall to avoid this
-        participante.exame = self.cadastrar()
+        self.abrir_menu(menu, opcoes, opcoes_validas)
 
     def cadastrar(self):
 
         dados = self.tela.mostrar_tela_cadastro()
+        exame = Exame(dados["data"], dados["resultado"])
+        self.tela.mostrar_detalhes(exame)
+        return exame
 
-        return Exame(dados["data"], dados["resultado"])
-
-    def mostrar(self, participante):
-        self.tela.mostrar_detalhes(participante.exame)
-        self.abrir_menu_visualizacao(participante)
+    def mostrar(self, exame, registrar_exame):
+        self.tela.mostrar_detalhes(exame)
+        self.abrir_menu_visualizacao(registrar_exame)

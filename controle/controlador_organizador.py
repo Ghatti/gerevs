@@ -26,13 +26,12 @@ class ControladorOrganizador(Controlador):
         dados = self.tela.mostrar_tela_cadastro()
 
         try:
-            # Procurar se há organizador com o cpf
             for organizador in self.entidades:
                 if(organizador.cpf == dados["cpf"]):
-                    raise ValueError
-        except ValueError:
-            self.tela.mostrar_mensagem(
-                "Erro: Já existe um organizador cadastrado com esse CPF.")
+                    raise ValueError(
+                        "Já existe um organizador cadastrado com esse CPF")
+        except ValueError as err:
+            self.tela.mostrar_mensagem(err)
         else:
 
             # criar organizador
