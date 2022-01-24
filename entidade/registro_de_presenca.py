@@ -1,7 +1,7 @@
 from evento import Evento
 from participante import Participante
 
-class Registro_de_presenca:
+class RegistroDeṔresenca:
 
     def __init__(self, participante: Participante, evento: Evento):
         self.__participante = participante
