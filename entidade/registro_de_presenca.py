@@ -1,5 +1,5 @@
-from evento import Evento
-from participante import Participante
+from entidade.evento import Evento
+from entidade.participante import Participante
 
 class RegistroDeṔresenca:
 

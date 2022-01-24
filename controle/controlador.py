@@ -63,7 +63,7 @@ class Controlador(ABC):
             self.tela.mostrar_mensagem("Ainda não foram realizados cadastros")
         else:
 
-            entidade = self.selecionar()
+            entidade = self.selecionar(listar=True)
             self.tela.mostrar_detalhes(entidade)
             self.abrir_menu_visualizacao(entidade)
 
@@ -80,13 +80,16 @@ class Controlador(ABC):
     def mostrar(self, entidade):
         pass
 
-    def selecionar(self, listar=False):
+    def selecionar(self, listar=False, lista = None):
 
         if(listar):
             self.ver_todos()
 
+        if lista is None:
+            lista = self.entidades
+
         opcao = self.abrir_tela_selecionar()
-        entidade = self.entidades[opcao-1]
+        entidade = lista[opcao-1]
 
         return entidade
 

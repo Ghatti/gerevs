@@ -3,7 +3,7 @@ from controle.controlador import Controlador
 from limite.tela_registro_de_presenca import TelaRegistroDePresenca
 
 
-class ControladorExame(Controlador):
+class ControladorRegistroDePresenca(Controlador):
 
     def __init__(self, controlador_sistema):
         super().__init__(controlador_sistema, TelaRegistroDePresenca(self))

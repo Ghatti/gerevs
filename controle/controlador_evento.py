@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 from entidade.evento import Evento
 from entidade.endereco import Endereco
@@ -14,8 +14,8 @@ class ControladorEvento(Controlador):
     def abrir_menu_inicial(self):
 
         opcoes = {1: self.cadastrar, 2: self.ver_todos,
-                  3: self.ver_detalhes}
-        opcoes_validas = [0, 1, 2, 3]
+                  3: self.ver_detalhes, 4: self.ver_futuros, 5: self.ver_realizados}
+        opcoes_validas = [0, 1, 2, 3, 4, 5]
         menu = self.tela.mostrar_menu_inicial
 
         self.ver_todos()
@@ -106,6 +106,30 @@ class ControladorEvento(Controlador):
         confirmacao = self.tela.confirmar()
         if(confirmacao):
             self.entidades.remove(evento)
+
+    def ver_futuros(self):
+
+        hoje = datetime.today()
+
+        eventos_futuros = []
+
+        for evento in self.entidades:
+            if evento.data > hoje:
+                eventos_futuros.append(evento)
+
+        self.listar(eventos_futuros)
+
+    def ver_realizados(self):
+
+        hoje = datetime.today()
+
+        eventos_realizados = []
+
+        for evento in self.entidades:
+            if evento.data < hoje:
+                eventos_realizados.append(evento)
+
+        self.listar(eventos_realizados)
 
     def listar_participantes(self, evento, filtro=None):
 

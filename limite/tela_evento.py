@@ -14,6 +14,8 @@ class TelaEvento(Tela):
         print("1 - Cadastrar Evento")
         print("2 - Listar Eventos")
         print("3 - Ver Evento")
+        print("4 - Ver Eventos Futuros")
+        print("5 - Ver Eventos Realizados")                
         print("0 - Voltar")
 
     def mostrar_menu_visualizacao(self):
