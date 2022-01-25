@@ -44,9 +44,18 @@ class ControladorEvento(Controlador):
     def abrir_menu_participantes(self, evento):
 
         opcoes = {1: self.adicionar_participante,
-                  2: self.remover_participante, 3: self.abrir_menu_confirmar_participante, 4: self.registrar_entrada}
+                  2: self.remover_participante, 3: self.abrir_menu_confirmar_participante, 4: self.abrir_menu_registros}
         opcoes_validas = [0, 1, 2, 3, 4]
         menu = self.tela.mostrar_menu_participantes
+
+        self.abrir_menu(menu, opcoes, opcoes_validas, evento)
+
+    def abrir_menu_registros(self, evento):
+
+        opcoes = {1: self.listar_registros_de_presenca, 2: self.ver_registro_de_presenca,
+                  3: self.registrar_entrada, 4: self.registrar_saida}
+        opcoes_validas = [0, 1, 2, 3, 4]
+        menu = self.tela.mostrar_menu_registros
 
         self.abrir_menu(menu, opcoes, opcoes_validas, evento)
 
@@ -258,11 +267,15 @@ class ControladorEvento(Controlador):
 
         # Sistema solicita o horário da entrada.
 
-            entrada = self.tela.mostrar_tela_registrar_entrada(evento.horario)
+            entrada = self.tela.mostrar_tela_registrar_entrada(
+                evento.data, evento.horario)
 
         # Sistema cria o registro de presença e insere no evento
             registro = RegistroDeṔresenca(participante, entrada)
             evento.adicionar_registro_de_presenca(registro)
+
+    def registrar_saida(self):
+        print("REgistrar saída")
 
     def listar_organizadores(self, evento):
 

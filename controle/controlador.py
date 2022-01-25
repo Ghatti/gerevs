@@ -88,6 +88,7 @@ class Controlador(ABC):
         if lista is None:
             lista = self.entidades
 
+        
         opcao = self.abrir_tela_selecionar()
         entidade = lista[opcao-1]
 

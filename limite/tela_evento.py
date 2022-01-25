@@ -41,7 +41,7 @@ class TelaEvento(Tela):
         print("1 - Adicionar participante")
         print("2 - Remover participante")
         print("3 - Confirmar participante")
-        print('4 - Registrar Entrada')
+        print('4 - Gerenciar Registros')
 
     def mostrar_menu_organizadores(self):
         print("------ Menu de Organizadores ------")
@@ -56,6 +56,15 @@ class TelaEvento(Tela):
         print("0 - Voltar")
         print("1 - Confirmar com vacina")
         print("2 - Confirmar com exame")
+
+    def mostrar_menu_registros(self):
+        print("------ Menu de Registros de Presença ------")
+        print("Escolha sua opção:")
+        print("0 - Voltar")
+        print("1 - Listar Registros")
+        print("2 - Ver Registro")
+        print("3 - Registrar Presença")
+        print("4 - Registrar Saída")
 
     def mostrar(self, evento, i):
         print(i, evento.titulo)
@@ -93,19 +102,18 @@ class TelaEvento(Tela):
     def mostrar_detalhes_registro(self, registro):
         print("------ Visualizar registro ------")
         print("Participante", registro.participante.nome)
-        print("Entrada:" registro.entrada.data, "-", registro.entrada.horario)
+        print("Entrada:", registro.entrada.data, "-", registro.entrada.horario)
         if(registro.saida):
             print("Saída:", registro.saida.data, "-", registro.saida.horario)
 
-    def mostrar_tela_registrar_entrada(self, horario_evento):
+    def mostrar_tela_registrar_entrada(self, data_evento, horario_evento):
 
-        hoje = datetime.today()
         print("------ Registrar entrada ------")
 
         while(True):
             data = self.ler_data("Informe a data da entrada.")
 
-            if(data != hoje):
+            if(data != data_evento):
                 confirmacao = self.confirmar(
                     "A data informada não coincide com a data do evento. Deseja prosseguir mesmo assim? (s/n)")
                 if(confirmacao):
@@ -114,7 +122,7 @@ class TelaEvento(Tela):
                 break
 
         while(True):
-            horario = self.tela.ler_horario("Informe o horário de entrada.")
+            horario = self.ler_horario("Informe o horário de entrada.")
 
             if(horario < horario_evento):
                 confirmacao = self.confirmar(
