@@ -220,6 +220,20 @@ class ControladorEvento(Controlador):
 
         return False
 
+    def listar_registros_de_presenca(self, evento):
+
+        if(len(evento.registros_de_presenca) == 0):
+            self.tela.mostrar_mensagem(
+                "Não há registros de presença cadastrados.")
+        else:
+            for registro, i in enumerate(evento.registros_de_presenca):
+                self.tela.mostrar_registro(registro, i)
+
+    def ver_registro_de_presenca(self, evento):
+
+        registro = self.selecionar(lista=evento.registros_de_presenca)
+        self.tela.mostrar_detalhes_registro(registro)
+
     def registrar_entrada(self, evento):
 
         # na lista de participantes, o usuário seleciona a opção registrar entrada

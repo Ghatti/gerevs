@@ -87,6 +87,16 @@ class TelaEvento(Tela):
 
         return evento
 
+    def mostrar_registro(self, registro, i):
+        print(i, registro.participante.nome)
+
+    def mostrar_detalhes_registro(self, registro):
+        print("------ Visualizar registro ------")
+        print("Participante", registro.participante.nome)
+        print("Entrada:" registro.entrada.data, "-", registro.entrada.horario)
+        if(registro.saida):
+            print("Saída:", registro.saida.data, "-", registro.saida.horario)
+
     def mostrar_tela_registrar_entrada(self, horario_evento):
 
         hoje = datetime.today()
