@@ -16,6 +16,7 @@ class Evento:
         self.__organizadores = [organizador]
         self.__participantes_a_confirmar = []
         self.__participantes_confirmados = []
+        self.__registros_de_presenca = []
 
     @property
     def titulo(self):
@@ -49,6 +50,10 @@ class Evento:
     def participantes_confirmados(self):
         return self.__participantes_confirmados
 
+    @property
+    def registros_de_presenca(self):
+        return self.__registros_de_presenca
+
     @titulo.setter
     def titulo(self, titulo: str):
         self.__titulo = titulo
@@ -72,6 +77,10 @@ class Evento:
 
     def get_all_participantes(self):
         return self.participantes_a_confirmar + self.participantes_confirmados
+
+    def adicionar_registro_de_presenca(self, registro):
+
+        self.registros_de_presenca.append(registro)
 
     def adicionar_organizador(self, organizador: Organizador):
         pass

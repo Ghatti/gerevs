@@ -15,7 +15,7 @@ class TelaEvento(Tela):
         print("2 - Listar Eventos")
         print("3 - Ver Evento")
         print("4 - Ver Eventos Futuros")
-        print("5 - Ver Eventos Realizados")                
+        print("5 - Ver Eventos Realizados")
         print("0 - Voltar")
 
     def mostrar_menu_visualizacao(self):
@@ -41,7 +41,9 @@ class TelaEvento(Tela):
         print("1 - Adicionar participante")
         print("2 - Remover participante")
         print("3 - Confirmar participante")
+        print('4 - Registrar Entrada')
 
+        
     def mostrar_menu_organizadores(self):
         print("------ Menu de Organizadores ------")
         print("Escolha sua opção:")

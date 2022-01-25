@@ -3,19 +3,14 @@ from entidade.participante import Participante
 
 class RegistroDeṔresenca:
 
-    def __init__(self, participante: Participante, evento: Evento):
+    def __init__(self, participante: Participante, entrada):
         self.__participante = participante
-        self.__evento = evento
-        self.__entrada = None
+        self.__entrada = entrada
         self.__saida = None
     
     @property
     def participante(self):
         return self.__participante
-    
-    @property
-    def evento(self):
-        return self.__evento
     
     @property
     def entrada(self):

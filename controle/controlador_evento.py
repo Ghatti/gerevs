@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from entidade.evento import Evento
 from entidade.endereco import Endereco
 from controle.controlador import Controlador
+from entidade.registro_de_presenca import RegistroDeṔresenca
 from limite.tela_evento import TelaEvento
 
 
@@ -40,11 +41,11 @@ class ControladorEvento(Controlador):
 
         self.abrir_menu(menu, opcoes, opcoes_validas)
 
-    def abrir_menu_participantes(self, evento, filtro):
+    def abrir_menu_participantes(self, evento):
 
         opcoes = {1: self.adicionar_participante,
-                  2: self.remover_participante, 3: self.abrir_menu_confirmar_participante}
-        opcoes_validas = [0, 1, 2, 3]
+                  2: self.remover_participante, 3: self.abrir_menu_confirmar_participante, 4: self.registrar_entrada}
+        opcoes_validas = [0, 1, 2, 3, 4]
         menu = self.tela.mostrar_menu_participantes
 
         self.abrir_menu(menu, opcoes, opcoes_validas, evento)
@@ -143,7 +144,7 @@ class ControladorEvento(Controlador):
         self.controlador_sistema.controlador_participante.listar(
             participantes)
 
-        self.abrir_menu_participantes(evento, filtro)
+        self.abrir_menu_participantes(evento)
 
     def adicionar_participante(self, evento):
 
@@ -161,7 +162,7 @@ class ControladorEvento(Controlador):
                 self.tela.mostrar_mensagem("Participante incluído!")
             else:
                 # mudar para erro?
-                self.tela.mostrar_mensage(
+                self.tela.mostrar_mensagem(
                     "Participante já registrado no evento.")
 
     def remover_participante(self, evento):
@@ -219,6 +220,36 @@ class ControladorEvento(Controlador):
 
         return False
 
+    def registrar_entrada(self, evento):
+
+        # na lista de participantes, o usuário seleciona a opção registrar entrada
+        #   Não havendo, exibe mensagem de que não há participantes confirmados.
+
+        if(len(evento.participantes_confirmados) == 0):
+            self.tela.mostrar_mensagem(
+                "Não há participantes confirmados para o evento.")
+        else:
+
+            # Sistema solicita a seleção de um participante para registrar a entrada
+            participante = self.selecionar(
+                listar=True, lista=evento.participantes_confirmados)
+
+        # Sistema verifica se participante já tem registro de entrada.
+        # Positivo, informa o usuário de que a entrada já foi registrada e retorna
+            for registro in evento.registros_de_presenca:
+                if registro.participante == participante:
+                    self.tela.mostrar_mensagem(
+                        "Participante já possui registro de entrada.")
+                    return
+
+        # Sistema solicita o horário da entrada.
+
+            horario = self.tela.ler_horario("Informe o horário de entrada.")
+
+        # Sistema cria o registro de presença e insere no evento
+            registro = RegistroDeṔresenca(participante, horario)
+            evento.adicionar_registro_de_presenca(registro)
+
     def listar_organizadores(self, evento):
 
         self.controlador_sistema.controlador_organizador.listar(
@@ -236,7 +267,7 @@ class ControladorEvento(Controlador):
             self.tela.mostrar_mensagem("Organizador incluído!")
         else:
             # mudar para erro?
-            self.tela.mostrar_mensage("Organizador já registrado no evento.")
+            self.tela.mostrar_mensagem("Organizador já registrado no evento.")
 
     def remover_organizador(self, evento):
 
