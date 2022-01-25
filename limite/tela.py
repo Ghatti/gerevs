@@ -32,10 +32,10 @@ class Tela(ABC):
         print("2 - Remover")
         print("0 - Voltar")
 
-    def confirmar(self):
+    def confirmar(self, input_msg="Deseja confirmar a operação? s/n"):
         confirmacao = "t"
         while(confirmacao not in ["n", "s"]):
-            confirmacao = input("Deseja confirmar a operação? s/n").lower()
+            confirmacao = input(input_msg).lower()
         return confirmacao == "s"
 
     def selecionar(self, opcoes):

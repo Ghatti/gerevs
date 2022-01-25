@@ -244,10 +244,10 @@ class ControladorEvento(Controlador):
 
         # Sistema solicita o horário da entrada.
 
-            horario = self.tela.ler_horario("Informe o horário de entrada.")
+            entrada = self.tela.mostrar_tela_registrar_entrada(evento.horario)
 
         # Sistema cria o registro de presença e insere no evento
-            registro = RegistroDeṔresenca(participante, horario)
+            registro = RegistroDeṔresenca(participante, entrada)
             evento.adicionar_registro_de_presenca(registro)
 
     def listar_organizadores(self, evento):

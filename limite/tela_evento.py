@@ -43,7 +43,6 @@ class TelaEvento(Tela):
         print("3 - Confirmar participante")
         print('4 - Registrar Entrada')
 
-        
     def mostrar_menu_organizadores(self):
         print("------ Menu de Organizadores ------")
         print("Escolha sua opção:")
@@ -87,3 +86,32 @@ class TelaEvento(Tela):
         evento["endereco"] = self.mostrar_tela_endereco()
 
         return evento
+
+    def mostrar_tela_registrar_entrada(self, horario_evento):
+
+        hoje = datetime.today()
+        print("------ Registrar entrada ------")
+
+        while(True):
+            data = self.ler_data("Informe a data da entrada.")
+
+            if(data != hoje):
+                confirmacao = self.confirmar(
+                    "A data informada não coincide com a data do evento. Deseja prosseguir mesmo assim? (s/n)")
+                if(confirmacao):
+                    break
+            else:
+                break
+
+        while(True):
+            horario = self.tela.ler_horario("Informe o horário de entrada.")
+
+            if(horario < horario_evento):
+                confirmacao = self.confirmar(
+                    "O horário informado é anterior ao do evento. Deseja prosseguir mesmo assim? (s/n)")
+                if(confirmacao):
+                    break
+            else:
+                break
+
+        return {"data": data, "horario": horario}
