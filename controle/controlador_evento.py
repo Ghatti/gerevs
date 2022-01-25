@@ -235,7 +235,7 @@ class ControladorEvento(Controlador):
             self.tela.mostrar_mensagem(
                 "Não há registros de presença cadastrados.")
         else:
-            for registro, i in enumerate(evento.registros_de_presenca):
+            for i, registro in enumerate(evento.registros_de_presenca):
                 self.tela.mostrar_registro(registro, i)
 
     def ver_registro_de_presenca(self, evento):
