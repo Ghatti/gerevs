@@ -274,8 +274,33 @@ class ControladorEvento(Controlador):
             registro = RegistroDeṔresenca(participante, entrada)
             evento.adicionar_registro_de_presenca(registro)
 
-    def registrar_saida(self):
-        print("REgistrar saída")
+    def registrar_saida(self, evento):
+
+        # na lista de participantes, o usuário seleciona a opção registrar saída
+        # Não havendo registros de presença, exibe mensagem de que ainda não foram registradas entrada
+        # Sistema lista os registros de entrada já cadastrados
+        # Sistema solicita a seleção de um paritipante para registrar a saída
+        # Sistema solicita o horário da saída
+        # SIstema insere a saída no registro
+
+        if(len(evento.registros_de_presenca) == 0):
+            self.tela.mostrar_mensagem(
+                "Ainda não foi registrada a entrada de nenhum participante")
+
+        else:
+
+            self.listar_registros_de_presenca(evento)
+            registro = self.selecionar(lista=evento.registros_de_presenca)
+
+            if(registro.saida is not None):
+                self.tela.mostrar_mensagem(
+                    "A saída deste participante já foi registrada")
+                return
+
+            saida = self.tela.mostrar_tela_registrar_entrada(
+                evento.data, evento.horario)
+
+            registro.saida = saida
 
     def listar_organizadores(self, evento):
 
