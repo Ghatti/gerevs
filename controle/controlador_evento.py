@@ -120,27 +120,32 @@ class ControladorEvento(Controlador):
 
     def ver_futuros(self):
 
-        hoje = datetime.today()
+        try:
+            hoje = datetime.today()
 
-        eventos_futuros = []
+            eventos_futuros = []
 
-        for evento in self.entidades:
-            if evento.data > hoje:
-                eventos_futuros.append(evento)
+            for evento in self.entidades:
+                if evento.data > hoje:
+                    eventos_futuros.append(evento)
 
-        self.listar(eventos_futuros)
+                self.listar(eventos_futuros)
+        except ValueError as err:
+            self.tela.mostrar_mensagem(err)
 
     def ver_realizados(self):
+        try:
+            hoje = datetime.today()
 
-        hoje = datetime.today()
+            eventos_realizados = []
 
-        eventos_realizados = []
+            for evento in self.entidades:
+                if evento.data < hoje:
+                    eventos_realizados.append(evento)
 
-        for evento in self.entidades:
-            if evento.data < hoje:
-                eventos_realizados.append(evento)
-
-        self.listar(eventos_realizados)
+            self.listar(eventos_realizados)
+        except ValueError as err:
+            self.tela.mostrar_mensagem(err)
 
     def listar_participantes(self, evento, filtro=None):
 
@@ -312,10 +317,13 @@ class ControladorEvento(Controlador):
 
     def listar_organizadores(self, evento):
 
-        self.controlador_sistema.controlador_organizador.listar(
-            evento.organizadores)
+        try:
+            self.controlador_sistema.controlador_organizador.listar(
+                evento.organizadores)
 
-        self.abrir_menu_organizadores(evento)
+            self.abrir_menu_organizadores(evento)
+        except ValueError as err:
+            self.tela.mostrar_mensagem(err)
 
     def adicionar_organizador(self, evento):
 

@@ -54,7 +54,10 @@ class Controlador(ABC):
         return len(self.entidades) != 0
 
     def ver_todos(self):
-        self.listar(self.entidades)
+        try:
+            self.listar(self.entidades)
+        except ValueError as err:
+            self.tela.mostrar_mensagem(err)
 
     def ver_detalhes(self):
 
@@ -69,28 +72,30 @@ class Controlador(ABC):
     def listar(self, lista=[]):
 
         if(len(lista) == 0):
-            self.tela.mostrar_mensagem(
-                "Não há elementos para listar")
-        else:
-            self.tela.mostrar_mensagem("------ Lista ------")
-            for i, entidade in enumerate(lista):
-                self.tela.mostrar(entidade, i+1)
+            raise ValueError("Não há elementos para listar")
+        self.tela.mostrar_mensagem("------ Lista ------")
+        for i, entidade in enumerate(lista):
+            self.tela.mostrar(entidade, i+1)
 
     def mostrar(self, entidade):
         pass
 
     def selecionar(self, listar=False, lista=None):
 
-        if lista is None:
-            lista = self.entidades
-    
-        if(listar):
-            self.listar(lista)
+        try:
+            if lista is None:
+                lista = self.entidades
 
-        opcao = self.abrir_tela_selecionar()
-        entidade = lista[opcao-1]
+            if(listar):
+                self.listar(lista)
 
-        return entidade
+            opcao = self.abrir_tela_selecionar()
+            entidade = lista[opcao-1]
+
+            return entidade
+            
+        except ValueError as err:
+            self.tela.mostrar_mensagem(err)
 
     def cadastrar(self):
         pass
