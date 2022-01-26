@@ -3,7 +3,6 @@ from controle.controlador_participante import ControladorParticipante
 from controle.controlador_evento import ControladorEvento
 from controle.controlador_cartao_de_vacina import ControladorCartaoDeVacina
 from controle.controlador_exame import ControladorExame
-from controle.controlador_registro_de_presenca import ControladorRegistroDePresenca
 from limite.tela_sistema import TelaSistema
 
 
@@ -42,7 +41,6 @@ class ControladorSistema:
     def tela(self):
         return self.__tela
 
-
     def inicializar(self):
         self.abrir_menu_inicial()
 
@@ -64,6 +62,6 @@ class ControladorSistema:
 
     def iniciar_modulo_participantes(self):
         self.controlador_participante.inicializar()
-        
+
     def encerrar_sistema(self):
         exit(0)
