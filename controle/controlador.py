@@ -47,8 +47,8 @@ class Controlador(ABC):
     def abrir_tela_detalhes(self):
         pass
 
-    def abrir_tela_selecionar(self):
-        return self.tela.selecionar(range(1, len(self.entidades)+1))
+    def abrir_tela_selecionar(self, lista):
+        return self.tela.selecionar(range(1, len(lista)+1))
 
     def tem_entidades(self):
         return len(self.entidades) != 0
@@ -61,13 +61,13 @@ class Controlador(ABC):
 
     def ver_detalhes(self):
 
-        if(len(self.entidades) == 0):
-            self.tela.mostrar_mensagem("Ainda não foram realizados cadastros")
-        else:
-
-            entidade = self.selecionar(listar=True)
+        try:
+            entidade = self.selecionar(self.entidades)
             self.tela.mostrar_detalhes(entidade)
             self.abrir_menu_visualizacao(entidade)
+
+        except ValueError as err:
+            self.tela.mostrar_mensagem(err)
 
     def listar(self, lista=[]):
 
@@ -80,22 +80,13 @@ class Controlador(ABC):
     def mostrar(self, entidade):
         pass
 
-    def selecionar(self, listar=False, lista=None):
+    def selecionar(self, lista):
 
-        try:
-            if lista is None:
-                lista = self.entidades
+        self.listar(lista)
 
-            if(listar):
-                self.listar(lista)
-
-            opcao = self.abrir_tela_selecionar()
-            entidade = lista[opcao-1]
-
-            return entidade
-            
-        except ValueError as err:
-            self.tela.mostrar_mensagem(err)
+        opcao = self.abrir_tela_selecionar(lista)
+        entidade = lista[opcao-1]
+        return entidade
 
     def cadastrar(self):
         pass

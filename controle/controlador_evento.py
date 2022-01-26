@@ -26,7 +26,7 @@ class ControladorEvento(Controlador):
     def abrir_menu_visualizacao(self, entidade):
 
         opcoes = {1: self.alterar, 2: self.remover,
-                  3: self.abrir_menu_listar_participantes, 4: self.listar_organizadores}
+                  3: self.abrir_menu_listar_participantes, 4: self.gerenciar_organizadores}
         opcoes_validas = [0, 1, 2, 3, 4]
         menu = self.tela.mostrar_menu_visualizacao
 
@@ -315,13 +315,17 @@ class ControladorEvento(Controlador):
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
 
+    def gerenciar_organizadores(self, evento):
+
+        self.listar_organizadores(evento)
+        self.abrir_menu_organizadores(evento)
+
     def listar_organizadores(self, evento):
 
         try:
             self.controlador_sistema.controlador_organizador.listar(
                 evento.organizadores)
 
-            self.abrir_menu_organizadores(evento)
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
 
@@ -343,10 +347,9 @@ class ControladorEvento(Controlador):
             self.tela.mostrar_mensagem(
                 "Evento possui apenas um organizador. É necessário adicionar outro organizador antes de removê-lo.")
         else:
-            self.controlador_sistema.controlador_organizador.listar(
-                evento.organizadores)
+            self.listar_organizadores(evento.organizadores)
 
-            opcao = self.abrir_tela_selecionar()
-            evento.organizadores.pop(opcao-1)
+            organizador = self.selecionar(evento.organizadores)
+            evento.organizadores.remove(organizador)
 
             self.tela.mostrar_mensagem("Organizador removido!")

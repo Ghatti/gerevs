@@ -23,8 +23,8 @@ class TelaEvento(Tela):
         print("Escolha sua opção:")
         print("1 - Alterar")
         print("2 - Remover")
-        print("3 - Ver Participantes")
-        print("4 - Ver Organizadores")
+        print("3 - Gerenciar Participantes")
+        print("4 - Gerenciar Organizadores")
         print("0 - Voltar")
 
     def mostrar_menu_listar_participantes(self):
