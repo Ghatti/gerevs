@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from multiprocessing.sharedctypes import Value
 
 from entidade.evento import Evento
 from entidade.endereco import Endereco
@@ -247,32 +248,34 @@ class ControladorEvento(Controlador):
 
         # na lista de participantes, o usuário seleciona a opção registrar entrada
         #   Não havendo, exibe mensagem de que não há participantes confirmados.
+        try:
 
-        if(len(evento.participantes_confirmados) == 0):
-            self.tela.mostrar_mensagem(
-                "Não há participantes confirmados para o evento.")
-        else:
+            if(len(evento.participantes_confirmados) == 0):
+                raise ValueError(
+                    "Não há participantes confirmados para o evento.")
 
             # Sistema solicita a seleção de um participante para registrar a entrada
             participante = self.selecionar(
                 listar=True, lista=evento.participantes_confirmados)
 
-        # Sistema verifica se participante já tem registro de entrada.
-        # Positivo, informa o usuário de que a entrada já foi registrada e retorna
+            # Sistema verifica se participante já tem registro de entrada.
+            # Positivo, informa o usuário de que a entrada já foi registrada e retorna
             for registro in evento.registros_de_presenca:
                 if registro.participante == participante:
-                    self.tela.mostrar_mensagem(
+                    raise ValueError(
                         "Participante já possui registro de entrada.")
-                    return
 
-        # Sistema solicita o horário da entrada.
+            # Sistema solicita o horário da entrada.
 
-            entrada = self.tela.mostrar_tela_registrar_entrada(
+            entrada = self.tela.mostrar_tela_registrar_presenca(
                 evento.data, evento.horario)
 
-        # Sistema cria o registro de presença e insere no evento
+            # Sistema cria o registro de presença e insere no evento
             registro = RegistroDeṔresenca(participante, entrada)
             evento.adicionar_registro_de_presenca(registro)
+
+        except ValueError as err:
+            self.tela.mostrar_mensagem(err)
 
     def registrar_saida(self, evento):
 
@@ -283,24 +286,29 @@ class ControladorEvento(Controlador):
         # Sistema solicita o horário da saída
         # SIstema insere a saída no registro
 
-        if(len(evento.registros_de_presenca) == 0):
-            self.tela.mostrar_mensagem(
-                "Ainda não foi registrada a entrada de nenhum participante")
+        try:
 
-        else:
+            if(len(evento.registros_de_presenca) == 0):
+                raise ValueError(
+                    "Ainda não foi registrada a entrada de nenhum participante")
 
             self.listar_registros_de_presenca(evento)
             registro = self.selecionar(lista=evento.registros_de_presenca)
 
             if(registro.saida is not None):
-                self.tela.mostrar_mensagem(
+                raise ValueError(
                     "A saída deste participante já foi registrada")
-                return
 
-            saida = self.tela.mostrar_tela_registrar_entrada(
+            saida = self.tela.mostrar_tela_registrar_presenca(
                 evento.data, evento.horario)
 
+            if(saida.data < registro.entrada.data):
+                raise ValueError("A saída informada é anterior à entrada.")
+
             registro.saida = saida
+
+        except ValueError as err:
+            self.tela.mostrar_mensagem(err)
 
     def listar_organizadores(self, evento):
 

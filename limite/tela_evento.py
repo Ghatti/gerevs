@@ -102,16 +102,18 @@ class TelaEvento(Tela):
     def mostrar_detalhes_registro(self, registro):
         print("------ Visualizar registro ------")
         print("Participante", registro.participante.nome)
-        print("Entrada:", registro.entrada["data"], "-", registro.entrada["horario"])
+        print("Entrada:", registro.entrada["data"],
+              "-", registro.entrada["horario"])
         if(registro.saida):
-            print("Saída:", registro.saida["data"], "-", registro.saida["horario"])
+            print("Saída:", registro.saida["data"],
+                  "-", registro.saida["horario"])
 
-    def mostrar_tela_registrar_entrada(self, data_evento, horario_evento):
+    def mostrar_tela_registrar_presenca(self, data_evento, horario_evento, entrada=True):
 
-        print("------ Registrar entrada ------")
+        print("------ Registrar entrada ------" if entrada else "------ Registrar saída ------")
 
         while(True):
-            data = self.ler_data("Informe a data da entrada.")
+            data = self.ler_data("Informe a data:")
 
             if(data != data_evento):
                 confirmacao = self.confirmar(
@@ -122,7 +124,7 @@ class TelaEvento(Tela):
                 break
 
         while(True):
-            horario = self.ler_horario("Informe o horário de entrada.")
+            horario = self.ler_horario("Informe o horário:")
 
             if(horario < horario_evento):
                 confirmacao = self.confirmar(
