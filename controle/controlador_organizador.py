@@ -1,5 +1,4 @@
 from entidade.organizador import Organizador
-from entidade.endereco import Endereco
 from controle.controlador import Controlador
 from limite.tela_organizador import TelaOrganizador
 

@@ -1,8 +1,6 @@
 from datetime import datetime, timedelta
 from multiprocessing.sharedctypes import Value
-
 from entidade.evento import Evento
-from entidade.endereco import Endereco
 from controle.controlador import Controlador
 from entidade.registro_de_presenca import RegistroDeṔresenca
 from limite.tela_evento import TelaEvento
@@ -85,8 +83,7 @@ class ControladorEvento(Controlador):
                     "Não é possível cadastrar um evento porque ainda não há organizadores cadastrados")
 
             dados = self.tela.mostrar_tela_cadastro()
-            dados["organizador"] = self.controlador_sistema.controlador_organizador.selecionar(
-                listar=True)
+            dados["organizador"] = self.controlador_sistema.controlador_organizador.selecionar()
 
             # Cadastrar evento
             novo_evento = Evento(dados["titulo"], dados["data"], dados["horario"],
@@ -148,84 +145,83 @@ class ControladorEvento(Controlador):
             self.tela.mostrar_mensagem(err)
 
     def listar_participantes(self, evento, filtro=None):
+        try:
+            if (filtro is None):
+                participantes = evento.get_all_participantes()
+            elif (filtro == False):
+                participantes = evento.participantes_a_confirmar
+            else:
+                participantes = evento.participantes_confirmados
 
-        if (filtro is None):
-            participantes = evento.get_all_participantes()
-        elif (filtro == False):
-            participantes = evento.participantes_a_confirmar
-        else:
-            participantes = evento.participantes_confirmados
+            self.controlador_sistema.controlador_participante.listar(
+                participantes)
 
-        self.controlador_sistema.controlador_participante.listar(
-            participantes)
-
-        self.abrir_menu_participantes(evento)
+            self.abrir_menu_participantes(evento)
+        except ValueError as err:
+            self.tela.mostrar_mensagem(err)
 
     def adicionar_participante(self, evento):
+        try:
+            participantes_registrados = evento.get_all_participantes()
 
-        participantes_registrados = evento.get_all_participantes()
+            if(len(participantes_registrados) == evento.capacidade):
+                raise ValueError("O evento já está lotado.")
 
-        if(len(participantes_registrados) == evento.capacidade):
-            self.tela.mostrar_mensagem("Evento lotado!")
-        else:
-
-            participante = self.controlador_sistema.controlador_participante.selecionar(
-                listar=True)
+            participante = self.controlador_sistema.controlador_participante.selecionar()
 
             if(participante not in participantes_registrados):
                 evento.participantes_a_confirmar.append(participante)
                 self.tela.mostrar_mensagem("Participante incluído!")
             else:
-                # mudar para erro?
-                self.tela.mostrar_mensagem(
-                    "Participante já registrado no evento.")
+                raise ValueError("Participante já registrado no evento.")
+        except ValueError as err:
+            self.tela.mostrar_mensagem(err)
 
     def remover_participante(self, evento):
+        try:
+            participantes_registrados = evento.get_all_participantes()
 
-        participantes_registrados = evento.get_all_participantes()
+            participante = self.controlador_sistema.controlador_participante.selecionar(
+                participantes_registrados)
 
-        self.controlador_sistema.controlador_participante.listar(
-            participantes_registrados)
+            if(participante in evento.participantes_a_confirmar):
+                evento.participantes_a_confirmar.remove(participante)
+            else:
+                evento.participantes_confirmados.remove(participante)
 
-        opcao = self.abrir_tela_selecionar()
-        participante = participantes_registrados[opcao-1]
+            self.tela.mostrar_mensagem("Participante removido!")
 
-        if(participante in evento.participantes_a_confirmar):
-            evento.participantes_a_confirmar.remove(participante)
-        else:
-            evento.participantes_confirmados.remove(participante)
-
-        self.tela.mostrar_mensagem("Participante removido!")
+        except ValueError as err:
+            self.tela.mostrar_mensagem(err)
 
     def confirmar_participante(self, evento, modo=True):
+        try:
+            # exibe participantes não confirmados
+            # pede seleção de um participante
 
-        # exibe participantes não confirmados
+            participante = self.controlador_sistema.controlador_participante.selecionar(
+                evento.participantes_a_confirmar)
 
-        self.controlador_sistema.controlador_participante.listar(
-            evento.participantes_a_confirmar)
+            # verifica vacinação
 
-        # pede seleção de um participante
+            if(modo):
+                confirmacao = participante.cartao_de_vacina.is_complete()
+            else:
+                confirmacao = self.confirmar_com_exame(
+                    evento.data, participante.exame)
 
-        opcao = self.abrir_tela_selecionar()
-        participante = evento.participantes_a_confirmar[opcao-1]
+            if(confirmacao):
+                # remove participante da lista de a confirmar
+                evento.participantes_a_confirmar.remove(participante)
+            # inclui na lista de participantes confirmados
+                evento.participantes_confirmados.append(participante)
+                self.tela.mostrar_mensagem("Participante confirmado!")
+            else:
+                raise ValueError(
+                    "Participante não completou os requisitos para confirmação")
 
-        # verifica vacinação
-
-        if(modo):
-            confirmacao = participante.cartao_de_vacina.is_complete()
-        else:
-            confirmacao = self.confirmar_com_exame(
-                evento.data, participante.exame)
-
-        if(confirmacao):
-            # remove participante da lista de a confirmar
-            evento.participantes_a_confirmar.remove(participante)
-        # inclui na lista de participantes confirmados
-            evento.participantes_confirmados.append(participante)
-            self.tela.mostrar_mensagem("Participante confirmado!")
-        else:
-            self.tela.mostrar_mensagem(
-                "Participante não completou os requisitos para confirmação")
+        except ValueError as err:
+            self.tela.mostrar_mensagem(err)
 
     def confirmar_com_exame(self, data_evento, exame):
 
@@ -236,18 +232,22 @@ class ControladorEvento(Controlador):
         return False
 
     def listar_registros_de_presenca(self, evento):
+        try:
+            if(len(evento.registros_de_presenca) == 0):
+                raise ValueError(
+                    "Não há registros de presença cadastrados.")
 
-        if(len(evento.registros_de_presenca) == 0):
-            self.tela.mostrar_mensagem(
-                "Não há registros de presença cadastrados.")
-        else:
             for i, registro in enumerate(evento.registros_de_presenca):
                 self.tela.mostrar_registro(registro, i+1)
+        except ValueError as err:
+            self.tela.mostrar_mensagem(err)
 
     def ver_registro_de_presenca(self, evento):
-
-        registro = self.selecionar(lista=evento.registros_de_presenca)
-        self.tela.mostrar_detalhes_registro(registro)
+        try:
+            registro = self.selecionar(evento.registros_de_presenca)
+            self.tela.mostrar_detalhes_registro(registro)
+        except ValueError as err:
+            self.tela.mostrar_mensagem(err)
 
     def registrar_entrada(self, evento):
 
@@ -261,7 +261,7 @@ class ControladorEvento(Controlador):
 
             # Sistema solicita a seleção de um participante para registrar a entrada
             participante = self.controlador_sistema.controlador_participante.selecionar(
-                listar=True, lista=evento.participantes_confirmados)
+                evento.participantes_confirmados)
 
             # Sistema verifica se participante já tem registro de entrada.
             # Positivo, informa o usuário de que a entrada já foi registrada e retorna
@@ -298,7 +298,7 @@ class ControladorEvento(Controlador):
                     "Ainda não foi registrada a entrada de nenhum participante")
 
             self.listar_registros_de_presenca(evento)
-            registro = self.selecionar(lista=evento.registros_de_presenca)
+            registro = self.selecionar(evento.registros_de_presenca)
 
             if(registro.saida is not None):
                 raise ValueError(
@@ -330,26 +330,29 @@ class ControladorEvento(Controlador):
             self.tela.mostrar_mensagem(err)
 
     def adicionar_organizador(self, evento):
+        try:
+            organizador = self.controlador_sistema.controlador_organizador.selecionar()
 
-        organizador = self.controlador_sistema.controlador_organizador.selecionar(
-            listar=True)
+            if(organizador in evento.organizadores):
+                raise ValueError("Organizador já registrado no evento.")
 
-        if(organizador not in evento.organizadores):
             evento.organizadores.append(organizador)
             self.tela.mostrar_mensagem("Organizador incluído!")
-        else:
-            # mudar para erro?
-            self.tela.mostrar_mensagem("Organizador já registrado no evento.")
+        except ValueError as err:
+            self.tela.mostrar_mensagem(err)
 
     def remover_organizador(self, evento):
+        try:
 
-        if(len(evento.organizadores) == 1):
-            self.tela.mostrar_mensagem(
-                "Evento possui apenas um organizador. É necessário adicionar outro organizador antes de removê-lo.")
-        else:
-            self.listar_organizadores(evento.organizadores)
+            if(len(evento.organizadores) == 1):
+                raise ValueError(
+                    "Evento possui apenas um organizador. É necessário adicionar outro organizador antes de removê-lo.")
 
-            organizador = self.selecionar(evento.organizadores)
+            organizador = self.controlador_sistema.controlador_organizador.selecionar(
+                evento.organizadores)
+
             evento.organizadores.remove(organizador)
 
             self.tela.mostrar_mensagem("Organizador removido!")
+        except ValueError as err:
+            self.tela.mostrar_mensagem(err)

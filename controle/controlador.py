@@ -80,7 +80,10 @@ class Controlador(ABC):
     def mostrar(self, entidade):
         pass
 
-    def selecionar(self, lista):
+    def selecionar(self, lista=None):
+
+        if lista is None:
+            lista = self.entidades
 
         self.listar(lista)
 

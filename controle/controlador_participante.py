@@ -1,6 +1,4 @@
-from entidade import cartao_de_vacina
 from entidade.participante import Participante
-from entidade.endereco import Endereco
 from controle.controlador import Controlador
 from limite.tela_participante import TelaParticipante
 
