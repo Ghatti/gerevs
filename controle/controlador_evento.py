@@ -24,8 +24,8 @@ class ControladorEvento(Controlador):
     def abrir_menu_visualizacao(self, entidade):
 
         opcoes = {1: self.alterar, 2: self.remover,
-                  3: self.abrir_menu_listar_participantes, 4: self.gerenciar_organizadores}
-        opcoes_validas = [0, 1, 2, 3, 4]
+                  3: self.gerenciar_participantes, 4: self.gerenciar_organizadores, 5: self.gerenciar_registros_de_presenca}
+        opcoes_validas = [0, 1, 2, 3, 4, 5]
         menu = self.tela.mostrar_menu_visualizacao
 
         self.abrir_menu(menu, opcoes, opcoes_validas, entidade)
@@ -43,7 +43,7 @@ class ControladorEvento(Controlador):
     def abrir_menu_participantes(self, evento):
 
         opcoes = {1: self.adicionar_participante,
-                  2: self.remover_participante, 3: self.abrir_menu_confirmar_participante, 4: self.abrir_menu_registros}
+                  2: self.remover_participante, 3: self.abrir_menu_listar_participantes, 4: self.abrir_menu_confirmar_participante}
         opcoes_validas = [0, 1, 2, 3, 4]
         menu = self.tela.mostrar_menu_participantes
 
@@ -156,7 +156,6 @@ class ControladorEvento(Controlador):
             self.controlador_sistema.controlador_participante.listar(
                 participantes)
 
-            self.abrir_menu_participantes(evento)
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
 
@@ -319,6 +318,14 @@ class ControladorEvento(Controlador):
 
         self.listar_organizadores(evento)
         self.abrir_menu_organizadores(evento)
+
+    def gerenciar_participantes(self, evento):
+        self.listar_participantes(evento)
+        self.abrir_menu_participantes(evento)
+
+    def gerenciar_registros_de_presenca(self, evento):
+        self.listar_registros_de_presenca(evento)
+        self.abrir_menu_registros(evento)
 
     def listar_organizadores(self, evento):
 

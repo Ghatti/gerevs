@@ -25,6 +25,7 @@ class TelaEvento(Tela):
         print("2 - Remover")
         print("3 - Gerenciar Participantes")
         print("4 - Gerenciar Organizadores")
+        print("5 - Gerenciar Registros de Presença")
         print("0 - Voltar")
 
     def mostrar_menu_listar_participantes(self):
@@ -40,8 +41,8 @@ class TelaEvento(Tela):
         print("0 - Voltar")
         print("1 - Adicionar participante")
         print("2 - Remover participante")
-        print("3 - Confirmar participante")
-        print('4 - Gerenciar Registros')
+        print("3 - Listar Participantes")
+        print("4 - Confirmar participante")
 
     def mostrar_menu_organizadores(self):
         print("------ Menu de Organizadores ------")
