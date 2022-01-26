@@ -47,8 +47,7 @@ class Controlador(ABC):
     def abrir_tela_detalhes(self):
         pass
 
-
-    def abrir_tela_selecionar(self):        
+    def abrir_tela_selecionar(self):
         return self.tela.selecionar(range(1, len(self.entidades)+1))
 
     def tem_entidades(self):
@@ -80,15 +79,14 @@ class Controlador(ABC):
     def mostrar(self, entidade):
         pass
 
-    def selecionar(self, listar=False, lista = None):
-
-        if(listar):
-            self.ver_todos()
+    def selecionar(self, listar=False, lista=None):
 
         if lista is None:
             lista = self.entidades
+    
+        if(listar):
+            self.listar(lista)
 
-        
         opcao = self.abrir_tela_selecionar()
         entidade = lista[opcao-1]
 

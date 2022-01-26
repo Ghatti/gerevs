@@ -237,7 +237,7 @@ class ControladorEvento(Controlador):
                 "Não há registros de presença cadastrados.")
         else:
             for i, registro in enumerate(evento.registros_de_presenca):
-                self.tela.mostrar_registro(registro, i)
+                self.tela.mostrar_registro(registro, i+1)
 
     def ver_registro_de_presenca(self, evento):
 
@@ -255,7 +255,7 @@ class ControladorEvento(Controlador):
                     "Não há participantes confirmados para o evento.")
 
             # Sistema solicita a seleção de um participante para registrar a entrada
-            participante = self.selecionar(
+            participante = self.controlador_sistema.controlador_participante.selecionar(
                 listar=True, lista=evento.participantes_confirmados)
 
             # Sistema verifica se participante já tem registro de entrada.
@@ -302,7 +302,7 @@ class ControladorEvento(Controlador):
             saida = self.tela.mostrar_tela_registrar_presenca(
                 evento.data, evento.horario)
 
-            if(saida.data < registro.entrada.data):
+            if(saida["data"] < registro.entrada["data"] or (saida["data"] == registro.entrada["data"] and saida["horario"] < registro.entrada["horario"])):
                 raise ValueError("A saída informada é anterior à entrada.")
 
             registro.saida = saida
