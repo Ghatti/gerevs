@@ -16,8 +16,6 @@ class ControladorSistema:
         self.__controlador_participante = ControladorParticipante(self)
         self.__controlador_cartao_de_vacina = ControladorCartaoDeVacina(self)
         self.__controlador_exame = ControladorExame(self)
-        self.__controlador_registro_de_presenca = ControladorRegistroDePresenca(
-            self)
         self.__tela = TelaSistema(self)
 
     @property
@@ -44,9 +42,6 @@ class ControladorSistema:
     def tela(self):
         return self.__tela
 
-    @property
-    def controlador_registro_de_presenca(self):
-        return self.__controlador_registro_de_presenca
 
     def inicializar(self):
         self.abrir_menu_inicial()
@@ -54,7 +49,7 @@ class ControladorSistema:
     def abrir_menu_inicial(self):
 
         opcoes = {1: self.iniciar_modulo_eventos, 2: self.iniciar_modulo_organizadores,
-                  3: self.iniciar_modulo_participantes, 4: self.iniciar_modulo_registro_de_presenca, 0: self.encerrar_sistema}
+                  3: self.iniciar_modulo_participantes, 0: self.encerrar_sistema}
 
         while True:
             opcao_escolhida = self.tela.mostrar_menu_inicial()
@@ -69,9 +64,6 @@ class ControladorSistema:
 
     def iniciar_modulo_participantes(self):
         self.controlador_participante.inicializar()
-
-    def iniciar_modulo_registro_de_presenca(self):
-        print("Módulo de registro de presenca escolhido")
-
+        
     def encerrar_sistema(self):
         exit(0)

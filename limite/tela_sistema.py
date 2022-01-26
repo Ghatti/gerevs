@@ -13,7 +13,6 @@ class TelaSistema:
         print("1 - Iniciar módulo de Eventos")
         print("2 - Iniciar módulo de Organizadores")
         print("3 - Iniciar módulo de Participantes")
-        print("4 - Iniciar módulo de Registro de Presença")
         print("0 - Encerrar Sistema")
 
         opcoes = range(5)
