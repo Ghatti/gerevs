@@ -13,9 +13,9 @@ class ControladorEvento(Controlador):
 
     def abrir_menu_inicial(self):
 
-        opcoes = {1: self.cadastrar, 2: self.ver_todos,
-                  3: self.ver_detalhes, 4: self.ver_futuros, 5: self.ver_realizados}
-        opcoes_validas = [0, 1, 2, 3, 4, 5]
+        opcoes = {1: self.cadastrar, 2: self.abrir_menu_listar,
+                  3: self.ver_detalhes}
+        opcoes_validas = [0, 1, 2, 3]
         menu = self.tela.mostrar_menu_inicial
 
         self.ver_todos()
@@ -29,6 +29,15 @@ class ControladorEvento(Controlador):
         menu = self.tela.mostrar_menu_visualizacao
 
         self.abrir_menu(menu, opcoes, opcoes_validas, entidade)
+
+    def abrir_menu_listar(self):
+        opcoes = {1: self.ver_todos, 2: self.ver_futuros,
+                  3: self.ver_realizados, 4: self.ver_ranking}
+        opcoes_validas = [0, 1, 2, 3, 4]
+
+        menu = self.tela.mostrar_menu_listar
+
+        self.abrir_menu(menu, opcoes, opcoes_validas)
 
     def abrir_menu_listar_participantes(self, evento):
 
@@ -114,6 +123,13 @@ class ControladorEvento(Controlador):
         confirmacao = self.tela.confirmar()
         if(confirmacao):
             self.entidades.remove(evento)
+
+    def ver_ranking(self):
+
+        try:
+            self.tela.mostrar_mensagem("Ver ranking")
+        except ValueError as err:
+            self.tela.mostrar_mensagem(err)
 
     def ver_futuros(self):
 
