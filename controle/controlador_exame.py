@@ -23,5 +23,12 @@ class ControladorExame(Controlador):
         return exame
 
     def mostrar(self, exame, registrar_exame):
-        self.tela.mostrar_detalhes(exame)
-        self.abrir_menu_visualizacao(registrar_exame)
+        try:
+            if(exame):
+                self.tela.mostrar_detalhes(exame)
+            else:
+                raise ValueError("Nao há exame cadastrado!")
+        except ValueError as err:
+            self.tela.mostrar_mensagem(err)
+        finally:
+            self.abrir_menu_visualizacao(registrar_exame)
