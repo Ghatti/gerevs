@@ -8,16 +8,14 @@ class ControladorParticipante(ControladorPessoa):
     def __init__(self, controlador_sistema):
         super().__init__(controlador_sistema, TelaParticipante(self))
 
-
-
     def abrir_menu_visualizacao(self, participante):
 
         opcoes = {1: self.alterar, 2: self.remover,
                   3: self.mostrar_vacinas, 4: self.mostrar_exame}
-        opcoes_validas = [0, 1, 2, 3, 4]
+
         menu = self.tela.mostrar_menu_visualizacao
 
-        self.abrir_menu(menu, opcoes, opcoes_validas, participante)
+        self.abrir_menu(menu, opcoes,  participante)
 
     def mostrar_vacinas(self, participante):
 
@@ -63,6 +61,3 @@ class ControladorParticipante(ControladorPessoa):
             self.entidades.append(novo_participante)
             self.tela.mostrar_mensagem("Participante cadastrado com sucesso")
             self.ver_todos()
-
-
-

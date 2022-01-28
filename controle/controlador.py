@@ -30,10 +30,10 @@ class Controlador(ABC):
     def abrir_menu_visualizacao(self, entidade):
 
         opcoes = {1: self.alterar, 2: self.remover}
-        opcoes_validas = [0, 1, 2]
+        
         menu = self.tela.mostrar_menu_visualizacao
 
-        self.abrir_menu(menu, opcoes, opcoes_validas, entidade)
+        self.abrir_menu(menu, opcoes, entidade)
 
     def abrir_tela_confirmacao(self):
         pass
@@ -104,11 +104,11 @@ class Controlador(ABC):
     def remover(self, entidade):
         pass
 
-    def abrir_menu(self, menu=None, opcoes={}, opcoes_validas=[], entidade=None):
+    def abrir_menu(self, menu=None, opcoes={}, entidade=None):
 
         while(True):
             menu()
-            opcao_escolhida = self.tela.selecionar(opcoes_validas)
+            opcao_escolhida = self.tela.selecionar(range(0, len(opcoes)+1))
 
             if(opcao_escolhida == 0):
                 break

@@ -10,11 +10,11 @@ class ControladorPessoa(Controlador, ABC):
     def abrir_menu_inicial(self):
 
         opcoes = {1: self.cadastrar, 2: self.ver_todos, 3: self.ver_detalhes}
-        opcoes_validas = [0, 1, 2, 3]
+
         menu = self.tela.mostrar_menu_inicial
 
         self.ver_todos()
-        self.abrir_menu(menu, opcoes, opcoes_validas)
+        self.abrir_menu(menu, opcoes)
 
     @abstractmethod
     def cadastrar(self):

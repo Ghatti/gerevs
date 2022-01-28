@@ -10,10 +10,10 @@ class ControladorCartaoDeVacina(Controlador):
 
     def abrir_menu_visualizacao(self, cartao):
         opcoes = {1: self.registrar_dose}
-        opcoes_validas = [0, 1]
+        
         menu = self.tela.mostrar_menu_visualizacao
 
-        self.abrir_menu(menu, opcoes, opcoes_validas, cartao)
+        self.abrir_menu(menu, opcoes, cartao)
 
     def cadastrar(self):
 
