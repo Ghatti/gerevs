@@ -69,8 +69,8 @@ class ControladorEvento(Controlador):
 
     def abrir_menu_organizadores(self, evento):
 
-        opcoes = {1: self.adicionar_organizador, 2: self.remover_organizador}
-        opcoes_validas = [0, 1, 2]
+        opcoes = {1: self.adicionar_organizador, 2: self.remover_organizador, 3: self.listar_organizadores}
+        opcoes_validas = [0, 1, 2, 3]
         menu = self.tela.mostrar_menu_organizadores
 
         self.abrir_menu(menu, opcoes, opcoes_validas, evento)
@@ -189,7 +189,7 @@ class ControladorEvento(Controlador):
             participante = self.controlador_sistema.controlador_participante.selecionar()
 
             if(participante not in participantes_registrados):
-                evento.participantes_a_confirmar.append(participante)
+                evento.adicionar_participante(participante)
                 self.tela.mostrar_mensagem("Participante incluído!")
             else:
                 raise ValueError("Participante já registrado no evento.")
@@ -203,10 +203,7 @@ class ControladorEvento(Controlador):
             participante = self.controlador_sistema.controlador_participante.selecionar(
                 participantes_registrados)
 
-            if(participante in evento.participantes_a_confirmar):
-                evento.participantes_a_confirmar.remove(participante)
-            else:
-                evento.participantes_confirmados.remove(participante)
+            evento.remover_participante(participante)
 
             self.tela.mostrar_mensagem("Participante removido!")
 
@@ -231,9 +228,8 @@ class ControladorEvento(Controlador):
 
             if(confirmacao):
                 # remove participante da lista de a confirmar
-                evento.participantes_a_confirmar.remove(participante)
-            # inclui na lista de participantes confirmados
-                evento.participantes_confirmados.append(participante)
+                # inclui na lista de participantes confirmados
+                evento.confirmar_participante(participante)
                 self.tela.mostrar_mensagem("Participante confirmado!")
             else:
                 raise ValueError(
@@ -368,7 +364,7 @@ class ControladorEvento(Controlador):
             if(organizador in evento.organizadores):
                 raise ValueError("Organizador já registrado no evento.")
 
-            evento.organizadores.append(organizador)
+            evento.adicionar_organizador(organizador)
             self.tela.mostrar_mensagem("Organizador incluído!")
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
@@ -383,7 +379,7 @@ class ControladorEvento(Controlador):
             organizador = self.controlador_sistema.controlador_organizador.selecionar(
                 evento.organizadores)
 
-            evento.organizadores.remove(organizador)
+            evento.remover_organizador(organizador)
 
             self.tela.mostrar_mensagem("Organizador removido!")
         except ValueError as err:

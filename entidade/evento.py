@@ -83,16 +83,18 @@ class Evento:
         self.registros_de_presenca.append(registro)
 
     def adicionar_organizador(self, organizador: Organizador):
-        pass
+        self.organizadores.append(organizador)
 
     def remover_organizador(self, organizador: Organizador):
-        pass
+        self.organizadores.remove(organizador)
 
     def adicionar_participante(self, participante: Participante):
-        pass
+        self.participantes_a_confirmar.append(participante)
 
     def remover_participante(self, participante: Participante):
-        pass
+        self.participantes_a_confirmar.remove(
+            participante) if participante in self.participantes_a_confirmar else self.participantes_confirmados.remove(participante)
 
     def confirmar_participante(self, participante: Participante):
-        pass
+        self.participantes_a_confirmar.remove(participante)
+        self.participantes_confirmados.append(participante)
