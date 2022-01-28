@@ -80,12 +80,13 @@ class Controlador(ABC):
     def mostrar(self, entidade):
         pass
 
-    def selecionar(self, lista=None):
+    def selecionar(self, lista=None, listar=True):
 
         if lista is None:
             lista = self.entidades
 
-        self.listar(lista)
+        if(listar):
+            self.listar(lista)
 
         opcao = self.abrir_tela_selecionar(lista)
         entidade = lista[opcao-1]

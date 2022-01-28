@@ -263,13 +263,15 @@ class ControladorEvento(Controlador):
 
     def ver_registro_de_presenca(self, evento):
         try:
-            registro = self.selecionar(evento.registros_de_presenca)
+            registro = self.selecionar(
+                evento.registros_de_presenca, listar=False)
             self.tela.mostrar_detalhes_registro(registro)
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
 
     def registrar_entrada(self, evento):
 
+        delta_limit = timedelta(days=1)
         # na lista de participantes, o usuário seleciona a opção registrar entrada
         #   Não havendo, exibe mensagem de que não há participantes confirmados.
         try:
@@ -292,7 +294,7 @@ class ControladorEvento(Controlador):
             # Sistema solicita o horário da entrada.
 
             entrada = self.tela.mostrar_tela_registrar_presenca(
-                evento.data, evento.horario)
+                evento.data, evento.horario, delta_limit)
 
             # Sistema cria o registro de presença e insere no evento
             registro = RegistroDeṔresenca(participante, entrada)
@@ -310,6 +312,8 @@ class ControladorEvento(Controlador):
         # Sistema solicita o horário da saída
         # SIstema insere a saída no registro
 
+        delta_limit = timedelta(days=1)
+
         try:
 
             if(len(evento.registros_de_presenca) == 0):
@@ -317,14 +321,15 @@ class ControladorEvento(Controlador):
                     "Ainda não foi registrada a entrada de nenhum participante")
 
             self.listar_registros_de_presenca(evento)
-            registro = self.selecionar(evento.registros_de_presenca)
+            registro = self.selecionar(
+                evento.registros_de_presenca, listar=False)
 
             if(registro.saida is not None):
                 raise ValueError(
                     "A saída deste participante já foi registrada")
 
             saida = self.tela.mostrar_tela_registrar_presenca(
-                evento.data, evento.horario)
+                evento.data, evento.horario, delta_limit, entrada=False)
 
             if(saida["data"] < registro.entrada["data"] or (saida["data"] == registro.entrada["data"] and saida["horario"] < registro.entrada["horario"])):
                 raise ValueError("A saída informada é anterior à entrada.")

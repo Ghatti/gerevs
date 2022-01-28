@@ -34,7 +34,6 @@ class TelaEvento(Tela):
         print("4 - Ordenar Por Participantes")
         print("0 - Voltar")
 
-
     def mostrar_menu_listar_participantes(self):
         print("Escolha sua opção:")
         print("1 - Ver todos os participantes")
@@ -116,25 +115,22 @@ class TelaEvento(Tela):
             print("Saída:", registro.saida["data"],
                   "-", registro.saida["horario"])
 
-    def mostrar_tela_registrar_presenca(self, data_evento, horario_evento, entrada=True):
+    def mostrar_tela_registrar_presenca(self, data_evento, horario_evento, limite, entrada=True):
 
         print("------ Registrar entrada ------" if entrada else "------ Registrar saída ------")
 
-        while(True):
-            data = self.ler_data("Informe a data:")
+        limite_inferior = data_evento - limite
+        limite_superior = data_evento + limite
 
-            if(data != data_evento):
-                confirmacao = self.confirmar(
-                    "A data informada não coincide com a data do evento. Deseja prosseguir mesmo assim? (s/n)")
-                if(confirmacao):
-                    break
-            else:
-                break
+        data = self.ler_data("Informe a data:")
+        if(data < limite_inferior or data > limite_superior):
+            raise ValueError(
+                "A data informada deve ser, no máximo, um dia após ou antes do evento.")
 
         while(True):
             horario = self.ler_horario("Informe o horário:")
 
-            if(horario < horario_evento):
+            if(data == data_evento and horario < horario_evento):
                 confirmacao = self.confirmar(
                     "O horário informado é anterior ao do evento. Deseja prosseguir mesmo assim? (s/n)")
                 if(confirmacao):
