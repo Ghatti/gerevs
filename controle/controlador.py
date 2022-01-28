@@ -30,7 +30,7 @@ class Controlador(ABC):
     def abrir_menu_visualizacao(self, entidade):
 
         opcoes = {1: self.alterar, 2: self.remover}
-        
+
         menu = self.tela.mostrar_menu_visualizacao
 
         self.abrir_menu(menu, opcoes, entidade)
@@ -102,7 +102,10 @@ class Controlador(ABC):
         pass
 
     def remover(self, entidade):
-        pass
+
+        confirmacao = self.tela.confirmar()
+        if(confirmacao):
+            self.entidades.remove(entidade)
 
     def abrir_menu(self, menu=None, opcoes={}, entidade=None):
 

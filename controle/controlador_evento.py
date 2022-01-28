@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from multiprocessing.sharedctypes import Value
+from controle import controlador_sistema
 from entidade.evento import Evento
 from controle.controlador import Controlador
 from entidade.registro_de_presenca import RegistroDeṔresenca
@@ -81,14 +82,22 @@ class ControladorEvento(Controlador):
 
         self.abrir_menu(menu, opcoes, evento)
 
-
     def cadastrar(self):
 
         try:
 
             if(not self.controlador_sistema.controlador_organizador.tem_entidades()):
-                raise ValueError(
-                    "Não é possível cadastrar um evento porque ainda não há organizadores cadastrados")
+
+                cadastrar_org = self.tela.ler_string(
+                    "Não é possível cadastrar um evento porque ainda não há organizadores cadastrados. Deseja cadastrar um organizador primeiro? (s/n)", self.tela.validar_string(opcoes=["s", "n"]))
+
+                if(cadastrar_org == "s"):
+                    self.controlador_sistema.controlador_organizador.cadastrar()
+                    self.tela.mostrar_mensagem(
+                        "Agora, vamos continuar o cadastro do evento.")
+                else:
+                    raise ValueError(
+                        "Como não há organizadores registrados, não será possível cadastrar um evento.")
 
             dados = self.tela.mostrar_tela_cadastro()
             dados["organizador"] = self.controlador_sistema.controlador_organizador.selecionar()
@@ -116,12 +125,6 @@ class ControladorEvento(Controlador):
         evento.capacidade = dados["capacidade"]
 
         self.tela.mostrar_detalhes(evento)
-
-    def remover(self, evento):
-
-        confirmacao = self.tela.confirmar()
-        if(confirmacao):
-            self.entidades.remove(evento)
 
     def ver_ranking(self):
 
