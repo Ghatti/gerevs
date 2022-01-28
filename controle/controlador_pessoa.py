@@ -20,6 +20,18 @@ class ControladorPessoa(Controlador, ABC):
     def cadastrar(self):
         pass
 
+    def abrir_tela_cadastro(self):
+
+        dados = self.tela.mostrar_tela_cadastro()
+
+        for pessoa in self.entidades:
+            if(pessoa.cpf == dados["cpf"]):
+                raise ValueError(
+                    "Já existe um cadastro com esse CPF.")
+
+        return dados
+
+
     def alterar(self, pessoa):
 
         dados = self.tela.mostrar_tela_cadastro(alterar=True)

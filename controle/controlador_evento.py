@@ -24,7 +24,7 @@ class ControladorEvento(Controlador):
 
         opcoes = {1: self.alterar, 2: self.remover,
                   3: self.gerenciar_participantes, 4: self.gerenciar_organizadores, 5: self.gerenciar_registros_de_presenca}
-        
+
         menu = self.tela.mostrar_menu_visualizacao
 
         self.abrir_menu(menu, opcoes,  entidade)
@@ -32,7 +32,6 @@ class ControladorEvento(Controlador):
     def abrir_menu_listar(self):
         opcoes = {1: self.ver_todos, 2: self.ver_futuros,
                   3: self.ver_realizados, 4: self.ver_ranking}
-        
 
         menu = self.tela.mostrar_menu_listar
 
@@ -42,7 +41,6 @@ class ControladorEvento(Controlador):
 
         opcoes = {1: lambda: self.listar_participantes(evento), 2: lambda: self.listar_participantes(
             evento, False), 3: lambda: self.listar_participantes(evento, True)}
-        
 
         menu = self.tela.mostrar_menu_listar_participantes
 
@@ -52,7 +50,7 @@ class ControladorEvento(Controlador):
 
         opcoes = {1: self.adicionar_participante,
                   2: self.remover_participante, 3: self.abrir_menu_listar_participantes, 4: self.abrir_menu_confirmar_participante}
-        
+
         menu = self.tela.mostrar_menu_participantes
 
         self.abrir_menu(menu, opcoes, evento)
@@ -61,15 +59,16 @@ class ControladorEvento(Controlador):
 
         opcoes = {1: self.listar_registros_de_presenca, 2: self.ver_registro_de_presenca,
                   3: self.registrar_entrada, 4: self.registrar_saida}
-        
+
         menu = self.tela.mostrar_menu_registros
 
         self.abrir_menu(menu, opcoes, evento)
 
     def abrir_menu_organizadores(self, evento):
 
-        opcoes = {1: self.adicionar_organizador, 2: self.remover_organizador, 3: self.listar_organizadores}
-        
+        opcoes = {1: self.adicionar_organizador,
+                  2: self.remover_organizador, 3: self.listar_organizadores}
+
         menu = self.tela.mostrar_menu_organizadores
 
         self.abrir_menu(menu, opcoes, evento)
@@ -77,10 +76,11 @@ class ControladorEvento(Controlador):
     def abrir_menu_confirmar_participante(self, evento):
         opcoes = {1: lambda evento: self.confirmar_participante(
             evento, True), 2: lambda evento: self.confirmar_participante(evento, False)}
-        
+
         menu = self.tela.mostrar_menu_confirmar_participantes
 
         self.abrir_menu(menu, opcoes, evento)
+
 
     def cadastrar(self):
 

@@ -40,15 +40,11 @@ class ControladorParticipante(ControladorPessoa):
 
     def cadastrar(self):
 
-        dados = self.tela.mostrar_tela_cadastro()
-        cartao_de_vacina = self.controlador_sistema.controlador_cartao_de_vacina.cadastrar()
-
         try:
-            # Procurar se há participante com o cpf
-            for participante in self.entidades:
-                if(participante.cpf == dados["cpf"]):
-                    raise ValueError(
-                        "Já existe um participante cadastrado com esse CPF.")
+
+            dados = self.abrir_tela_cadastro()
+            cartao_de_vacina = self.controlador_sistema.controlador_cartao_de_vacina.cadastrar()
+
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
         else:
