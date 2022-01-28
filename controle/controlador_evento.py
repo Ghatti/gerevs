@@ -127,7 +127,11 @@ class ControladorEvento(Controlador):
     def ver_ranking(self):
 
         try:
-            self.tela.mostrar_mensagem("Ver ranking")
+
+            sorted_eventos = sorted(self.entidades, key=lambda evento: len(
+                evento.get_all_participantes()), reverse=True)
+            self.listar(sorted_eventos)
+
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
 
