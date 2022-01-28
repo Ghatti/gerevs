@@ -68,7 +68,6 @@ class TelaEvento(Tela):
     def mostrar_menu_confirmar_participantes(self):
         print("------ Menu de Confirmação ------")
         print("Escolha sua opção:")
-        print("0 - Voltar")
         print("1 - Confirmar com vacina")
         print("2 - Confirmar com exame")
 

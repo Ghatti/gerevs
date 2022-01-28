@@ -59,7 +59,7 @@ class ControladorEvento(Controlador):
     def abrir_menu_participantes(self, evento):
 
         opcoes = {1: self.adicionar_participante,
-                  2: self.remover_participante, 3: self.abrir_menu_listar_participantes, 4: self.abrir_menu_confirmar_participante}
+                  2: self.remover_participante, 3: self.abrir_menu_listar_participantes, 4: self.confirmar_participante}
 
         menu = self.tela.mostrar_menu_participantes
 
@@ -82,12 +82,6 @@ class ControladorEvento(Controlador):
         menu = self.tela.mostrar_menu_organizadores
 
         self.abrir_menu(menu, opcoes, evento)
-
-    def abrir_menu_confirmar_participante(self, evento):
-        opcoes = {1: lambda evento: self.confirmar_participante(
-            evento, True), 2: lambda evento: self.confirmar_participante(evento, False)}
-
-        menu = self.tela.mostrar_menu_confirmar_participantes
 
         self.abrir_menu(menu, opcoes, evento)
 
@@ -234,7 +228,7 @@ class ControladorEvento(Controlador):
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
 
-    def confirmar_participante(self, evento, modo=True):
+    def confirmar_participante(self, evento):
         try:
             # exibe participantes não confirmados
             # pede seleção de um participante
@@ -242,6 +236,9 @@ class ControladorEvento(Controlador):
             participante = self.controlador_sistema.controlador_participante.selecionar(
                 evento.participantes_a_confirmar)
 
+            self.tela.mostrar_menu_confirmar_participantes()
+            modo = self.tela.ler_inteiro(
+                validators=self.tela.validar_inteiro(opcoes=[1, 2])) == 1
             # verifica vacinação
 
             if(modo):
