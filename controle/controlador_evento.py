@@ -30,6 +30,15 @@ class ControladorEvento(Controlador):
 
         self.abrir_menu(menu, opcoes,  entidade)
 
+    def abrir_menu_visualizacao_registro(self, registro):
+
+        opcoes = {1: self.alterar_registro_de_presenca,
+                  2: self.remover_registro_de_presenca}
+
+        menu = self.tela.mostrar_menu_visualizacao_registro
+
+        self.abrir_menu(menu, opcoes, registro)
+
     def abrir_menu_listar(self):
         opcoes = {1: self.ver_todos, 2: self.ver_futuros,
                   3: self.ver_realizados, 4: self.ver_ranking}
@@ -81,6 +90,19 @@ class ControladorEvento(Controlador):
         menu = self.tela.mostrar_menu_confirmar_participantes
 
         self.abrir_menu(menu, opcoes, evento)
+
+    def gerenciar_organizadores(self, evento):
+
+        self.listar_organizadores(evento)
+        self.abrir_menu_organizadores(evento)
+
+    def gerenciar_participantes(self, evento):
+        self.listar_participantes(evento)
+        self.abrir_menu_participantes(evento)
+
+    def gerenciar_registros_de_presenca(self, evento):
+        self.listar_registros_de_presenca(evento)
+        self.abrir_menu_registros(evento)
 
     def cadastrar(self):
 
@@ -248,6 +270,43 @@ class ControladorEvento(Controlador):
 
         return False
 
+    def listar_organizadores(self, evento):
+
+        try:
+            self.controlador_sistema.controlador_organizador.listar(
+                evento.organizadores)
+
+        except ValueError as err:
+            self.tela.mostrar_mensagem(err)
+
+    def adicionar_organizador(self, evento):
+        try:
+            organizador = self.controlador_sistema.controlador_organizador.selecionar()
+
+            if(organizador in evento.organizadores):
+                raise ValueError("Organizador já registrado no evento.")
+
+            evento.adicionar_organizador(organizador)
+            self.tela.mostrar_mensagem("Organizador incluído!")
+        except ValueError as err:
+            self.tela.mostrar_mensagem(err)
+
+    def remover_organizador(self, evento):
+        try:
+
+            if(len(evento.organizadores) == 1):
+                raise ValueError(
+                    "Evento possui apenas um organizador. É necessário adicionar outro organizador antes de removê-lo.")
+
+            organizador = self.controlador_sistema.controlador_organizador.selecionar(
+                evento.organizadores)
+
+            evento.remover_organizador(organizador)
+
+            self.tela.mostrar_mensagem("Organizador removido!")
+        except ValueError as err:
+            self.tela.mostrar_mensagem(err)
+
     def listar_registros_de_presenca(self, evento):
         try:
             if(len(evento.registros_de_presenca) == 0):
@@ -264,6 +323,7 @@ class ControladorEvento(Controlador):
             registro = self.selecionar(
                 evento.registros_de_presenca, listar=False)
             self.tela.mostrar_detalhes_registro(registro)
+            self.abrir_menu_visualizacao_registro(registro)
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
 
@@ -337,52 +397,11 @@ class ControladorEvento(Controlador):
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
 
-    def gerenciar_organizadores(self, evento):
+    def alterar_registro_de_presenca(self, registro):
+        print("Alterar registro")
 
-        self.listar_organizadores(evento)
-        self.abrir_menu_organizadores(evento)
-
-    def gerenciar_participantes(self, evento):
-        self.listar_participantes(evento)
-        self.abrir_menu_participantes(evento)
-
-    def gerenciar_registros_de_presenca(self, evento):
-        self.listar_registros_de_presenca(evento)
-        self.abrir_menu_registros(evento)
-
-    def listar_organizadores(self, evento):
-
-        try:
-            self.controlador_sistema.controlador_organizador.listar(
-                evento.organizadores)
-
-        except ValueError as err:
-            self.tela.mostrar_mensagem(err)
-
-    def adicionar_organizador(self, evento):
-        try:
-            organizador = self.controlador_sistema.controlador_organizador.selecionar()
-
-            if(organizador in evento.organizadores):
-                raise ValueError("Organizador já registrado no evento.")
-
-            evento.adicionar_organizador(organizador)
-            self.tela.mostrar_mensagem("Organizador incluído!")
-        except ValueError as err:
-            self.tela.mostrar_mensagem(err)
-
-    def remover_organizador(self, evento):
-        try:
-
-            if(len(evento.organizadores) == 1):
-                raise ValueError(
-                    "Evento possui apenas um organizador. É necessário adicionar outro organizador antes de removê-lo.")
-
-            organizador = self.controlador_sistema.controlador_organizador.selecionar(
-                evento.organizadores)
-
-            evento.remover_organizador(organizador)
-
-            self.tela.mostrar_mensagem("Organizador removido!")
-        except ValueError as err:
-            self.tela.mostrar_mensagem(err)
+# do not work
+    def remover_registro_de_presenca(self, registro):
+        confirmacao = self.tela.confirmar()
+        if(confirmacao):
+            self.entidades.registros_de_presenca.remove(registro)

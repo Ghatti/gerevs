@@ -26,6 +26,13 @@ class TelaEvento(Tela):
         print("5 - Gerenciar Registros de Presença")
         print("0 - Voltar")
 
+    def mostrar_menu_visualizacao_registro(self):
+        print("------ Visualização de Registro ------")
+        print("Escolha sua opção:")
+        print("1 - Alterar")
+        print("2 - Remover")
+        print("0 - Voltar")
+
     def mostrar_menu_listar(self):
         print("Escolha sua opção:")
         print("1 - Ver todos")
