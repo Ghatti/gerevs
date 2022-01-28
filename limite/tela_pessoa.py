@@ -19,8 +19,7 @@ class TelaPessoa(Tela, ABC):
         print("0 - Voltar")
 
     def mostrar(self, pessoa, i):
-        print(i, pessoa.nome)        
-
+        print(i, pessoa.nome)
 
     def mostrar_detalhes(self, pessoa):
         print("------ Visualização de Detalhes ------")
@@ -35,10 +34,10 @@ class TelaPessoa(Tela, ABC):
 
         pessoa = {}
         pessoa["nome"] = self.ler_string(
-            "Informe o nome: ", self.validar_string(min=4, max=31))
+            "Informe o nome: ", self.validar_string(min=4, max=31, no_digit=True))
         pessoa["cpf"] = self.ler_string(
             "Informe o cpf: ", self.validar_string(formato=r"^\d{3}\.\d{3}\.\d{3}\-\d{2}$"))
         pessoa["nascimento"] = self.ler_data("Data de nascimento: ",
-                                                  self.validar_data(max=datetime.today(), delta=timedelta(days=150*365)))
+                                             self.validar_data(max=datetime.today(), delta=timedelta(days=150*365)))
         pessoa["endereco"] = self.mostrar_tela_endereco()
         return pessoa

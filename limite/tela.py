@@ -145,7 +145,7 @@ class Tela(ABC):
             except ValueError as err:
                 print(err)
 
-    def validar_string(self, min=None, max=None, equal=None, formato=None, opcoes=None):
+    def validar_string(self, min=None, max=None, equal=None, formato=None, no_digit=None, opcoes=None):
 
         validators = []
 
@@ -185,6 +185,14 @@ class Tela(ABC):
                         "O valor informado não é uma opção válida."
                     )
             validators.append(validar_opcoes)
+
+        if(no_digit is not None):
+            def validar_no_digit(valor):
+                if re.search('\d', valor):
+                    raise ValueError(
+                        "O valor informado não deve conter números."
+                    )
+            validators.append(validar_no_digit)
 
         return validators
 
