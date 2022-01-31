@@ -30,14 +30,14 @@ class ControladorEvento(Controlador):
 
         self.abrir_menu(menu, opcoes,  entidade)
 
-    def abrir_menu_visualizacao_registro(self, registro):
+    def abrir_menu_visualizacao_registro(self, evento, registro):
 
-        opcoes = {1: self.alterar_registro_de_presenca,
-                  2: self.remover_registro_de_presenca}
+        opcoes = {1: lambda: self.alterar_registro_de_presenca(evento, registro),
+                  2: lambda: self.remover_registro_de_presenca(evento, registro)}
 
         menu = self.tela.mostrar_menu_visualizacao_registro
 
-        self.abrir_menu(menu, opcoes, registro)
+        self.abrir_menu(menu, opcoes)
 
     def abrir_menu_listar(self):
         opcoes = {1: self.ver_todos, 2: self.ver_futuros,
@@ -320,7 +320,7 @@ class ControladorEvento(Controlador):
             registro = self.selecionar(
                 evento.registros_de_presenca, listar=False)
             self.tela.mostrar_detalhes_registro(registro)
-            self.abrir_menu_visualizacao_registro(registro)
+            self.abrir_menu_visualizacao_registro(evento, registro)
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
 
@@ -394,11 +394,20 @@ class ControladorEvento(Controlador):
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
 
-    def alterar_registro_de_presenca(self, registro):
-        print("Alterar registro")
+    def alterar_registro_de_presenca(self, evento, registro):
 
-# do not work
-    def remover_registro_de_presenca(self, registro):
+        delta_limit = timedelta(days=1)
+
+        entrada = self.tela.mostrar_tela_registrar_presenca(
+            evento.data, evento.horario, delta_limit)
+
+        saida = self.tela.mostrar_tela_registrar_presenca(
+            evento.data, evento.horario, delta_limit)
+
+        registro.entrada = entrada
+        registro.saida = saida
+
+    def remover_registro_de_presenca(self, evento, registro):
         confirmacao = self.tela.confirmar()
         if(confirmacao):
-            self.entidades.registros_de_presenca.remove(registro)
+            evento.registros_de_presenca.remove(registro)
