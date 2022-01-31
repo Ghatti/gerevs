@@ -398,14 +398,29 @@ class ControladorEvento(Controlador):
 
         delta_limit = timedelta(days=1)
 
-        entrada = self.tela.mostrar_tela_registrar_presenca(
-            evento.data, evento.horario, delta_limit)
+        # deseja alterar a entrada?
 
-        saida = self.tela.mostrar_tela_registrar_presenca(
-            evento.data, evento.horario, delta_limit)
+        alterar_entrada = self.tela.ler_string(
+            "Deseja alterar o registro de entrada? (s/n)", self.tela.validar_string(opcoes=["s", "n"])) == "s"
 
-        registro.entrada = entrada
-        registro.saida = saida
+        if(alterar_entrada):
+            entrada = self.tela.mostrar_tela_registrar_presenca(
+                evento.data, evento.horario, delta_limit)
+            registro.entrada = entrada
+
+        if(registro.saida is not None):
+            if(registro.entrada["data"] > registro.saida["data"]):
+                saida = self.tela.mostrar_tela_registrar_presenca(
+                    evento.data, evento.horario, delta_limit, entrada=False)
+                registro.saida = saida                                    
+            else:
+                alterar_saida = self.tela.ler_string(
+                    "Deseja alterar o registro de saída? (s/n)", self.tela.validar_string(opcoes=["s", "n"])) == "s"
+                if(alterar_saida):
+                    saida = self.tela.mostrar_tela_registrar_presenca(
+                        evento.data, evento.horario, delta_limit, entrada=False)
+                
+                    registro.saida = saida
 
     def remover_registro_de_presenca(self, evento, registro):
         confirmacao = self.tela.confirmar()
