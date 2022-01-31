@@ -386,9 +386,6 @@ class ControladorEvento(Controlador):
             saida = self.tela.mostrar_tela_registrar_presenca(
                 evento.data, evento.horario, delta_limit, entrada=False)
 
-            if(saida["data"] < registro.entrada["data"] or (saida["data"] == registro.entrada["data"] and saida["horario"] < registro.entrada["horario"])):
-                raise ValueError("A saída informada é anterior à entrada.")
-
             registro.saida = saida
 
         except ValueError as err:
@@ -397,8 +394,6 @@ class ControladorEvento(Controlador):
     def alterar_registro_de_presenca(self, evento, registro):
 
         delta_limit = timedelta(days=1)
-
-        # deseja alterar a entrada?
 
         alterar_entrada = self.tela.ler_string(
             "Deseja alterar o registro de entrada? (s/n)", self.tela.validar_string(opcoes=["s", "n"])) == "s"
@@ -409,18 +404,13 @@ class ControladorEvento(Controlador):
             registro.entrada = entrada
 
         if(registro.saida is not None):
-            if(registro.entrada["data"] > registro.saida["data"]):
+            alterar_saida = self.tela.ler_string(
+                "Deseja alterar o registro de saída? (s/n)", self.tela.validar_string(opcoes=["s", "n"])) == "s"
+            if(alterar_saida):
                 saida = self.tela.mostrar_tela_registrar_presenca(
                     evento.data, evento.horario, delta_limit, entrada=False)
-                registro.saida = saida                                    
-            else:
-                alterar_saida = self.tela.ler_string(
-                    "Deseja alterar o registro de saída? (s/n)", self.tela.validar_string(opcoes=["s", "n"])) == "s"
-                if(alterar_saida):
-                    saida = self.tela.mostrar_tela_registrar_presenca(
-                        evento.data, evento.horario, delta_limit, entrada=False)
-                
-                    registro.saida = saida
+
+                registro.saida = saida
 
     def remover_registro_de_presenca(self, evento, registro):
         confirmacao = self.tela.confirmar()

@@ -116,11 +116,11 @@ class TelaEvento(Tela):
     def mostrar_detalhes_registro(self, registro):
         print("------ Visualizar registro ------")
         print("Participante", registro.participante.nome)
-        print("Entrada:", registro.entrada["data"],
-              "-", registro.entrada["horario"])
+        print("Entrada:", registro.entrada.data.strftime("%d/%m/%Y"),
+              "-", registro.entrada.horario.strftime("%H:%M"))
         if(registro.saida):
-            print("Saída:", registro.saida["data"],
-                  "-", registro.saida["horario"])
+            print("Saída:", registro.saida.data.strftime("%d/%m/%Y"),
+                  "-", registro.saida.horario.strftime("%H:%M"))
 
     def mostrar_tela_registrar_presenca(self, data_evento, horario_evento, limite, entrada=True):
 
