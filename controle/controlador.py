@@ -25,7 +25,13 @@ class Controlador(ABC):
         self.abrir_menu_inicial()
 
     def abrir_menu_inicial(self):
-        pass
+
+        opcoes = {1: self.cadastrar, 2: self.ver_todos, 3: self.ver_detalhes}
+
+        menu = self.tela.mostrar_menu_inicial
+
+        self.ver_todos()
+        self.abrir_menu(menu, opcoes)
 
     def abrir_menu_visualizacao(self, entidade):
 
@@ -35,17 +41,11 @@ class Controlador(ABC):
 
         self.abrir_menu(menu, opcoes, entidade)
 
-    def abrir_tela_confirmacao(self):
-        pass
-
-    def abrir_tela_mostrar(self):
-        pass
-
     def abrir_tela_cadastro(self):
-        pass
 
-    def abrir_tela_detalhes(self):
-        pass
+        dados = self.tela.mostrar_tela_cadastro()
+
+        return dados
 
     def abrir_tela_selecionar(self, lista):
         return self.tela.selecionar(range(1, len(lista)+1))
@@ -92,12 +92,11 @@ class Controlador(ABC):
         entidade = lista[opcao-1]
         return entidade
 
+    # @abstract
     def cadastrar(self):
         pass
 
-    def obter(self, id):
-        pass
-
+    # @abstract
     def alterar(self, entidade):
         pass
 

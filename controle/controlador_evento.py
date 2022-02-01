@@ -12,14 +12,6 @@ class ControladorEvento(Controlador):
     def __init__(self, controlador_sistema):
         super().__init__(controlador_sistema, TelaEvento(self))
 
-    def abrir_menu_inicial(self):
-
-        opcoes = {1: self.cadastrar, 2: self.abrir_menu_listar,
-                  3: self.ver_detalhes}
-        menu = self.tela.mostrar_menu_inicial
-
-        self.ver_todos()
-        self.abrir_menu(menu, opcoes)
 
     def abrir_menu_visualizacao(self, entidade):
 

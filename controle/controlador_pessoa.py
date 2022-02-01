@@ -21,11 +21,7 @@ class ControladorPessoa(Controlador):
     def controlador_participante(self):
         return self.__controlador_participante
 
-    def abrir_tela_cadastro(self):
 
-        dados = self.tela.mostrar_tela_cadastro()
-
-        return dados
 
     def cadastrar(self, incluir):
 

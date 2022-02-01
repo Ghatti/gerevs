@@ -11,15 +11,6 @@ class ControladorIntegrante(Controlador):
     def controlador_pessoa(self):
         return self.__controlador_pessoa
 
-    def abrir_menu_inicial(self):
-
-        opcoes = {1: self.cadastrar, 2: self.ver_todos, 3: self.ver_detalhes}
-
-        menu = self.tela.mostrar_menu_inicial
-
-        self.ver_todos()
-        self.abrir_menu(menu, opcoes)
-
     def cadastrar(self):
 
         self.controlador_pessoa.cadastrar(self.incluir)
