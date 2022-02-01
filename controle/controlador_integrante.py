@@ -23,7 +23,7 @@ class ControladorIntegrante(Controlador, ABC):
 
     def cadastrar(self):
 
-        self.controlador_pessoa.cadastrar()
+        self.controlador_pessoa.cadastrar(self.incluir)
 
     def incluir(self, pessoa):
         self.entidades.append(pessoa)

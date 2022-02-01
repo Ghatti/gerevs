@@ -21,13 +21,17 @@ class ControladorSistema:
     def controlador_evento(self):
         return self.__controlador_evento
 
-    @property
-    def controlador_organizador(self):
-        return self.__controlador_organizador
+    # @property
+    # def controlador_organizador(self):
+    #    return self.__controlador_organizador
+#
+    # @property
+    # def controlador_participante(self):
+    #    return self.__controlador_participante
 
     @property
-    def controlador_participante(self):
-        return self.__controlador_participante
+    def controlador_pessoa(self):
+        return self.__controlador_pessoa
 
     @property
     def controlador_cartao_de_vacina(self):
@@ -58,10 +62,10 @@ class ControladorSistema:
         self.controlador_evento.inicializar()
 
     def iniciar_modulo_organizadores(self):
-        self.controlador_organizador.inicializar()
+        self.controlador_pessoa.controlador_organizador.inicializar()
 
     def iniciar_modulo_participantes(self):
-        self.controlador_participante.inicializar()
+        self.controlador_pessoa.controlador_participante.inicializar()
 
     def encerrar_sistema(self):
         exit(0)

@@ -1,13 +1,14 @@
+from pyclbr import Function
 from controle.controlador import Controlador
 from controle.controlador_organizador import ControladorOrganizador
 from controle.controlador_participante import ControladorParticipante
 from entidade.pessoa2 import Pessoa
-from limite.tela import Tela
+from limite.tela_pessoa2 import TelaPessoa
 
 
 class ControladorPessoa(Controlador):
     def __init__(self, controlador_sistema):
-        super().__init__(controlador_sistema, Tela(self))
+        super().__init__(controlador_sistema, TelaPessoa(self))
         self.__controlador_organizador = ControladorOrganizador(
             controlador_sistema, self)
         self.__controlador_participante = ControladorParticipante(
@@ -32,7 +33,7 @@ class ControladorPessoa(Controlador):
 
         return dados
 
-    def cadastrar(self):
+    def cadastrar(self, incluir):
         try:
 
             dados = self.abrir_tela_cadastro()
@@ -46,4 +47,5 @@ class ControladorPessoa(Controlador):
                 dados["cpf"], dados["nome"], dados["nascimento"], dados["endereco"])
 
             # incluir pessoa
-            self.controlador_organizador.incluir(nova_pessoa)
+            self.entidades.append(nova_pessoa)
+            incluir(nova_pessoa)
