@@ -1,9 +1,7 @@
-from abc import ABC, abstractmethod
-from multiprocessing.sharedctypes import Value
 from controle.controlador import Controlador
 
 
-class ControladorIntegrante(Controlador, ABC):
+class ControladorIntegrante(Controlador):
 
     def __init__(self, controlador_sistema, controlador_pessoa, tela):
         super().__init__(controlador_sistema, tela)

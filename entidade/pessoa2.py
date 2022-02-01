@@ -1,4 +1,4 @@
-from entidade import cartao_de_vacina
+from entidade.cartao_de_vacina import CartaoDeVacina
 from entidade.endereco import Endereco
 
 
@@ -11,9 +11,8 @@ class Pessoa():
         self.__nascimento = nascimento
         self.__endereco = Endereco(endereco["cep"], endereco["rua"], endereco["numero"],
                                    endereco["bairro"], endereco["cidade"], endereco["estado"])
-        self.__cartao_de_vacina = cartao_de_vacina
+        self.__cartao_de_vacina = CartaoDeVacina()
         self.__exame = None
-
 
     @property
     def cpf(self):
@@ -38,7 +37,6 @@ class Pessoa():
     @property
     def exame(self):
         return self.__exame
-
 
     @cpf.setter
     def cpf(self, cpf: str):

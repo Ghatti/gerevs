@@ -1,4 +1,3 @@
-from entidade.participante import Participante
 from controle.controlador_integrante import ControladorIntegrante
 from limite.tela_participante import TelaParticipante
 
@@ -38,22 +37,12 @@ class ControladorParticipante(ControladorIntegrante):
             if(registrar):
                 self.registrar_exame(participante)
 
-    # def cadastrar(self):
-#
-    #   try:
-#
-    #       dados = self.abrir_tela_cadastro()
-    #       cartao_de_vacina = self.controlador_sistema.controlador_cartao_de_vacina.cadastrar()
-#
-    #   except ValueError as err:
-    #       self.tela.mostrar_mensagem(err)
-    #   else:
-#
-    #       # criar participante
-    #       novo_participante = Participante(
-    #           dados["cpf"], dados["nome"], dados["nascimento"], dados["endereco"], cartao_de_vacina)
-#
-    #       # incluir participante
-    #       self.entidades.append(novo_participante)
-    #       self.tela.mostrar_mensagem("Participante cadastrado com sucesso")
-    #       self.ver_todos()
+    def incluir(self, pessoa):
+        if(pessoa in self.entidades):
+            raise ValueError("A pessoa indicada já está cadastrada!")
+
+        cartao_de_vacina = self.controlador_sistema.controlador_cartao_de_vacina.cadastrar()
+
+        self.entidades.append(pessoa)
+        self.tela.mostrar_mensagem("Cadastro realizado com sucesso")
+        self.ver_todos()

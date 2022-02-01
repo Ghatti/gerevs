@@ -1,7 +1,7 @@
 class CartaoDeVacina:
 
-    def __init__(self, doses):
-        self.__doses = doses
+    def __init__(self):
+        self.__doses = [False, False]
 
     @property
     def doses(self):
