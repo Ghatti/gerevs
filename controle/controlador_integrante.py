@@ -2,10 +2,15 @@ from abc import ABC, abstractmethod
 from controle.controlador import Controlador
 
 
-class ControladorPessoa(Controlador, ABC):
+class ControladorIntegrante(Controlador, ABC):
 
-    def __init__(self, controlador_sistema, tela):
+    def __init__(self, controlador_sistema, controlador_pessoa, tela):
         super().__init__(controlador_sistema, tela)
+        self.__controlador_pessoa = controlador_pessoa
+
+    @property
+    def controlador_pessoa(self):
+        return self.__controlador_pessoa
 
     def abrir_menu_inicial(self):
 
@@ -16,21 +21,14 @@ class ControladorPessoa(Controlador, ABC):
         self.ver_todos()
         self.abrir_menu(menu, opcoes)
 
-    @abstractmethod
     def cadastrar(self):
-        pass
 
-    def abrir_tela_cadastro(self):
+        self.controlador_pessoa.cadastrar()
 
-        dados = self.tela.mostrar_tela_cadastro()
-
-        for pessoa in self.entidades:
-            if(pessoa.cpf == dados["cpf"]):
-                raise ValueError(
-                    "Já existe um cadastro com esse CPF.")
-
-        return dados
-
+    def incluir(self, pessoa):
+        self.entidades.append(pessoa)
+        self.tela.mostrar_mensagem("Cadastro realizado com sucesso")
+        self.ver_todos()
 
     def alterar(self, pessoa):
 
@@ -42,11 +40,3 @@ class ControladorPessoa(Controlador, ABC):
         pessoa.endereco = dados["endereco"]
 
         self.tela.mostrar_detalhes(pessoa)
-
-    def remover(self, pessoa):
-        # first version
-        # Later, add verification for events that have the organizador listed
-
-        confirmacao = self.tela.confirmar()
-        if(confirmacao):
-            self.entidades.remove(pessoa)

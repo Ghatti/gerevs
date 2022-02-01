@@ -1,12 +1,12 @@
 from entidade.participante import Participante
-from controle.controlador_pessoa import ControladorPessoa
+from controle.controlador_integrante import ControladorIntegrante
 from limite.tela_participante import TelaParticipante
 
 
-class ControladorParticipante(ControladorPessoa):
+class ControladorParticipante(ControladorIntegrante):
 
-    def __init__(self, controlador_sistema):
-        super().__init__(controlador_sistema, TelaParticipante(self))
+    def __init__(self, controlador_sistema, controlador_pessoa):
+        super().__init__(controlador_sistema, controlador_pessoa, TelaParticipante(self))
 
     def abrir_menu_visualizacao(self, participante):
 
@@ -38,22 +38,22 @@ class ControladorParticipante(ControladorPessoa):
             if(registrar):
                 self.registrar_exame(participante)
 
-    def cadastrar(self):
-
-        try:
-
-            dados = self.abrir_tela_cadastro()
-            cartao_de_vacina = self.controlador_sistema.controlador_cartao_de_vacina.cadastrar()
-
-        except ValueError as err:
-            self.tela.mostrar_mensagem(err)
-        else:
-
-            # criar participante
-            novo_participante = Participante(
-                dados["cpf"], dados["nome"], dados["nascimento"], dados["endereco"], cartao_de_vacina)
-
-            # incluir participante
-            self.entidades.append(novo_participante)
-            self.tela.mostrar_mensagem("Participante cadastrado com sucesso")
-            self.ver_todos()
+    # def cadastrar(self):
+#
+    #   try:
+#
+    #       dados = self.abrir_tela_cadastro()
+    #       cartao_de_vacina = self.controlador_sistema.controlador_cartao_de_vacina.cadastrar()
+#
+    #   except ValueError as err:
+    #       self.tela.mostrar_mensagem(err)
+    #   else:
+#
+    #       # criar participante
+    #       novo_participante = Participante(
+    #           dados["cpf"], dados["nome"], dados["nascimento"], dados["endereco"], cartao_de_vacina)
+#
+    #       # incluir participante
+    #       self.entidades.append(novo_participante)
+    #       self.tela.mostrar_mensagem("Participante cadastrado com sucesso")
+    #       self.ver_todos()
