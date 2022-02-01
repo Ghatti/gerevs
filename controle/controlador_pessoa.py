@@ -3,7 +3,7 @@ from controle.controlador import Controlador
 from controle.controlador_organizador import ControladorOrganizador
 from controle.controlador_participante import ControladorParticipante
 from entidade.pessoa2 import Pessoa
-from limite.tela_pessoa2 import TelaPessoa
+from limite.tela_pessoa import TelaPessoa
 
 
 class ControladorPessoa(Controlador):

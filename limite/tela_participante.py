@@ -1,11 +1,11 @@
-from limite.tela_pessoa import TelaPessoa
+from limite.tela_integrante import TelaIntegrante
 
-class TelaParticipante(TelaPessoa):
+
+class TelaParticipante(TelaIntegrante):
 
     def __init__(self, controlador):
 
         super().__init__(controlador)
-
 
     def mostrar_menu_visualizacao(self):
         print("------ Menu de Detalhes ------")
@@ -15,7 +15,6 @@ class TelaParticipante(TelaPessoa):
         print("3 - Ver Cartão de Vacinas")
         print("4 - Ver Exame")
         print("0 - Voltar")
-
 
     def mostrar_tela_erro_exame(self):
 
