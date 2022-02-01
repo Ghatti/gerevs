@@ -317,6 +317,7 @@ class ControladorEvento(Controlador):
 
     def ver_registro_de_presenca(self, evento):
         try:
+            self.listar_registros_de_presenca(evento)
             registro = self.selecionar(
                 evento.registros_de_presenca, listar=False)
             self.tela.mostrar_detalhes_registro(registro)
