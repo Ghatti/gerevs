@@ -1,4 +1,4 @@
-from controle.controlador_pessoa2 import ControladorPessoa
+from controle.controlador_pessoa import ControladorPessoa
 from controle.controlador_evento import ControladorEvento
 from controle.controlador_cartao_de_vacina import ControladorCartaoDeVacina
 from controle.controlador_exame import ControladorExame
