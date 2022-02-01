@@ -26,15 +26,31 @@ class ControladorPessoa(Controlador):
 
         dados = self.tela.mostrar_tela_cadastro()
 
-        for pessoa in self.entidades:
-            if(pessoa.cpf == dados["cpf"]):
-                raise ValueError(
-                    "Já existe um cadastro com esse CPF.")
-
         return dados
 
     def cadastrar(self, incluir):
+
+        # abre a tela de cadastro
+        # obtem cpf
+        # Se cpf já cadastrado, retorna a pessoa cadastrada. Verificar se está na lista. Senão, inclui.
+        # Se cpf não cadastrado, segue o jogo.
+
         try:
+
+            cpf = self.tela.ler_cpf()
+
+            for pessoa in self.entidades:
+                if(pessoa.cpf == cpf):
+
+                    prosseguir = self.tela.mostrar_tela_cadastro_repetido(
+                        pessoa)
+
+                    if(prosseguir):
+                        incluir(pessoa)
+                        return
+                    else:
+                        raise ValueError(
+                            "Não é possível cadastrar duas pessoas com o mesmo CPF.")
 
             dados = self.abrir_tela_cadastro()
 
@@ -44,7 +60,7 @@ class ControladorPessoa(Controlador):
 
             # criar pessoa
             nova_pessoa = Pessoa(
-                dados["cpf"], dados["nome"], dados["nascimento"], dados["endereco"])
+                cpf, dados["nome"], dados["nascimento"], dados["endereco"])
 
             # incluir pessoa
             self.entidades.append(nova_pessoa)

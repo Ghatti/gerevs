@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from multiprocessing.sharedctypes import Value
 from controle.controlador import Controlador
 
 
@@ -26,6 +27,9 @@ class ControladorIntegrante(Controlador, ABC):
         self.controlador_pessoa.cadastrar(self.incluir)
 
     def incluir(self, pessoa):
+        if(pessoa in self.entidades):
+            raise ValueError("A pessoa indicada já está cadastrada!")
+
         self.entidades.append(pessoa)
         self.tela.mostrar_mensagem("Cadastro realizado com sucesso")
         self.ver_todos()
