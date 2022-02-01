@@ -9,14 +9,6 @@ class TelaIntegrante(Tela, ABC):
 
         super().__init__(controlador)
 
-    def mostrar_menu_inicial(self):
-        print("------ Menu Inicial ------")
-        print("Escolha sua opção:")
-        print("1 - Cadastrar")
-        print("2 - Listar")
-        print("3 - Ver Detalhes")
-        print("0 - Voltar")
-
     def mostrar(self, pessoa, i):
         print(i, pessoa.nome)
 

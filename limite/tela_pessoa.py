@@ -1,8 +1,8 @@
-from limite.tela import Tela
+from limite.tela_integrante import TelaIntegrante
 from datetime import datetime, timedelta
 
 
-class TelaPessoa(Tela):
+class TelaPessoa(TelaIntegrante):
 
     def __init__(self, controlador):
 
@@ -30,14 +30,3 @@ class TelaPessoa(Tela):
         self.mostrar_detalhes(pessoa)
         return self.ler_string(
             "Deseja prosseguir com essa pessoa? (s/n)", self.validar_string(opcoes=("s", "n"))) == "s"
-
-    def mostrar(self, pessoa, i):
-        print(i, pessoa.nome)
-
-    def mostrar_detalhes(self, pessoa):
-        print("------ Visualização de Detalhes ------")
-        print("Nome: {}".format(pessoa.nome))
-        print("Cpf: {}".format(pessoa.cpf))
-        print("Nascimento: {}".format(
-            pessoa.nascimento.strftime("%d/%m/%Y")))
-

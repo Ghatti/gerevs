@@ -14,14 +14,22 @@ class Tela(ABC):
         return self.__controlador
 
     def mostrar_menu_inicial(self):
-        pass
+        print("------ Menu Inicial ------")
+        print("Escolha sua opção:")
+        print("1 - Cadastrar")
+        print("2 - Listar")
+        print("3 - Ver Detalhes")
+        print("0 - Voltar")
 
+    # @abstractmethod
     def mostrar_tela_cadastro(self):
         pass
 
+    # @abstractmethod
     def mostrar(self, entidade, i):
         pass
 
+    # @abstractmethod
     def mostrar_detalhes(self, entidade):
         pass
 
