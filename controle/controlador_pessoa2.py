@@ -65,3 +65,13 @@ class ControladorPessoa(Controlador):
             # incluir pessoa
             self.entidades.append(nova_pessoa)
             incluir(nova_pessoa)
+
+    def alterar(self, pessoa):
+
+        dados = self.tela.mostrar_tela_cadastro(alterar=True)
+
+        pessoa.nome = dados["nome"]
+        pessoa.nascimento = dados["nascimento"]
+        pessoa.endereco = dados["endereco"]
+
+        self.tela.mostrar_detalhes(pessoa)

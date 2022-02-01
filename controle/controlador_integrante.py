@@ -36,11 +36,4 @@ class ControladorIntegrante(Controlador, ABC):
 
     def alterar(self, pessoa):
 
-        dados = self.tela.mostrar_tela_cadastro(alterar=True)
-
-        pessoa.nome = dados["nome"]
-        pessoa.cpf = dados["cpf"]
-        pessoa.nascimento = dados["nascimento"]
-        pessoa.endereco = dados["endereco"]
-
-        self.tela.mostrar_detalhes(pessoa)
+        self.controlador_pessoa.alterar(pessoa)

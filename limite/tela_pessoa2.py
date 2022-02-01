@@ -40,3 +40,4 @@ class TelaPessoa(Tela):
         print("Cpf: {}".format(pessoa.cpf))
         print("Nascimento: {}".format(
             pessoa.nascimento.strftime("%d/%m/%Y")))
+
