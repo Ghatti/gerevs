@@ -36,13 +36,3 @@ class ControladorParticipante(ControladorIntegrante):
             registrar = self.tela.mostrar_tela_erro_exame()
             if(registrar):
                 self.registrar_exame(participante)
-
-    def incluir(self, pessoa):
-        if(pessoa in self.entidades):
-            raise ValueError("A pessoa indicada já está cadastrada!")
-
-        cartao_de_vacina = self.controlador_sistema.controlador_cartao_de_vacina.cadastrar()
-
-        self.entidades.append(pessoa)
-        self.tela.mostrar_mensagem("Cadastro realizado com sucesso")
-        self.ver_todos()
