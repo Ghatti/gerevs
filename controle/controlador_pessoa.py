@@ -1,8 +1,7 @@
-from pyclbr import Function
 from controle.controlador import Controlador
 from controle.controlador_organizador import ControladorOrganizador
 from controle.controlador_participante import ControladorParticipante
-from entidade.pessoa2 import Pessoa
+from entidade.pessoa import Pessoa
 from limite.tela_pessoa import TelaPessoa
 
 

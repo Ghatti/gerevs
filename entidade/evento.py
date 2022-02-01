@@ -1,11 +1,11 @@
-from entidade.organizador import Organizador
-from entidade.participante import Participante
+from entidade.pessoa import Pessoa
+
 from entidade.endereco import Endereco
 
 
 class Evento:
 
-    def __init__(self, titulo: str, data: str, horario: str, endereco, capacidade: int, organizador: Organizador):
+    def __init__(self, titulo: str, data: str, horario: str, endereco, capacidade: int, organizador: Pessoa):
 
         self.__titulo = titulo
         self.__data = data
@@ -82,19 +82,19 @@ class Evento:
 
         self.registros_de_presenca.append(registro)
 
-    def adicionar_organizador(self, organizador: Organizador):
+    def adicionar_organizador(self, organizador: Pessoa):
         self.organizadores.append(organizador)
 
-    def remover_organizador(self, organizador: Organizador):
+    def remover_organizador(self, organizador: Pessoa):
         self.organizadores.remove(organizador)
 
-    def adicionar_participante(self, participante: Participante):
+    def adicionar_participante(self, participante: Pessoa):
         self.participantes_a_confirmar.append(participante)
 
-    def remover_participante(self, participante: Participante):
+    def remover_participante(self, participante: Pessoa):
         self.participantes_a_confirmar.remove(
             participante) if participante in self.participantes_a_confirmar else self.participantes_confirmados.remove(participante)
 
-    def confirmar_participante(self, participante: Participante):
+    def confirmar_participante(self, participante: Pessoa):
         self.participantes_a_confirmar.remove(participante)
         self.participantes_confirmados.append(participante)

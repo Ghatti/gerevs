@@ -1,4 +1,4 @@
-from entidade.participante import Participante
+from entidade.pessoa import Pessoa
 
 
 from entidade.linha_de_registro import LinhaDeRegistro
@@ -6,7 +6,7 @@ from entidade.linha_de_registro import LinhaDeRegistro
 
 class RegistroDeṔresenca:
 
-    def __init__(self, participante: Participante, entrada):
+    def __init__(self, participante: Pessoa, entrada):
         self.__participante = participante
         self.__entrada = LinhaDeRegistro(entrada["data"], entrada["horario"])
         self.__saida = None
