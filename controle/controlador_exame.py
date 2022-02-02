@@ -19,7 +19,6 @@ class ControladorExame(Controlador):
 
         dados = self.tela.mostrar_tela_cadastro()
         exame = Exame(dados["data"], dados["resultado"])
-        self.tela.mostrar_detalhes(exame)
         return exame
 
     def mostrar_exames(self, exame, i):
@@ -28,11 +27,7 @@ class ControladorExame(Controlador):
     def mostrar(self, exames, registrar_exame):
         try:
 
-            if len(exames) == 0:
-                raise ValueError("Nao há exame cadastrado!")
-
-            for i, exame in enumerate(exames):
-                self.tela.mostrar(exame, i)
+            self.listar(exames)
 
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
