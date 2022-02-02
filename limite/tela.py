@@ -76,12 +76,12 @@ class Tela(ABC):
             "Informe o número: ", self.validar_inteiro(min=0))
 
         endereco["bairro"] = self.ler_string(
-            "Bairro: ")
+            "Bairro: ", validators=self.validar_string(no_digit=True))
 
         endereco["cidade"] = self.ler_string(
-            "Cidade: ")
+            "Cidade: ", validators=self.validar_string(no_digit=True))
         endereco["estado"] = self.ler_string(
-            "Estado: ")
+            "Estado: ", validators=self.validar_string(no_digit=True))
 
         return endereco
 
