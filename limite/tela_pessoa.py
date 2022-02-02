@@ -10,7 +10,7 @@ class TelaPessoa(TelaIntegrante):
 
     def ler_cpf(self):
         return self.ler_string(
-            "Informe o cpf: ", self.validar_string(formato=r"^\d{3}\.\d{3}\.\d{3}\-\d{2}$"))
+            "Informe o cpf (Utilize o formato 000.000.000-00):", self.validar_string(formato=r"^\d{3}\.\d{3}\.\d{3}\-\d{2}$"))
 
     def mostrar_tela_cadastro(self, alterar=False):
         print("------ Cadastrar ------") if not alterar else print(
@@ -19,7 +19,7 @@ class TelaPessoa(TelaIntegrante):
         pessoa = {}
         pessoa["nome"] = self.ler_string(
             "Informe o nome: ", self.validar_string(min=4, max=31, no_digit=True))
-        pessoa["nascimento"] = self.ler_data("Data de nascimento: ",
+        pessoa["nascimento"] = self.ler_data("Data de nascimento (use o formato dd/mm/aaaa): ",
                                              self.validar_data(max=datetime.today(), delta=timedelta(days=150*365)))
         pessoa["endereco"] = self.mostrar_tela_endereco()
         return pessoa
@@ -29,4 +29,4 @@ class TelaPessoa(TelaIntegrante):
             "Já existe uma pessoa cadastrada com esse CPF")
         self.mostrar_detalhes(pessoa)
         return self.ler_string(
-            "Deseja prosseguir com essa pessoa? (s/n)", self.validar_string(opcoes=("s", "n"))) == "s"
+            "Deseja prosseguir com essa pessoa? (s/n) ", self.validar_string(opcoes=("s", "n"))).lower() == "s"

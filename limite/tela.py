@@ -68,7 +68,7 @@ class Tela(ABC):
         endereco = {}
 
         endereco["cep"] = self.ler_string(
-            "CEP: ", self.validar_string(formato=r"^\d{2}\.\d{3}\-\d{3}$"))
+            "CEP: (use o formato 00.000-000) ", self.validar_string(formato=r"^\d{2}\.\d{3}\-\d{3}$"))
         endereco["rua"] = self.ler_string(
             "Rua: ")
 
