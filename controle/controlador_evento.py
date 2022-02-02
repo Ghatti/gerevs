@@ -95,7 +95,10 @@ class ControladorEvento(Controlador):
         self.abrir_menu_participantes(evento)
 
     def gerenciar_registros_de_presenca(self, evento):
-        self.listar_registros_de_presenca(evento)
+        try:
+            self.listar_registros_de_presenca(evento)
+        except ValueError as err:
+            self.tela.mostrar_mensagem(err)
         self.abrir_menu_registros(evento)
 
     def cadastrar(self):
@@ -309,15 +312,13 @@ class ControladorEvento(Controlador):
             self.tela.mostrar_mensagem(err)
 
     def listar_registros_de_presenca(self, evento):
-        try:
-            if(len(evento.registros_de_presenca) == 0):
-                raise ValueError(
-                    "Não há registros de presença cadastrados.")
 
-            for i, registro in enumerate(evento.registros_de_presenca):
-                self.tela.mostrar_registro(registro, i+1)
-        except ValueError as err:
-            self.tela.mostrar_mensagem(err)
+        if(len(evento.registros_de_presenca) == 0):
+            raise ValueError(
+                "Não há registros de presença cadastrados.")
+
+        for i, registro in enumerate(evento.registros_de_presenca):
+            self.tela.mostrar_registro(registro, i+1)
 
     def ver_registro_de_presenca(self, evento):
         try:
