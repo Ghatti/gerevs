@@ -89,6 +89,7 @@ class TelaEvento(Tela):
         print("Nome: {}".format(evento.titulo))
         print("Data: {}".format(evento.data.strftime("%d/%m/%Y")))
         print("Horário: {}".format(evento.horario.strftime("%H:%M")))
+        self.mostrar_endereco(evento.local)
 
     def mostrar_tela_cadastro(self, alterar=False):
         print("------ Cadastrar Evento ------") if not alterar else print(

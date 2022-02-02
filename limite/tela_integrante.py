@@ -18,3 +18,4 @@ class TelaIntegrante(Tela, ABC):
         print("Cpf: {}".format(pessoa.cpf))
         print("Nascimento: {}".format(
             pessoa.nascimento.strftime("%d/%m/%Y")))
+        self.mostrar_endereco(pessoa.endereco)

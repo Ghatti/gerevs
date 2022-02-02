@@ -33,6 +33,16 @@ class Tela(ABC):
     def mostrar_detalhes(self, entidade):
         pass
 
+    def mostrar_endereco(self, endereco):
+
+        print("------ Endereço ------")
+        print("CEP: ", endereco.cep)
+        print("Rua: ", endereco.rua)
+        print("Número: ", endereco.numero)
+        print("Bairro: ", endereco.bairro)
+        print("Cidade: ", endereco.cidade)
+        print("Estado: ", endereco.estado)
+
     def mostrar_menu_visualizacao(self):
         print("------ Menu de Detalhes ------")
         print("Escolha sua opção:")
