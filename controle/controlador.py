@@ -105,15 +105,19 @@ class Controlador(ABC):
         confirmacao = self.tela.confirmar()
         if(confirmacao):
             self.entidades.remove(entidade)
+            raise StopIteration
 
     def abrir_menu(self, menu=None, opcoes={}, entidade=None):
 
-        while(True):
-            menu()
-            opcao_escolhida = self.tela.selecionar(range(0, len(opcoes)+1))
+        try:
+            while(True):
+                menu()
+                opcao_escolhida = self.tela.selecionar(range(0, len(opcoes)+1))
 
-            if(opcao_escolhida == 0):
-                break
+                if(opcao_escolhida == 0):
+                    break
 
-            funcao_escolhida = opcoes[opcao_escolhida]
-            funcao_escolhida(entidade) if entidade else funcao_escolhida()
+                funcao_escolhida = opcoes[opcao_escolhida]
+                funcao_escolhida(entidade) if entidade else funcao_escolhida()
+        except StopIteration:
+            return
