@@ -25,8 +25,13 @@ class TelaExame(Tela):
         print("1 - Registrar exame")
         print("0 - Voltar")
 
-    def mostrar_detalhes(self, exame):
-        print("------ Visualização de Exame ------")
-        print("Data: {}".format(exame.data.strftime("%d/%m/%Y")))
-        print("Resultado: {}".format(
-            "Positivo" if exame.resultado else "Negativo"))
+    def mostrar(self, exame, i):
+
+        print(i, "-", exame.data.strftime("%d/%m/%Y"), "-",
+              "Positivo" if exame.resultado else "Negativo")
+
+        # def mostrar_detalhes(self, exame):
+        # print("------ Visualização de Exame ------")
+        # print("Data: {}".format())
+        # print("Resultado: {}".format(
+        # )

@@ -10,7 +10,7 @@ class ControladorExame(Controlador):
 
     def abrir_menu_visualizacao(self, registrar_exame):
         opcoes = {1: registrar_exame}
-        
+
         menu = self.tela.mostrar_menu_visualizacao
 
         self.abrir_menu(menu, opcoes)
@@ -22,12 +22,18 @@ class ControladorExame(Controlador):
         self.tela.mostrar_detalhes(exame)
         return exame
 
-    def mostrar(self, exame, registrar_exame):
+    def mostrar_exames(self, exame, i):
+        self.tela.mostrar(i+1, exame)
+
+    def mostrar(self, exames, registrar_exame):
         try:
-            if(exame):
-                self.tela.mostrar_detalhes(exame)
-            else:
+
+            if len(exames) == 0:
                 raise ValueError("Nao há exame cadastrado!")
+
+            for i, exame in enumerate(exames):
+                self.tela.mostrar(exame, i)
+
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
         finally:

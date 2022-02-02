@@ -10,7 +10,7 @@ class ControladorParticipante(ControladorIntegrante):
     def abrir_menu_visualizacao(self, participante):
 
         opcoes = {1: self.alterar, 2: self.remover,
-                  3: self.mostrar_vacinas, 4: self.mostrar_exame}
+                  3: self.mostrar_vacinas, 4: self.mostrar_exames}
 
         menu = self.tela.mostrar_menu_visualizacao
 
@@ -24,13 +24,14 @@ class ControladorParticipante(ControladorIntegrante):
 
     def registrar_exame(self, participante):
 
-        participante.exame = self.controlador_sistema.controlador_exame.cadastrar()
+        novo_exame = self.controlador_sistema.controlador_exame.cadastrar()
+        participante.add_exame(novo_exame)
 
-    def mostrar_exame(self, participante):
+    def mostrar_exames(self, participante):
         # the lambda function is a workaround for now. Not liking this solution.
         try:
             self.controlador_sistema.controlador_exame.mostrar(
-                participante.exame, lambda: self.registrar_exame(participante))
+                participante.exames, lambda: self.registrar_exame(participante))
         except AttributeError as err:
             print(err)
             registrar = self.tela.mostrar_tela_erro_exame()

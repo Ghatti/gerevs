@@ -12,7 +12,7 @@ class Pessoa():
         self.__endereco = Endereco(endereco["cep"], endereco["rua"], endereco["numero"],
                                    endereco["bairro"], endereco["cidade"], endereco["estado"])
         self.__cartao_de_vacina = CartaoDeVacina()
-        self.__exame = None
+        self.__exames = []
 
     @property
     def cpf(self):
@@ -35,8 +35,8 @@ class Pessoa():
         return self.__cartao_de_vacina
 
     @property
-    def exame(self):
-        return self.__exame
+    def exames(self):
+        return self.__exames
 
     @cpf.setter
     def cpf(self, cpf: str):
@@ -55,7 +55,7 @@ class Pessoa():
         self.__endereco = Endereco(endereco["cep"], endereco["rua"], endereco["numero"],
                                    endereco["bairro"], endereco["cidade"], endereco["estado"])
 
-    @exame.setter
-    def exame(self, exame):
+    def add_exame(self, exame):
 
-        self.__exame = exame
+        if exame not in self.exames:
+            self.exames.append(exame)
