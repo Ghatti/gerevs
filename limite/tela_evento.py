@@ -1,5 +1,5 @@
 from limite.tela import Tela
-from datetime import datetime, time
+from datetime import datetime
 
 
 class TelaEvento(Tela):
@@ -81,7 +81,8 @@ class TelaEvento(Tela):
         print("4 - Registrar Saída")
 
     def mostrar(self, evento, i):
-        print(i, evento.titulo)
+        print(i, "-", evento.titulo, "-", evento.data.strftime("%d/%m/%Y"),
+              "-", evento.horario.strftime("%H:%M"))
 
     def mostrar_detalhes(self, evento):
         print("------ Visualizar evento ------")
@@ -99,7 +100,10 @@ class TelaEvento(Tela):
             "Informe o título do evento: ", self.validar_string(min=3, max=50))
 
         evento["data"] = self.ler_data("Data do evento: ",
-                                       self.validar_data(min=datetime.today()))
+                                       self.validar_data(min=datetime(year=2019, month=1, day=1)))
+
+        if(evento["data"] < datetime.today()):
+            print("Atenção: você está cadastrando um evento que já ocorreu.")
 
         evento["horario"] = self.ler_horario("Informe o horário do evento: ")
 
