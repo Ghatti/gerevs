@@ -1,5 +1,5 @@
 from limite.tela import Tela
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class TelaEvento(Tela):
@@ -81,14 +81,14 @@ class TelaEvento(Tela):
         print("4 - Registrar Saída")
 
     def mostrar(self, evento, i):
-        print(i, "-", evento.titulo, "-", evento.data.strftime("%d/%m/%Y"),
-              "-", evento.horario.strftime("%H:%M"))
+        print(i, "-", evento.titulo, "-",
+              evento.data.strftime("%d/%m/%Y - %H:%M"))
 
     def mostrar_detalhes(self, evento):
         print("------ Visualizar evento ------")
         print("Nome: {}".format(evento.titulo))
-        print("Data: {}".format(evento.data.strftime("%d/%m/%Y")))
-        print("Horário: {}".format(evento.horario.strftime("%H:%M")))
+        print("Data: {}".format(evento.data.strftime("%d/%m/%Y - %H:%M")))
+
         self.mostrar_endereco(evento.local)
 
     def mostrar_tela_cadastro(self, alterar=False):
@@ -106,7 +106,11 @@ class TelaEvento(Tela):
         if(evento["data"] < datetime.today()):
             print("Atenção: você está cadastrando um evento que já ocorreu.")
 
-        evento["horario"] = self.ler_horario("Informe o horário do evento (use o formato hh:mm): ")
+        horario = self.ler_horario(
+            "Informe o horário do evento (use o formato hh:mm): ")
+
+        evento["data"] = evento["data"] + \
+            timedelta(hours=horario.hour, minutes=horario.minute)
 
         evento["capacidade"] = self.ler_inteiro(
             "Informe a capacidade máxima do evento: ", self.validar_inteiro(min=1))
@@ -121,13 +125,11 @@ class TelaEvento(Tela):
     def mostrar_detalhes_registro(self, registro):
         print("------ Visualizar registro ------")
         print("Participante", registro.participante.nome)
-        print("Entrada:", registro.entrada.data.strftime("%d/%m/%Y"),
-              "-", registro.entrada.horario.strftime("%H:%M"))
+        print("Entrada:", registro.entrada.data.strftime("%d/%m/%Y - %H:%M"))
         if(registro.saida):
-            print("Saída:", registro.saida.data.strftime("%d/%m/%Y"),
-                  "-", registro.saida.horario.strftime("%H:%M"))
+            print("Saída:", registro.saida.data.strftime("%d/%m/%Y - %H:%M"))
 
-    def mostrar_tela_registrar_presenca(self, data_evento, horario_evento, limite, entrada=True):
+    def mostrar_tela_registrar_presenca(self, data_evento, limite, entrada=True):
 
         print("------ Registrar entrada ------" if entrada else "------ Registrar saída ------")
 
@@ -142,12 +144,13 @@ class TelaEvento(Tela):
         while(True):
             horario = self.ler_horario("Informe o horário:")
 
-            if(data == data_evento and horario < horario_evento):
+            data = data + timedelta(hours=horario.hour, minutes=horario.minute)
+            if(data < data_evento):
                 confirmacao = self.confirmar(
-                    "O horário informado é anterior ao do evento. Deseja prosseguir mesmo assim? (s/n)")
+                    "A data/horário informado é anterior ao do evento. Deseja prosseguir mesmo assim? (s/n)")
                 if(confirmacao):
                     break
             else:
                 break
 
-        return {"data": data, "horario": horario}
+        return data

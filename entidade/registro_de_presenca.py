@@ -8,7 +8,7 @@ class RegistroDePresenca:
 
     def __init__(self, participante: Pessoa, entrada):
         self.__participante = participante
-        self.__entrada = LinhaDeRegistro(entrada["data"], entrada["horario"])
+        self.__entrada = LinhaDeRegistro(entrada)
         self.__saida = None
 
     @property
@@ -26,10 +26,10 @@ class RegistroDePresenca:
     @entrada.setter
     def entrada(self, entrada: str):
 
-        registro_entrada = LinhaDeRegistro(entrada["data"], entrada["horario"])
+        registro_entrada = LinhaDeRegistro(entrada)
 
         if self.saida is not None:
-            if(registro_entrada.data > self.saida.data or (registro_entrada.data == self.saida.data and registro_entrada.horario > self.saida.horario)):
+            if(registro_entrada.data > self.saida.data):
 
                 raise ValueError(
                     "A entrada não pode ser posterior à saída. Altere a saída primeiro ou informe outra entrada.")
@@ -39,10 +39,10 @@ class RegistroDePresenca:
     @saida.setter
     def saida(self, saida: str):
 
-        registro_saida = LinhaDeRegistro(saida["data"], saida["horario"])
+        registro_saida = LinhaDeRegistro(saida)
 
-        if(registro_saida.data < self.entrada.data or (registro_saida.data == self.entrada.data and registro_saida.horario < self.entrada.horario)):
+        if(registro_saida.data < self.entrada.data):
             raise ValueError(
                 "A saída não pode ser anterior à entrada. Altere a entrada primeiro ou informe outra saída")
 
-        self.__saida = LinhaDeRegistro(saida["data"], saida["horario"])
+        self.__saida = LinhaDeRegistro(saida)

@@ -132,7 +132,7 @@ class ControladorEvento(Controlador):
             dados["organizador"] = self.controlador_sistema.controlador_organizador.selecionar()
 
             # Cadastrar evento
-            novo_evento = Evento(dados["titulo"], dados["data"], dados["horario"],
+            novo_evento = Evento(dados["titulo"], dados["data"],
                                  dados["endereco"], dados["capacidade"], dados["organizador"])
 
             self.entidades.append(novo_evento)
@@ -149,7 +149,6 @@ class ControladorEvento(Controlador):
 
         evento.titulo = dados["titulo"]
         evento.data = dados["data"]
-        evento.horario = dados["horario"]
         evento.endereco = dados["endereco"]
         evento.capacidade = dados["capacidade"]
 
@@ -370,7 +369,7 @@ class ControladorEvento(Controlador):
             # Sistema solicita o horário da entrada.
 
             entrada = self.tela.mostrar_tela_registrar_presenca(
-                evento.data, evento.horario, delta_limit)
+                evento.data, delta_limit)
 
             # Sistema cria o registro de presença e insere no evento
             registro = RegistroDePresenca(participante, entrada)
@@ -405,7 +404,7 @@ class ControladorEvento(Controlador):
                     "A saída deste participante já foi registrada")
 
             saida = self.tela.mostrar_tela_registrar_presenca(
-                evento.data, evento.horario, delta_limit, entrada=False)
+                evento.data, delta_limit, entrada=False)
 
             registro.saida = saida
 
@@ -421,7 +420,7 @@ class ControladorEvento(Controlador):
 
         if(alterar_entrada):
             entrada = self.tela.mostrar_tela_registrar_presenca(
-                evento.data, evento.horario, delta_limit)
+                evento.data, delta_limit)
             registro.entrada = entrada
 
         if(registro.saida is not None):
@@ -429,7 +428,7 @@ class ControladorEvento(Controlador):
                 "Deseja alterar o registro de saída? (s/n)", self.tela.validar_string(opcoes=["s", "n"])) == "s"
             if(alterar_saida):
                 saida = self.tela.mostrar_tela_registrar_presenca(
-                    evento.data, evento.horario, delta_limit, entrada=False)
+                    evento.data, delta_limit, entrada=False)
 
                 registro.saida = saida
 

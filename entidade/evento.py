@@ -5,11 +5,10 @@ from entidade.endereco import Endereco
 
 class Evento:
 
-    def __init__(self, titulo: str, data: str, horario: str, endereco, capacidade: int, organizador: Pessoa):
+    def __init__(self, titulo: str, data: str, endereco, capacidade: int, organizador: Pessoa):
 
         self.__titulo = titulo
         self.__data = data
-        self.__horario = horario
         self.__local = Endereco(endereco["cep"], endereco["rua"], endereco["numero"],
                                 endereco["bairro"], endereco["cidade"], endereco["estado"])
         self.__capacidade = capacidade
@@ -25,10 +24,6 @@ class Evento:
     @property
     def data(self):
         return self.__data
-
-    @property
-    def horario(self):
-        return self.__horario
 
     @property
     def local(self):
@@ -61,10 +56,6 @@ class Evento:
     @data.setter
     def data(self, data: str):
         self.__data = data
-
-    @horario.setter
-    def horario(self, horario: str):
-        self.__horario = horario
 
     @local.setter
     def local(self, endereco):

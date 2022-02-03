@@ -1,5 +1,5 @@
 from limite.tela import Tela
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class TelaExame(Tela):
@@ -14,6 +14,11 @@ class TelaExame(Tela):
         exame["data"] = self.ler_data("Informe a data do exame ",
                                       self.validar_data(max=datetime.today()))
 
+        horario = self.ler_horario("Informe o horário da coleta: ")
+
+        exame["data"] = exame["data"] + \
+            timedelta(hours=horario.hour, minutes=horario.minute)
+
         exame["resultado"] = self.ler_string("Informe se o resultado foi positivo ou negativo: (p/n) ",
                                              self.validar_string(opcoes=["p", "n"])).strip().lower() == "p"
 
@@ -27,11 +32,6 @@ class TelaExame(Tela):
 
     def mostrar(self, exame, i):
 
-        print(i, "-", exame.data.strftime("%d/%m/%Y"), "-",
+        print(i, "-", exame.data.strftime("%d/%m/%Y - %H:%M"), "-",
               "Positivo" if exame.resultado else "Negativo")
 
-        # def mostrar_detalhes(self, exame):
-        # print("------ Visualização de Exame ------")
-        # print("Data: {}".format())
-        # print("Resultado: {}".format(
-        # )
