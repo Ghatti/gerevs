@@ -26,6 +26,7 @@ class ControladorParticipante(ControladorIntegrante):
 
         novo_exame = self.controlador_sistema.controlador_exame.cadastrar()
         participante.add_exame(novo_exame)
+        self.mostrar_exames(participante)
 
     def mostrar_exames(self, participante):
         # the lambda function is a workaround for now. Not liking this solution.

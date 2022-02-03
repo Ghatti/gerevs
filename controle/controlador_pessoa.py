@@ -21,8 +21,6 @@ class ControladorPessoa(Controlador):
     def controlador_participante(self):
         return self.__controlador_participante
 
-
-
     def cadastrar(self, incluir):
 
         # abre a tela de cadastro

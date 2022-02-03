@@ -4,7 +4,7 @@ from entidade.pessoa import Pessoa
 from entidade.linha_de_registro import LinhaDeRegistro
 
 
-class RegistroDeṔresenca:
+class RegistroDePresenca:
 
     def __init__(self, participante: Pessoa, entrada):
         self.__participante = participante

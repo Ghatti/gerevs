@@ -1,10 +1,9 @@
 from datetime import datetime, timedelta
 from multiprocessing.sharedctypes import Value
-from controle import controlador_sistema
 from entidade.evento import Evento
 from controle.controlador import Controlador
-from entidade.registro_de_presenca import RegistroDeṔresenca
 from limite.tela_evento import TelaEvento
+from entidade.registro_de_presenca import RegistroDePresenca
 
 
 class ControladorEvento(Controlador):
@@ -40,21 +39,32 @@ class ControladorEvento(Controlador):
         self.abrir_menu(menu, opcoes)
 
     def abrir_menu_listar(self):
-        opcoes = {1: self.ver_todos, 2: self.ver_futuros,
-                  3: self.ver_realizados, 4: self.ver_ranking}
+        try:
+            if(len(self.entidades) == 0):
+                raise ValueError("Não há eventos cadastrados.")
 
-        menu = self.tela.mostrar_menu_listar
+            opcoes = {1: self.ver_todos, 2: self.ver_futuros,
+                      3: self.ver_realizados, 4: self.ver_ranking}
 
-        self.abrir_menu(menu, opcoes)
+            menu = self.tela.mostrar_menu_listar
+
+            self.abrir_menu(menu, opcoes)
+        except ValueError as err:
+            self.tela.mostrar_mensagem(err)
 
     def abrir_menu_listar_participantes(self, evento):
+        try:
+            if(len(evento.get_all_participantes()) == 0):
+                raise ValueError("O evento não possui participantes")
 
-        opcoes = {1: lambda: self.listar_participantes(evento), 2: lambda: self.listar_participantes(
-            evento, False), 3: lambda: self.listar_participantes(evento, True)}
+            opcoes = {1: lambda: self.listar_participantes(evento), 2: lambda: self.listar_participantes(
+                evento, False), 3: lambda: self.listar_participantes(evento, True)}
 
-        menu = self.tela.mostrar_menu_listar_participantes
+            menu = self.tela.mostrar_menu_listar_participantes
 
-        self.abrir_menu(menu, opcoes)
+            self.abrir_menu(menu, opcoes)
+        except ValueError as err:
+            self.tela.mostrar_mensagem(err)
 
     def abrir_menu_participantes(self, evento):
 
@@ -312,16 +322,21 @@ class ControladorEvento(Controlador):
             self.tela.mostrar_mensagem(err)
 
     def listar_registros_de_presenca(self, evento):
+        try:
+            if(len(evento.registros_de_presenca) == 0):
+                raise ValueError(
+                    "Não há registros de presença cadastrados.")
 
-        if(len(evento.registros_de_presenca) == 0):
-            raise ValueError(
-                "Não há registros de presença cadastrados.")
-
-        for i, registro in enumerate(evento.registros_de_presenca):
-            self.tela.mostrar_registro(registro, i+1)
+            for i, registro in enumerate(evento.registros_de_presenca):
+                self.tela.mostrar_registro(registro, i+1)
+        except ValueError as err:
+            self.tela.mostrar_mensagem(err)
 
     def ver_registro_de_presenca(self, evento):
         try:
+            if(len(evento.registros_de_presenca) == 0):
+                raise ValueError("Não há registros de presença cadastrados")
+
             self.listar_registros_de_presenca(evento)
             registro = self.selecionar(
                 evento.registros_de_presenca, listar=False)
@@ -358,7 +373,7 @@ class ControladorEvento(Controlador):
                 evento.data, evento.horario, delta_limit)
 
             # Sistema cria o registro de presença e insere no evento
-            registro = RegistroDeṔresenca(participante, entrada)
+            registro = RegistroDePresenca(participante, entrada)
             evento.adicionar_registro_de_presenca(registro)
 
         except ValueError as err:

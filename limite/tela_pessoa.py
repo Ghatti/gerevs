@@ -1,10 +1,11 @@
+from controle.controlador import Controlador
 from limite.tela_integrante import TelaIntegrante
 from datetime import datetime, timedelta
 
 
 class TelaPessoa(TelaIntegrante):
 
-    def __init__(self, controlador):
+    def __init__(self, controlador: Controlador):
 
         super().__init__(controlador)
 
