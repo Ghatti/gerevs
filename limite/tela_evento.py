@@ -103,17 +103,18 @@ class TelaEvento(Tela):
         evento["data"] = self.ler_data("Data do evento (use o formato dd/mm/aaaa): ",
                                        self.validar_data(min=datetime(year=2019, month=1, day=1)))
 
-        if(evento["data"] < datetime.today()):
-            print("Atenção: você está cadastrando um evento que já ocorreu.")
-
         horario = self.ler_horario(
             "Informe o horário do evento (use o formato hh:mm): ")
 
         evento["data"] = evento["data"] + \
             timedelta(hours=horario.hour, minutes=horario.minute)
 
-        evento["capacidade"] = self.ler_inteiro(
-            "Informe a capacidade máxima do evento: ", self.validar_inteiro(min=1))
+        if(evento["data"] < datetime.today()):
+            print("Atenção: você está cadastrando um evento que já ocorreu.")
+
+        if(not alterar):
+            evento["capacidade"] = self.ler_inteiro(
+                "Informe a capacidade máxima do evento: ", self.validar_inteiro(min=1))
 
         evento["endereco"] = self.mostrar_tela_endereco()
 

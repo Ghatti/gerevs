@@ -150,8 +150,7 @@ class ControladorEvento(Controlador):
         evento.titulo = dados["titulo"]
         evento.data = dados["data"]
         evento.endereco = dados["endereco"]
-        evento.capacidade = dados["capacidade"]
-
+        
         self.tela.mostrar_detalhes(evento)
 
     def ver_ranking(self):
@@ -436,3 +435,5 @@ class ControladorEvento(Controlador):
         confirmacao = self.tela.confirmar()
         if(confirmacao):
             evento.registros_de_presenca.remove(registro)
+
+        raise StopIteration
