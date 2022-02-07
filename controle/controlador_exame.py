@@ -21,9 +21,6 @@ class ControladorExame(Controlador):
         exame = Exame(dados["data"], dados["resultado"])
         return exame
 
-    def mostrar_exames(self, exame, i):
-        self.tela.mostrar(i+1, exame)
-
     def mostrar(self, exames, registrar_exame):
         try:
 

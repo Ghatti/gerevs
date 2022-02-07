@@ -77,8 +77,8 @@ class Controlador(ABC):
         for i, entidade in enumerate(lista):
             self.tela.mostrar(entidade, i+1)
 
-    def mostrar(self, entidade):
-        pass
+    #def mostrar(self, entidade):
+    #    pass
 
     def selecionar(self, lista=None, listar=True):
 

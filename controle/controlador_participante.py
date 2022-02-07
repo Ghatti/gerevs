@@ -26,15 +26,15 @@ class ControladorParticipante(ControladorIntegrante):
 
         novo_exame = self.controlador_sistema.controlador_exame.cadastrar()
         participante.add_exame(novo_exame)
-        self.mostrar_exames(participante)
+        self.controlador_sistema.controlador_exame.listar(
+            participante.exames)
 
     def mostrar_exames(self, participante):
-        # the lambda function is a workaround for now. Not liking this solution.
-        try:
-            self.controlador_sistema.controlador_exame.mostrar(
-                participante.exames, lambda: self.registrar_exame(participante))
-        except AttributeError as err:
-            print(err)
-            registrar = self.tela.mostrar_tela_erro_exame()
-            if(registrar):
-                self.registrar_exame(participante)
+
+        self.controlador_sistema.controlador_exame.mostrar(
+            participante.exames, lambda: self.registrar_exame(participante))
+        # except AttributeError as err:
+        #    print(err)
+        #    registrar = self.tela.mostrar_tela_erro_exame()
+        #    if(registrar):
+        #        self.registrar_exame(participante)

@@ -33,6 +33,13 @@ class Tela(ABC):
     def mostrar_detalhes(self, entidade):
         pass
 
+    def mostrar_menu_visualizacao(self):
+        print("------ Menu de Detalhes ------")
+        print("Escolha sua opção:")
+        print("1 - Alterar")
+        print("2 - Remover")
+        print("0 - Voltar")
+
     def mostrar_endereco(self, endereco):
 
         print("------ Endereço ------")
@@ -42,13 +49,6 @@ class Tela(ABC):
         print("Bairro: ", endereco.bairro)
         print("Cidade: ", endereco.cidade)
         print("Estado: ", endereco.estado)
-
-    def mostrar_menu_visualizacao(self):
-        print("------ Menu de Detalhes ------")
-        print("Escolha sua opção:")
-        print("1 - Alterar")
-        print("2 - Remover")
-        print("0 - Voltar")
 
     def confirmar(self, input_msg="Deseja confirmar a operação? s/n"):
         confirmacao = "t"

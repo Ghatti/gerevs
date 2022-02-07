@@ -93,8 +93,6 @@ class ControladorEvento(Controlador):
 
         self.abrir_menu(menu, opcoes, evento)
 
-        self.abrir_menu(menu, opcoes, evento)
-
     def gerenciar_organizadores(self, evento):
 
         self.listar_organizadores(evento)
@@ -150,7 +148,7 @@ class ControladorEvento(Controlador):
         evento.titulo = dados["titulo"]
         evento.data = dados["data"]
         evento.endereco = dados["endereco"]
-        
+
         self.tela.mostrar_detalhes(evento)
 
     def ver_ranking(self):
