@@ -24,7 +24,7 @@ class RegistroDePresenca:
         return self.__saida
 
     @entrada.setter
-    def entrada(self, entrada: str):
+    def entrada(self, entrada):
 
         registro_entrada = LinhaDeRegistro(entrada)
 
@@ -37,7 +37,7 @@ class RegistroDePresenca:
         self.__entrada = registro_entrada
 
     @saida.setter
-    def saida(self, saida: str):
+    def saida(self, saida):
 
         registro_saida = LinhaDeRegistro(saida)
 

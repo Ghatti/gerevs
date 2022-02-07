@@ -4,7 +4,7 @@ from entidade.endereco import Endereco
 
 class Pessoa():
 
-    def __init__(self, cpf: str, nome: str, nascimento: str, endereco: dict):
+    def __init__(self, cpf: str, nome, nascimento: str, endereco: dict):
 
         self.__cpf = cpf
         self.__nome = nome
@@ -47,7 +47,7 @@ class Pessoa():
         self.__nome = nome
 
     @nascimento.setter
-    def nascimento(self, nascimento: str):
+    def nascimento(self, nascimento):
         self.__nascimento = nascimento
 
     @endereco.setter

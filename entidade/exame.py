@@ -1,6 +1,6 @@
 class Exame:
 
-    def __init__(self, data: str, resultado: bool):
+    def __init__(self, data, resultado: bool):
         self.__data = data
         self.__resultado = resultado
 

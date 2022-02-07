@@ -5,7 +5,7 @@ from entidade.endereco import Endereco
 
 class Evento:
 
-    def __init__(self, titulo: str, data: str, endereco, capacidade: int, organizador: Pessoa):
+    def __init__(self, titulo: str, data, endereco, capacidade: int, organizador: Pessoa):
 
         self.__titulo = titulo
         self.__data = data
@@ -54,7 +54,7 @@ class Evento:
         self.__titulo = titulo
 
     @data.setter
-    def data(self, data: str):
+    def data(self, data):
         self.__data = data
 
     @local.setter
