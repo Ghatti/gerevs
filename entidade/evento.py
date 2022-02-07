@@ -73,6 +73,10 @@ class Evento:
 
         self.registros_de_presenca.append(registro)
 
+    def remover_registro_de_presenca(self, registro):
+
+        self.registros_de_presenca.remove(registro)
+
     def adicionar_organizador(self, organizador: Pessoa):
         self.organizadores.append(organizador)
 

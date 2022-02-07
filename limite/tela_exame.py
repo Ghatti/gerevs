@@ -12,7 +12,7 @@ class TelaExame(Tela):
 
         exame = {}
         exame["data"] = self.ler_data("Informe a data do exame ",
-                                      self.validar_data(max=datetime.today()))
+                                      self.validar_data(min=datetime(year=2019, month=1, day=1), max=datetime.today()))
 
         horario = self.ler_horario("Informe o horário da coleta: ")
 
@@ -34,4 +34,3 @@ class TelaExame(Tela):
 
         print(i, "-", exame.data.strftime("%d/%m/%Y - %H:%M"), "-",
               "Positivo" if exame.resultado else "Negativo")
-

@@ -129,6 +129,10 @@ class ControladorEvento(Controlador):
             dados = self.tela.mostrar_tela_cadastro()
             dados["organizador"] = self.controlador_sistema.controlador_organizador.selecionar()
 
+            if(dados["organizador"].nascimento > dados["data"]):
+                raise ValueError(
+                    "O organizador escolhido nasceu após o evento ser realizado. Tente novamente")
+
             # Cadastrar evento
             novo_evento = Evento(dados["titulo"], dados["data"],
                                  dados["endereco"], dados["capacidade"], dados["organizador"])
@@ -216,6 +220,10 @@ class ControladorEvento(Controlador):
 
             participante = self.controlador_sistema.controlador_participante.selecionar()
 
+            if(participante.nascimento > evento.data):
+                raise ValueError(
+                    "O participante escolhido nasceu após o evento ser realizado.")
+
             if(participante not in participantes_registrados):
                 evento.adicionar_participante(participante)
                 self.tela.mostrar_mensagem("Participante incluído!")
@@ -232,6 +240,10 @@ class ControladorEvento(Controlador):
                 participantes_registrados)
 
             evento.remover_participante(participante)
+
+            for registro in evento.registros_de_presenca:
+                if registro.participante == participante:
+                    evento.remover_registro_de_presenca(registro)
 
             self.tela.mostrar_mensagem("Participante removido!")
 
@@ -295,6 +307,10 @@ class ControladorEvento(Controlador):
 
             if(organizador in evento.organizadores):
                 raise ValueError("Organizador já registrado no evento.")
+
+            if(organizador.nascimento > evento.data):
+                raise ValueError(
+                    "O organizador escolhido nasceu após o evento ser realizado.")
 
             evento.adicionar_organizador(organizador)
             self.tela.mostrar_mensagem("Organizador incluído!")
@@ -432,6 +448,6 @@ class ControladorEvento(Controlador):
     def remover_registro_de_presenca(self, evento, registro):
         confirmacao = self.tela.confirmar()
         if(confirmacao):
-            evento.registros_de_presenca.remove(registro)
+            evento.remover_registro_de_presenca(registro)
 
         raise StopIteration

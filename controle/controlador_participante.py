@@ -25,6 +25,10 @@ class ControladorParticipante(ControladorIntegrante):
     def registrar_exame(self, participante):
 
         novo_exame = self.controlador_sistema.controlador_exame.cadastrar()
+        
+        if(participante.nascimento > novo_exame.data):
+            raise ValueError("O exame não pode ser realizado antes do nascimento do participante.")
+
         participante.add_exame(novo_exame)
         self.controlador_sistema.controlador_exame.listar(
             participante.exames)
@@ -33,8 +37,3 @@ class ControladorParticipante(ControladorIntegrante):
 
         self.controlador_sistema.controlador_exame.mostrar(
             participante.exames, lambda: self.registrar_exame(participante))
-        # except AttributeError as err:
-        #    print(err)
-        #    registrar = self.tela.mostrar_tela_erro_exame()
-        #    if(registrar):
-        #        self.registrar_exame(participante)
