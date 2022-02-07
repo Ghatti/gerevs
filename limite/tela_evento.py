@@ -82,7 +82,7 @@ class TelaEvento(Tela):
 
     def mostrar(self, evento, i):
         print(i, "-", evento.titulo, "-",
-              evento.data.strftime("%d/%m/%Y - %H:%M"))
+              evento.data.strftime("%d/%m/%Y - %H:%M"), "-", len(evento.get_all_participantes()), "participante(s).")
 
     def mostrar_detalhes(self, evento):
         print("------ Visualizar evento ------")
