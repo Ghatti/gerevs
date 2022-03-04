@@ -29,4 +29,8 @@ class ControladorIntegrante(Controlador):
 
     def unpack(self, pessoa):
 
-        return pessoa.nome
+        return {
+            "nome": pessoa.nome,
+            "cpf": pessoa.cpf,
+            "nascimento": pessoa.nascimento
+        }
