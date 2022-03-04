@@ -1,6 +1,7 @@
 import re
 from abc import ABC, abstractmethod
 from datetime import datetime, time
+from limite.tela_menu_inicial_gui import TelaMenuInicialGui
 
 
 class Tela(ABC):
@@ -13,15 +14,16 @@ class Tela(ABC):
     def controlador(self):
         return self.__controlador
 
-    def mostrar_menu_inicial(self):
-        print("------ Menu Inicial ------")
-        print("Escolha sua opção:")
-        print("1 - Cadastrar")
-        print("2 - Listar")
-        print("3 - Ver Detalhes")
-        print("0 - Voltar")
+    def mostrar_menu_inicial(self, entidades):
+
+        tela = TelaMenuInicialGui(entidades)
+        button, values = tela.open()
+        tela.close()
+
+        return button
 
     # @abstractmethod
+
     def mostrar_tela_cadastro(self):
         pass
 

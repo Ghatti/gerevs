@@ -22,13 +22,16 @@ class Controlador(ABC):
         return self.__tela
 
     def inicializar(self):
+
         self.abrir_menu_inicial()
 
     def abrir_menu_inicial(self):
 
         opcoes = {1: self.cadastrar, 2: self.ver_todos, 3: self.ver_detalhes}
 
-        menu = self.tela.mostrar_menu_inicial
+        def menu():
+            entidades = [self.unpack(entidade) for entidade in self.entidades]
+            return self.tela.mostrar_menu_inicial(entidades)
 
         self.ver_todos()
         self.abrir_menu(menu, opcoes)
@@ -75,9 +78,9 @@ class Controlador(ABC):
             raise ValueError("Não há elementos para listar")
         self.tela.mostrar_mensagem("------ Lista ------")
         for i, entidade in enumerate(lista):
-            self.tela.mostrar(entidade, i+1)
+            self.tela.mostrar(self.unpack(entidade), i+1)
 
-    #def mostrar(self, entidade):
+    # def mostrar(self, entidade):
     #    pass
 
     def selecionar(self, lista=None, listar=True):
@@ -111,8 +114,9 @@ class Controlador(ABC):
 
         try:
             while(True):
-                menu()
-                opcao_escolhida = self.tela.selecionar(range(0, len(opcoes)+1))
+                # menu()
+                #opcao_escolhida = self.tela.selecionar(range(0, len(opcoes)+1))
+                opcao_escolhida = menu()
 
                 if(opcao_escolhida == 0):
                     break
@@ -121,3 +125,6 @@ class Controlador(ABC):
                 funcao_escolhida(entidade) if entidade else funcao_escolhida()
         except StopIteration:
             return
+
+    def unpack(self, entidade):
+        pass

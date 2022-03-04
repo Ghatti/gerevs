@@ -26,3 +26,7 @@ class ControladorIntegrante(Controlador):
     def alterar(self, pessoa):
 
         self.controlador_pessoa.alterar(pessoa)
+
+    def unpack(self, pessoa):
+
+        return pessoa.nome

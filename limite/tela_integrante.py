@@ -10,7 +10,7 @@ class TelaIntegrante(Tela, ABC):
         super().__init__(controlador)
 
     def mostrar(self, pessoa, i):
-        print(i, pessoa.nome)
+        print(i, pessoa)
 
     def mostrar_detalhes(self, pessoa):
         print("------ Visualização de Detalhes ------")
