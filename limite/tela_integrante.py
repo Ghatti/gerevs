@@ -33,6 +33,13 @@ class TelaIntegrante(Tela, ABC):
             [sg.Text("CPF: ", size=(15, 1)), sg.Text(pessoa["cpf"])],
             [sg.Text("Nascimento: ", size=(15, 1)),
              sg.Text(pessoa["nascimento"].strftime("%d/%m/%Y"))],
+            [sg.Text("Endereço", size=(15, 1))],
+            [sg.Text("CEP: ", size=(15, 1)), sg.Text(pessoa["cep"])],
+            [sg.Text("Rua: ", size=(15, 1)), sg.Text(pessoa["rua"])],
+            [sg.Text("Número: ", size=(15, 1)), sg.Text(pessoa["numero"])],
+            [sg.Text("Bairro: ", size=(15, 1)), sg.Text(pessoa["bairro"])],
+            [sg.Text("Cidade: ", size=(15, 1)), sg.Text(pessoa["cidade"])],
+            [sg.Text("Estado: ", size=(15, 1)), sg.Text(pessoa["estado"])],
             [sg.Ok()]
         ]
 
@@ -48,3 +55,4 @@ class TelaIntegrante(Tela, ABC):
     def mostrar_detalhes(self, pessoa):
         self.init_detalhes(pessoa)
         self.open()
+        self.close()

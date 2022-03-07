@@ -68,20 +68,39 @@ class ControladorPessoa(Controlador):
             self.entidades.append(nova_pessoa)
             incluir(nova_pessoa)
 
-    def alterar(self, pessoa):
+    def alterar(self, dados):
 
-        dados = self.tela.mostrar_tela_cadastro(alterar=True)
+        try:
+            entidade = self.get_entidade(dados["row_index"])
 
-        pessoa.nome = dados["nome"]
-        pessoa.nascimento = dados["nascimento"]
-        pessoa.endereco = dados["endereco"]
+            dados = self.tela.mostrar_tela_cadastro(
+                default_values=self.unpack(entidade), alterar=True)
 
-        self.tela.mostrar_detalhes(pessoa)
+            novo_endereco = {
+                "cep": dados["cep"],
+                "rua": dados["rua"],
+                "numero": dados["numero"],
+                "bairro": dados["bairro"],
+                "cidade": dados["cidade"],
+                "estado": dados["estado"]
+            }
+
+            entidade.nome = dados["nome"]
+            entidade.nascimento = dados["nascimento"]
+            entidade.endereco = novo_endereco
+        except ValueError as err:
+            self.tela.mostrar_mensagem("Erro", err)
 
     def unpack(self, pessoa):
 
         return {
             "nome": pessoa.nome,
             "cpf": pessoa.cpf,
-            "nascimento": pessoa.nascimento
+            "nascimento": pessoa.nascimento,
+            "cep": pessoa.endereco.cep,
+            "rua": pessoa.endereco.rua,
+            "numero": pessoa.endereco.numero,
+            "bairro": pessoa.endereco.bairro,
+            "cidade": pessoa.endereco.cidade,
+            "estado": pessoa.endereco.estado,
         }

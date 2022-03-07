@@ -10,7 +10,7 @@ class TelaPessoa(TelaIntegrante):
 
         super().__init__(controlador)
 
-    def init_tela_cadastro(self, values):
+    def init_tela_cadastro(self, values, alterar=False):
 
         sg.ChangeLookAndFeel('Reddit')
 
@@ -18,7 +18,7 @@ class TelaPessoa(TelaIntegrante):
             [sg.Text("Nome:", size=(15, 1)), sg.InputText(
                 values["nome"] if values else None, key="nome")],
             [sg.Text("CPF:", size=(15, 1)), sg.InputText(
-                values["cpf"] if values else None, key="cpf")],
+                values["cpf"] if values else None, key="cpf", disabled=alterar)],
             [sg.Text("Nascimento:", size=(15, 1)), sg.InputText(values["nascimento"] if values else None,
                                                                 key="nascimento"), sg.CalendarButton("Calendário", target="nascimento", format="%d/%m/%Y")],
             [sg.Text("CEP:", size=(15, 1)), sg.InputText(
@@ -40,13 +40,13 @@ class TelaPessoa(TelaIntegrante):
         self.window = sg.Window(
             "Cadastrar Pessoa", default_element_size=(40, 1)).Layout(layout)
 
-    def mostrar_tela_cadastro(self, alterar=False):
+    def mostrar_tela_cadastro(self, default_values=None, alterar=False):
 
-        values = None
+        values = default_values
 
         while(True):
             try:
-                self.init_tela_cadastro(values)
+                self.init_tela_cadastro(values, alterar)
                 button, values = self.open()
                 self.close()
 

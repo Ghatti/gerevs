@@ -31,5 +31,11 @@ class ControladorIntegrante(Controlador):
         return {
             "nome": pessoa.nome,
             "cpf": pessoa.cpf,
-            "nascimento": pessoa.nascimento
+            "nascimento": pessoa.nascimento,
+            "cep": pessoa.endereco.cep,
+            "rua": pessoa.endereco.rua,
+            "numero": pessoa.endereco.numero,
+            "bairro": pessoa.endereco.bairro,
+            "cidade": pessoa.endereco.cidade,
+            "estado": pessoa.endereco.estado,
         }
