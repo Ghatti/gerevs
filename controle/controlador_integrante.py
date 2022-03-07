@@ -21,7 +21,6 @@ class ControladorIntegrante(Controlador):
 
         self.entidades.append(pessoa)
         self.tela.mostrar_mensagem("Cadastro realizado com sucesso")
-        self.ver_todos()
 
     def alterar(self, pessoa):
 

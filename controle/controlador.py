@@ -33,7 +33,6 @@ class Controlador(ABC):
             entidades = [self.unpack(entidade) for entidade in self.entidades]
             return self.tela.mostrar_menu_inicial(entidades)
 
-        self.ver_todos()
         self.abrir_menu(menu, opcoes)
 
     def abrir_menu_visualizacao(self, entidade):

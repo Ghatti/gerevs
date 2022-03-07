@@ -30,10 +30,6 @@ class ControladorPessoa(Controlador):
 
         try:
 
-            # for pessoa in self.entidades:
-            #    if(pessoa.cpf == cpf):
-            #
-
             dados = self.abrir_tela_cadastro()
 
             if dados is None:
