@@ -47,8 +47,13 @@ class ControladorPessoa(Controlador):
 
             dados = self.abrir_tela_cadastro()
 
+            for pessoa in self.entidades:
+                if(pessoa.cpf == dados["cpf"]):
+                    raise ValueError(
+                        "Não é possível cadastrar duas pessoas com o mesmo CPF.")
+
         except ValueError as err:
-            self.tela.mostrar_mensagem(err)
+            self.tela.show_message("Erro", err)
         else:
 
             endereco = {

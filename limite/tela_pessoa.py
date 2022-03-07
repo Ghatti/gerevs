@@ -36,21 +36,16 @@ class TelaPessoa(TelaIntegrante):
             "Informe o cpf (Utilize o formato 000.000.000-00): ", self.validar_string(formato=r"^\d{3}\.\d{3}\.\d{3}\-\d{2}$"))
 
     def mostrar_tela_cadastro(self, alterar=False):
-        # print("------ Cadastrar ------") if not alterar else print(
-        #    "------ Alterar ------")
-        #
-        #pessoa = {}
-        # pessoa["nome"] = self.ler_string(
-        #    "Informe o nome: ", self.validar_string(min=2, max=31, no_digit=True))
-        # pessoa["nascimento"] = self.ler_data("Data de nascimento (use o formato dd/mm/aaaa): ",
-        #                                     self.validar_data(max=datetime.today(), delta=timedelta(days=150*365)))
-        #pessoa["endereco"] = self.mostrar_tela_endereco()
 
         self.init_tela_cadastro()
         button, values = self.open()
         self.close()
 
-        print(values)
+        values["numero"] = int(values["numero"])
+        values["nascimento"] = datetime.strptime(
+            values["nascimento"], "%d/%m/%Y")
+
+        self.self_validar_cadastro(values)
 
         return values
 
@@ -60,3 +55,22 @@ class TelaPessoa(TelaIntegrante):
         self.mostrar_detalhes(pessoa)
         return self.ler_string(
             "Deseja prosseguir com essa pessoa? (s/n) ", self.validar_string(opcoes=("s", "n"))).lower() == "s"
+
+    def self_validar_cadastro(self, dados):
+
+        validator_dispatch = {
+            "nome": self.validar_string(min=2, max=31, no_digit=True),
+            "cpf": self.validar_string(formato=r"^\d{3}\.\d{3}\.\d{3}\-\d{2}$"),
+            "nascimento": self.validar_data(max=datetime.today(), delta=timedelta(days=150*365)),
+            "cep": self.validar_string(formato=r"^\d{2}\.\d{3}\-\d{3}$"),
+            "numero": self.validar_inteiro(min=0),
+            "bairro": self.validar_string(no_digit=True),
+            "cidade": self.validar_string(no_digit=True),
+            "estado": self.validar_string(no_digit=True)
+        }
+
+        for key in validator_dispatch.keys():
+            validators = validator_dispatch[key]
+
+            for validator_func in validators:
+                validator_func(dados[key])
