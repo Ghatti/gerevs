@@ -16,10 +16,6 @@ class TelaGui(ABC):
     def window(self, window):
         self.__window = window
 
-    @abstractmethod
-    def init_components(self):
-        pass
-
     def open(self):
 
         button, values = (None, None)

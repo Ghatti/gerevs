@@ -30,20 +30,20 @@ class ControladorPessoa(Controlador):
 
         try:
 
-            cpf = self.tela.ler_cpf()
-
-            for pessoa in self.entidades:
-                if(pessoa.cpf == cpf):
-
-                    prosseguir = self.tela.mostrar_tela_cadastro_repetido(
-                        pessoa)
-
-                    if(prosseguir):
-                        incluir(pessoa)
-                        return
-                    else:
-                        raise ValueError(
-                            "Não é possível cadastrar duas pessoas com o mesmo CPF.")
+            #cpf = self.tela.ler_cpf()
+#
+            #for pessoa in self.entidades:
+            #    if(pessoa.cpf == cpf):
+#
+            #        prosseguir = self.tela.mostrar_tela_cadastro_repetido(
+            #            pessoa)
+#
+            #        if(prosseguir):
+            #            incluir(pessoa)
+            #            return
+            #        else:
+            #            raise ValueError(
+            #                "Não é possível cadastrar duas pessoas com o mesmo CPF.")
 
             dados = self.abrir_tela_cadastro()
 
