@@ -31,13 +31,13 @@ class ControladorPessoa(Controlador):
         try:
 
             #cpf = self.tela.ler_cpf()
-#
-            #for pessoa in self.entidades:
+            #
+            # for pessoa in self.entidades:
             #    if(pessoa.cpf == cpf):
-#
+            #
             #        prosseguir = self.tela.mostrar_tela_cadastro_repetido(
             #            pessoa)
-#
+            #
             #        if(prosseguir):
             #            incluir(pessoa)
             #            return
@@ -51,9 +51,18 @@ class ControladorPessoa(Controlador):
             self.tela.mostrar_mensagem(err)
         else:
 
+            endereco = {
+                "cep": dados["cep"],
+                "rua": dados["rua"],
+                "numero": dados["numero"],
+                "bairro": dados["bairro"],
+                "cidade": dados["cidade"],
+                "estado": dados["estado"],
+            }
+
             # criar pessoa
             nova_pessoa = Pessoa(
-                cpf, dados["nome"], dados["nascimento"], dados["endereco"])
+                dados["cpf"], dados["nome"], dados["nascimento"], endereco)
 
             # incluir pessoa
             self.entidades.append(nova_pessoa)

@@ -18,9 +18,7 @@ class TelaGui(ABC):
 
     def open(self):
 
-        button, values = (None, None)
-
-        button, value = self.window.Read()
+        button, values = self.window.Read()
 
         if(button == sg.WIN_CLOSED):
             return (0, {})

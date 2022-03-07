@@ -15,16 +15,16 @@ class TelaPessoa(TelaIntegrante):
         sg.ChangeLookAndFeel('Reddit')
 
         layout = [
-            [sg.Text("Nome:", size=(15, 1)), sg.InputText()],
-            [sg.Text("CPF:", size=(15, 1)), sg.InputText()],
-            # this will not work read about target
+            [sg.Text("Nome:", size=(15, 1)), sg.InputText(key="nome")],
+            [sg.Text("CPF:", size=(15, 1)), sg.InputText(key="cpf")],
             [sg.Text("Nascimento:", size=(15, 1)), sg.InputText(
-                key="calendar"), sg.CalendarButton("Nascimento", target="calendar")],
-            [sg.Text("CEP:", size=(15, 1)), sg.InputText()],
-            [sg.Text("Número:", size=(15, 1)), sg.InputText()],
-            [sg.Text("Bairro:", size=(15, 1)), sg.InputText()],
-            [sg.Text("Cidade:", size=(15, 1)), sg.InputText()],
-            [sg.Text("Estado:", size=(15, 1)), sg.InputText()],
+                key="nascimento"), sg.CalendarButton("Nascimento", target="nascimento", format="%d/%m/%Y")],
+            [sg.Text("CEP:", size=(15, 1)), sg.InputText(key="cep")],
+            [sg.Text("Rua:", size=(15, 1)), sg.InputText(key="rua")],
+            [sg.Text("Número:", size=(15, 1)), sg.InputText(key="numero")],
+            [sg.Text("Bairro:", size=(15, 1)), sg.InputText(key="bairro")],
+            [sg.Text("Cidade:", size=(15, 1)), sg.InputText(key="cidade")],
+            [sg.Text("Estado:", size=(15, 1)), sg.InputText(key="estado")],
             [sg.Submit("Enviar"), sg.Cancel("Cancelar")]
         ]
 
@@ -49,6 +49,8 @@ class TelaPessoa(TelaIntegrante):
         self.init_tela_cadastro()
         button, values = self.open()
         self.close()
+
+        print(values)
 
         return values
 
