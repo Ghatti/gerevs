@@ -63,11 +63,11 @@ class TelaPessoa(TelaIntegrante):
                 self.mostrar_mensagem(err, "Erro")
 
     def mostrar_tela_cadastro_repetido(self, pessoa):
-        self.mostrar_mensagem(
-            "Já existe uma pessoa cadastrada com esse CPF")
-        self.mostrar_detalhes(pessoa)
-        return self.ler_string(
-            "Deseja prosseguir com essa pessoa? (s/n) ", self.validar_string(opcoes=("s", "n"))).lower() == "s"
+
+        confirmar = sg.popup_yes_no(
+            "Já existe uma pessoa cadastrada com o CPF {} chamada {}. Deseja continuar com essa pessoa?".format(pessoa["cpf"], pessoa["nome"]))
+
+        return confirmar == "Yes"
 
     def self_validar_cadastro(self, dados):
 
