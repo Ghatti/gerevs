@@ -40,10 +40,6 @@ class TelaPessoa(TelaIntegrante):
         self.window = sg.Window(
             "Cadastrar Pessoa", default_element_size=(40, 1)).Layout(layout)
 
-    def ler_cpf(self):
-        return self.ler_string(
-            "Informe o cpf (Utilize o formato 000.000.000-00): ", self.validar_string(formato=r"^\d{3}\.\d{3}\.\d{3}\-\d{2}$"))
-
     def mostrar_tela_cadastro(self, alterar=False):
 
         values = None
