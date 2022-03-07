@@ -27,7 +27,8 @@ class Controlador(ABC):
 
     def abrir_menu_inicial(self):
 
-        opcoes = {1: self.cadastrar, 2: self.ver_todos, 3: self.ver_detalhes}
+        opcoes = {1: lambda dados: self.cadastrar(
+        ), 3: lambda dados: self.ver_detalhes(dados)}
 
         def menu():
             entidades = [self.unpack(entidade) for entidade in self.entidades]
@@ -61,12 +62,16 @@ class Controlador(ABC):
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
 
-    def ver_detalhes(self):
+    def ver_detalhes(self, dados):
 
         try:
-            entidade = self.selecionar(self.entidades)
-            self.tela.mostrar_detalhes(entidade)
-            self.abrir_menu_visualizacao(entidade)
+            if len(dados["row_index"]) == 0:
+                raise ValueError("É necessário selecionar um item.")
+
+            id = dados["row_index"][0]
+
+            entidade = self.entidades[id]
+            self.tela.mostrar_detalhes(self.unpack(entidade))
 
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
@@ -115,13 +120,13 @@ class Controlador(ABC):
             while(True):
                 # menu()
                 #opcao_escolhida = self.tela.selecionar(range(0, len(opcoes)+1))
-                opcao_escolhida = menu()
+                opcao_escolhida, dados = menu()
 
                 if(opcao_escolhida == 0):
                     break
 
                 funcao_escolhida = opcoes[opcao_escolhida]
-                funcao_escolhida(entidade) if entidade else funcao_escolhida()
+                funcao_escolhida(dados)
         except StopIteration:
             return
 
