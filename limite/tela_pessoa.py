@@ -1,8 +1,7 @@
+import PySimpleGUI as sg
 from controle.controlador import Controlador
 from limite.tela_integrante import TelaIntegrante
 from datetime import datetime, timedelta
-
-from limite.tela_cadastrar_pessoa_gui import TelaCadastrarPessoaGui
 
 
 class TelaPessoa(TelaIntegrante):
@@ -10,6 +9,27 @@ class TelaPessoa(TelaIntegrante):
     def __init__(self, controlador: Controlador):
 
         super().__init__(controlador)
+
+    def init_tela_cadastro(self):
+
+        sg.ChangeLookAndFeel('Reddit')
+
+        layout = [
+            [sg.Text("Nome:", size=(15, 1)), sg.InputText()],
+            [sg.Text("CPF:", size=(15, 1)), sg.InputText()],
+            # this will not work read about target
+            [sg.Text("Nascimento:", size=(15, 1)), sg.InputText(
+                key="calendar"), sg.CalendarButton("Nascimento", target="calendar")],
+            [sg.Text("CEP:", size=(15, 1)), sg.InputText()],
+            [sg.Text("Número:", size=(15, 1)), sg.InputText()],
+            [sg.Text("Bairro:", size=(15, 1)), sg.InputText()],
+            [sg.Text("Cidade:", size=(15, 1)), sg.InputText()],
+            [sg.Text("Estado:", size=(15, 1)), sg.InputText()],
+            [sg.Submit("Enviar"), sg.Cancel("Cancelar")]
+        ]
+
+        self.window = sg.Window(
+            "Cadastrar Pessoa", default_element_size=(40, 1)).Layout(layout)
 
     def ler_cpf(self):
         return self.ler_string(
@@ -26,9 +46,9 @@ class TelaPessoa(TelaIntegrante):
         #                                     self.validar_data(max=datetime.today(), delta=timedelta(days=150*365)))
         #pessoa["endereco"] = self.mostrar_tela_endereco()
 
-        tela = TelaCadastrarPessoaGui()
-        button, values = tela.open()
-        tela.close()
+        self.init_tela_cadastro()
+        button, values = self.open()
+        self.close()
 
         return values
 
