@@ -16,7 +16,7 @@ class TelaIntegrante(Tela, ABC):
         layout = [
             [sg.Text("Menu Inicial",
                      size=(30, 1), font=("Helvetica", 25))],
-            [sg.Table([[entidade["nome"], entidade["cpf"], entidade["nascimento"].strftime("%d/%m/%Y")] for entidade in entidades],  headings=["Nome", "CPF",
+            [sg.Table([[entidade["nome"], entidade["cpf"], entidade["nascimento"]] for entidade in entidades],  headings=["Nome", "CPF",
                       "Nascimento"], key="row_index", select_mode=sg.TABLE_SELECT_MODE_BROWSE)],
             [sg.Button("Cadastrar", key=1), sg.Button("Alterar", key=2), sg.Button("Remover", key=4), sg.Button(
                 "Ver Detalhes", key=3), sg.Button("Voltar", key=0)]
@@ -32,7 +32,7 @@ class TelaIntegrante(Tela, ABC):
             [sg.Text("Nome: ", size=(15, 1)), sg.Text(pessoa["nome"])],
             [sg.Text("CPF: ", size=(15, 1)), sg.Text(pessoa["cpf"])],
             [sg.Text("Nascimento: ", size=(15, 1)),
-             sg.Text(pessoa["nascimento"].strftime("%d/%m/%Y"))],
+             sg.Text(pessoa["nascimento"])],
             [sg.Text("Endereço", size=(15, 1))],
             [sg.Text("CEP: ", size=(15, 1)), sg.Text(pessoa["cep"])],
             [sg.Text("Rua: ", size=(15, 1)), sg.Text(pessoa["rua"])],

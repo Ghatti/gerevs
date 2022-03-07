@@ -96,7 +96,7 @@ class ControladorPessoa(Controlador):
         return {
             "nome": pessoa.nome,
             "cpf": pessoa.cpf,
-            "nascimento": pessoa.nascimento,
+            "nascimento": pessoa.nascimento.strftime("%d/%m/%Y"),
             "cep": pessoa.endereco.cep,
             "rua": pessoa.endereco.rua,
             "numero": pessoa.endereco.numero,
