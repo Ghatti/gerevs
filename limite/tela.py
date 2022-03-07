@@ -1,10 +1,11 @@
 import re
 from abc import ABC, abstractmethod
 from datetime import datetime, time
-from limite.tela_menu_inicial_gui import TelaMenuInicialGui
+
+from limite.tela_gui import TelaGui
 
 
-class Tela(ABC):
+class Tela(TelaGui, ABC):
 
     @abstractmethod
     def __init__(self, controlador):
@@ -14,13 +15,16 @@ class Tela(ABC):
     def controlador(self):
         return self.__controlador
 
+    # remove this method or turn abstract
+    # by listing on the inicial menu, this method must go down on the hierarchy
     def mostrar_menu_inicial(self, entidades):
 
-        tela = TelaMenuInicialGui(entidades)
-        button, values = tela.open()
-        tela.close()
+        #tela = TelaMenuInicialGui(entidades)
+        #button, values = tela.open()
+        # tela.close()
 
-        return button
+        # return button
+        pass
 
     # @abstractmethod
 
