@@ -27,8 +27,8 @@ class Controlador(ABC):
 
     def abrir_menu_inicial(self):
 
-        opcoes = {1: lambda dados: self.cadastrar(
-        ), 3: lambda dados: self.ver_detalhes(dados)}
+        opcoes = {1: lambda input: self.cadastrar(
+        ), 2: lambda input: self.alterar(input), 3: lambda input: self.ver_detalhes(input), 4: lambda input: self.remover(input)}
 
         def menu():
             entidades = [self.unpack(entidade) for entidade in self.entidades]
@@ -62,15 +62,19 @@ class Controlador(ABC):
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
 
+    def get_entidade(self, index):
+
+        if(len(index) == 0):
+            raise ValueError("É necessário selecionar um item.")
+
+        id = index[0]
+        entidade = self.entidades[id]
+        return entidade
+
     def ver_detalhes(self, dados):
 
         try:
-            if len(dados["row_index"]) == 0:
-                raise ValueError("É necessário selecionar um item.")
-
-            id = dados["row_index"][0]
-
-            entidade = self.entidades[id]
+            entidade = self.get_entidade(dados["row_index"])
             self.tela.mostrar_detalhes(self.unpack(entidade))
 
         except ValueError as err:
@@ -83,9 +87,6 @@ class Controlador(ABC):
         self.tela.mostrar_mensagem("------ Lista ------")
         for i, entidade in enumerate(lista):
             self.tela.mostrar(self.unpack(entidade), i+1)
-
-    # def mostrar(self, entidade):
-    #    pass
 
     def selecionar(self, lista=None, listar=True):
 
@@ -107,19 +108,21 @@ class Controlador(ABC):
     def alterar(self, entidade):
         pass
 
-    def remover(self, entidade):
+    def remover(self, dados):
 
-        confirmacao = self.tela.confirmar()
-        if(confirmacao):
-            self.entidades.remove(entidade)
-            raise StopIteration
+        try:
+            confirmacao = self.tela.confirmar()
+            if(confirmacao):
+                entidade = self.get_entidade(dados["row_index"])
+                self.entidades.remove(entidade)
+        except ValueError as err:
+            self.tela.mostrar_mensagem(err)
+
 
     def abrir_menu(self, menu=None, opcoes={}, entidade=None):
 
         try:
             while(True):
-                # menu()
-                #opcao_escolhida = self.tela.selecionar(range(0, len(opcoes)+1))
                 opcao_escolhida, dados = menu()
 
                 if(opcao_escolhida == 0):
@@ -127,8 +130,8 @@ class Controlador(ABC):
 
                 funcao_escolhida = opcoes[opcao_escolhida]
                 funcao_escolhida(dados)
-        except StopIteration:
-            return
+        except ValueError as err:
+            self.tela.mostrar_mensagem(err)
 
     def unpack(self, entidade):
         pass

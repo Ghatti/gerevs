@@ -45,9 +45,6 @@ class TelaIntegrante(Tela, ABC):
         self.close()
         return button, values
 
-    def mostrar(self, pessoa, i):
-        print(i, pessoa)
-
     def mostrar_detalhes(self, pessoa):
         self.init_detalhes(pessoa)
         self.open()

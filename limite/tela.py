@@ -1,4 +1,5 @@
 import re
+import PySimpleGUI as sg
 from abc import ABC, abstractmethod
 from datetime import datetime, time
 
@@ -57,10 +58,9 @@ class Tela(TelaGui, ABC):
         print("Estado: ", endereco.estado)
 
     def confirmar(self, input_msg="Deseja confirmar a operação? s/n"):
-        confirmacao = "t"
-        while(confirmacao not in ["n", "s"]):
-            confirmacao = input(input_msg).lower()
-        return confirmacao == "s"
+        confirmacao = sg.popup_yes_no(input_msg)
+
+        return confirmacao == "Yes"
 
     def selecionar(self, opcoes):
 
@@ -286,7 +286,7 @@ class Tela(TelaGui, ABC):
 
             value = datetime.strptime(
                 value, "%d/%m/%Y")
-                
+
             for validator in validators:
                 validator(value)
 
