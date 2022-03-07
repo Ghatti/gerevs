@@ -19,7 +19,7 @@ class TelaPessoa(TelaIntegrante):
                 values["nome"] if values else None, key="nome")],
             [sg.Text("CPF:", size=(15, 1)), sg.InputText(
                 values["cpf"] if values else None, key="cpf")],
-            [sg.Text("Nascimento:", size=(15, 1)), sg.InputText(values["nascimento"].strftime("%d/%m/%Y") if values else None,
+            [sg.Text("Nascimento:", size=(15, 1)), sg.InputText(values["nascimento"] if values else None,
                                                                 key="nascimento"), sg.CalendarButton("Calendário", target="nascimento", format="%d/%m/%Y")],
             [sg.Text("CEP:", size=(15, 1)), sg.InputText(
                 values["cep"] if values else None, key="cep")],
@@ -57,15 +57,14 @@ class TelaPessoa(TelaIntegrante):
                 if(button == 0):
                     return
 
-                values["numero"] = int(values["numero"])
+                self.self_validar_cadastro(values)
                 values["nascimento"] = datetime.strptime(
                     values["nascimento"], "%d/%m/%Y")
-
-                self.self_validar_cadastro(values)
+                values["numero"] = int(values["numero"])
 
                 return values
             except ValueError as err:
-                self.show_message("Erro", err)
+                self.mostrar_mensagem(err, "Erro")
 
     def mostrar_tela_cadastro_repetido(self, pessoa):
         self.mostrar_mensagem(
@@ -88,7 +87,4 @@ class TelaPessoa(TelaIntegrante):
         }
 
         for key in validator_dispatch.keys():
-            validators = validator_dispatch[key]
-
-            for validator_func in validators:
-                validator_func(dados[key])
+            validator_dispatch[key](dados[key])

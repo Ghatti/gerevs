@@ -66,9 +66,6 @@ class Tela(TelaGui, ABC):
 
         return self.ler_inteiro(validators=self.validar_inteiro(opcoes=opcoes))
 
-    def mostrar_mensagem(self, mensagem):
-        print(mensagem)
-
     def mostrar_tela_endereco(self):
         print("Agora, informe o endereço.")
         endereco = {}
@@ -218,7 +215,11 @@ class Tela(TelaGui, ABC):
                     )
             validators.append(validar_no_digit)
 
-        return validators
+        def run_validators(value):
+            for validator in validators:
+                validator(value)
+
+        return run_validators
 
     def validar_inteiro(self, min=None, max=None, opcoes=None):
 
@@ -247,7 +248,13 @@ class Tela(TelaGui, ABC):
                     )
             validators.append(validar_opcao)
 
-        return validators
+        def run_validators(value):
+
+            value = int(value)
+            for validator in validators:
+                validator(value)
+
+        return run_validators
 
     def validar_data(self, min=None, max=None, delta=None):
         # Error messages need improvement
@@ -275,4 +282,12 @@ class Tela(TelaGui, ABC):
 
             validators.append(validar_delta)
 
-        return validators
+        def run_validators(value):
+
+            value = datetime.strptime(
+                value, "%d/%m/%Y")
+                
+            for validator in validators:
+                validator(value)
+
+        return run_validators

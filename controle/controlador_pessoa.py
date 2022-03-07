@@ -53,7 +53,7 @@ class ControladorPessoa(Controlador):
                         "Não é possível cadastrar duas pessoas com o mesmo CPF.")
 
         except ValueError as err:
-            self.tela.show_message("Erro", err)
+            self.tela.mostrar_mensagem(err, "Erro")
         else:
 
             endereco = {

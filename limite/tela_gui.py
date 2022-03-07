@@ -28,5 +28,5 @@ class TelaGui(ABC):
     def close(self):
         self.window.Close()
 
-    def show_message(self, titulo: str, mensagem: str):
+    def mostrar_mensagem(self, mensagem: str, titulo="Mensagem"):
         sg.Popup(titulo, mensagem)
