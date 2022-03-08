@@ -38,9 +38,11 @@ class Controlador(ABC):
 
     def abrir_menu_visualizacao(self, entidade):
 
-        opcoes = {1: self.alterar, 2: self.remover}
+        opcoes = {}
 
-        menu = self.tela.mostrar_menu_visualizacao
+        def menu():
+            self.tela.mostrar_detalhes(self.unpack(entidade))
+            return 0, None
 
         self.abrir_menu(menu, opcoes, entidade)
 
@@ -75,7 +77,7 @@ class Controlador(ABC):
 
         try:
             entidade = self.get_entidade(dados["row_index"])
-            self.tela.mostrar_detalhes(self.unpack(entidade))
+            self.abrir_menu_visualizacao(entidade)
 
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
@@ -118,7 +120,6 @@ class Controlador(ABC):
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
 
-
     def abrir_menu(self, menu=None, opcoes={}, entidade=None):
 
         try:
@@ -129,7 +130,7 @@ class Controlador(ABC):
                     break
 
                 funcao_escolhida = opcoes[opcao_escolhida]
-                funcao_escolhida(dados)
+                funcao_escolhida(entidade) if entidade else funcao_escolhida(dados)
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
 

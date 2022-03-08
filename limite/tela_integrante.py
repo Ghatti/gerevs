@@ -25,7 +25,7 @@ class TelaIntegrante(Tela, ABC):
         self.window = sg.Window(
             "Menu Inicial", default_element_size=(40, 1)).Layout(layout)
 
-    def init_detalhes(self, pessoa):
+    def init_detalhes(self, pessoa, participante=False):
         sg.ChangeLookAndFeel('Reddit')
 
         layout = [
@@ -33,6 +33,11 @@ class TelaIntegrante(Tela, ABC):
             [sg.Text("CPF: ", size=(15, 1)), sg.Text(pessoa["cpf"])],
             [sg.Text("Nascimento: ", size=(15, 1)),
              sg.Text(pessoa["nascimento"])],
+            [sg.Text("Vacinas: ")] if participante else [],
+            [sg.Text("Dose 1: ", size=(15, 1)), sg.Text(
+                pessoa["vacina"][0])] if participante else [],
+            [sg.Text("Dose 2: ", size=(15, 1)), sg.Text(
+                pessoa["vacina"][1])] if participante else [],
             [sg.Text("Endereço", size=(15, 1))],
             [sg.Text("CEP: ", size=(15, 1)), sg.Text(pessoa["cep"])],
             [sg.Text("Rua: ", size=(15, 1)), sg.Text(pessoa["rua"])],
@@ -40,7 +45,8 @@ class TelaIntegrante(Tela, ABC):
             [sg.Text("Bairro: ", size=(15, 1)), sg.Text(pessoa["bairro"])],
             [sg.Text("Cidade: ", size=(15, 1)), sg.Text(pessoa["cidade"])],
             [sg.Text("Estado: ", size=(15, 1)), sg.Text(pessoa["estado"])],
-            [sg.Ok()]
+            [sg.Button("Registrar Vacina", key=1), sg.Button(
+                "Registrar Ver Exames", key=2), sg.Button("Voltar", key=0)] if participante else [sg.Ok()]
         ]
 
         self.window = sg.Window(
@@ -54,5 +60,6 @@ class TelaIntegrante(Tela, ABC):
 
     def mostrar_detalhes(self, pessoa):
         self.init_detalhes(pessoa)
-        self.open()
+        button, values = self.open()
         self.close()
+        return button, values

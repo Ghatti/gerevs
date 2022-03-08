@@ -57,7 +57,7 @@ class Tela(TelaGui, ABC):
         print("Cidade: ", endereco.cidade)
         print("Estado: ", endereco.estado)
 
-    def confirmar(self, input_msg="Deseja confirmar a operação? s/n"):
+    def confirmar(self, input_msg="Deseja confirmar a operação?"):
         confirmacao = sg.popup_yes_no(input_msg)
 
         return confirmacao == "Yes"

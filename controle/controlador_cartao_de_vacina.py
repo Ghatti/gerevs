@@ -11,14 +11,15 @@ class ControladorCartaoDeVacina(Controlador):
     def abrir_menu_visualizacao(self, cartao):
         opcoes = {1: self.registrar_dose}
 
-        menu = self.tela.mostrar_menu_visualizacao
+        def menu():
+            return self.tela.mostrar_menu_visualizacao
 
         self.abrir_menu(menu, opcoes, cartao)
 
-    def mostrar(self, cartao):
-
-        self.tela.mostrar_detalhes(cartao)
-        self.abrir_menu_visualizacao(cartao)
+    # def mostrar(self, cartao):
+#
+    #    self.tela.mostrar_detalhes(cartao)
+    #    self.abrir_menu_visualizacao(cartao)
 
     def registrar_dose(self, cartao=CartaoDeVacina):
 
@@ -28,5 +29,3 @@ class ControladorCartaoDeVacina(Controlador):
         else:
             self.tela.mostrar_mensagem(
                 "O esquema de vacinação já está completo.")
-
-        self.tela.mostrar_detalhes(cartao)

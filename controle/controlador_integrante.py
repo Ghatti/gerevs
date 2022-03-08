@@ -38,4 +38,5 @@ class ControladorIntegrante(Controlador):
             "bairro": pessoa.endereco.bairro,
             "cidade": pessoa.endereco.cidade,
             "estado": pessoa.endereco.estado,
+            "vacina": [pessoa.cartao_de_vacina.doses[0], pessoa.cartao_de_vacina.doses[1]]
         }

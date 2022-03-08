@@ -9,25 +9,21 @@ class ControladorParticipante(ControladorIntegrante):
 
     def abrir_menu_visualizacao(self, participante):
 
-        opcoes = {1: self.alterar, 2: self.remover,
-                  3: self.mostrar_vacinas, 4: self.mostrar_exames}
+        opcoes = {1: lambda participante: self.controlador_sistema.controlador_cartao_de_vacina.registrar_dose(
+            participante.cartao_de_vacina), 2: self.mostrar_exames}
 
-        menu = self.tela.mostrar_menu_visualizacao
+        def menu():
+            return self.tela.mostrar_detalhes(self.unpack(participante))
 
         self.abrir_menu(menu, opcoes,  participante)
-
-    def mostrar_vacinas(self, participante):
-
-        cartao = participante.cartao_de_vacina
-
-        self.controlador_sistema.controlador_cartao_de_vacina.mostrar(cartao)
 
     def registrar_exame(self, participante):
 
         novo_exame = self.controlador_sistema.controlador_exame.cadastrar()
-        
+
         if(participante.nascimento > novo_exame.data):
-            raise ValueError("O exame não pode ser realizado antes do nascimento do participante.")
+            raise ValueError(
+                "O exame não pode ser realizado antes do nascimento do participante.")
 
         participante.add_exame(novo_exame)
         self.controlador_sistema.controlador_exame.listar(
