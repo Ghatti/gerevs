@@ -53,7 +53,7 @@ class TelaPessoa(TelaIntegrante):
                 if(button == 0):
                     return
 
-                self.self_validar_cadastro(values)
+                self.validar_cadastro(values)
                 values["nascimento"] = datetime.strptime(
                     values["nascimento"], "%d/%m/%Y")
                 values["numero"] = int(values["numero"])
@@ -69,7 +69,7 @@ class TelaPessoa(TelaIntegrante):
 
         return confirmar == "Yes"
 
-    def self_validar_cadastro(self, dados):
+    def validar_cadastro(self, dados):
 
         validator_dispatch = {
             "nome": self.validar_string(min=2, max=31, no_digit=True),

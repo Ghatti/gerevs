@@ -8,10 +8,11 @@ class ControladorExame(Controlador):
     def __init__(self, controlador_sistema):
         super().__init__(controlador_sistema, TelaExame(self))
 
-    def abrir_menu_visualizacao(self, registrar_exame):
+    def abrir_menu_visualizacao(self, exames, registrar_exame):
         opcoes = {1: registrar_exame}
 
-        menu = self.tela.mostrar_menu_visualizacao
+        def menu():
+            return self.tela.mostrar(exames)
 
         self.abrir_menu(menu, opcoes)
 
@@ -24,9 +25,7 @@ class ControladorExame(Controlador):
     def mostrar(self, exames, registrar_exame):
         try:
 
-            self.listar(exames)
+            self.abrir_menu_visualizacao(self, exames, registrar_exame)
 
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
-        finally:
-            self.abrir_menu_visualizacao(registrar_exame)
