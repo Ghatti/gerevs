@@ -46,7 +46,7 @@ class TelaIntegrante(Tela, ABC):
             [sg.Text("Cidade: ", size=(15, 1)), sg.Text(pessoa["cidade"])],
             [sg.Text("Estado: ", size=(15, 1)), sg.Text(pessoa["estado"])],
             [sg.Button("Registrar Vacina", key=1), sg.Button(
-                "Registrar Ver Exames", key=2), sg.Button("Voltar", key=0)] if participante else [sg.Ok()]
+                "Ver Exames", key=2), sg.Button("Voltar", key=0)] if participante else [sg.Ok()]
         ]
 
         self.window = sg.Window(

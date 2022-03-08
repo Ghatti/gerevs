@@ -86,9 +86,8 @@ class Controlador(ABC):
 
         if(len(lista) == 0):
             raise ValueError("Não há elementos para listar")
-        self.tela.mostrar_mensagem("------ Lista ------")
         for i, entidade in enumerate(lista):
-            self.tela.mostrar(self.unpack(entidade), i+1)
+            self.tela.mostrar(self.unpack(entidade))
 
     def selecionar(self, lista=None, listar=True):
 
@@ -130,9 +129,12 @@ class Controlador(ABC):
                     break
 
                 funcao_escolhida = opcoes[opcao_escolhida]
-                funcao_escolhida(entidade) if entidade else funcao_escolhida(dados)
+                funcao_escolhida(
+                    entidade) if entidade else funcao_escolhida(dados)
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
+        except StopIteration as err:
+            return
 
     def unpack(self, entidade):
         pass

@@ -9,7 +9,7 @@ class ControladorExame(Controlador):
         super().__init__(controlador_sistema, TelaExame(self))
 
     def abrir_menu_visualizacao(self, exames, registrar_exame):
-        opcoes = {1: registrar_exame}
+        opcoes = {1: lambda dados: registrar_exame()}
 
         def menu():
             return self.tela.mostrar(exames)
@@ -19,13 +19,25 @@ class ControladorExame(Controlador):
     def cadastrar(self):
 
         dados = self.tela.mostrar_tela_cadastro()
+
+        if(dados is None):
+            return
+
         exame = Exame(dados["data"], dados["resultado"])
         return exame
 
     def mostrar(self, exames, registrar_exame):
         try:
 
-            self.abrir_menu_visualizacao(self, exames, registrar_exame)
+            self.abrir_menu_visualizacao(
+                [self.unpack(exame) for exame in exames], registrar_exame)
 
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
+
+    def unpack(self, exame):
+
+        return {
+            "data": exame.data.strftime("%d/%m/%Y %H:%M"),
+            "resultado": "Positivo" if exame.resultado else "Negativo"
+        }
