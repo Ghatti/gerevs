@@ -72,12 +72,23 @@ class ControladorEvento(Controlador):
     def abrir_menu_participantes(self, evento):
 
         opcoes = {1: lambda entidade, input: self.adicionar_participante(entidade),
-                  2: self.remover_participante, 3: lambda entidade, input: self.listar_participantes(entidade, False),
-                  4: lambda entidade, input: self.listar_participantes(entidade, True)}
+                  2: self.remover_participante, 3: lambda entidade, input: self.abrir_menu_confirmar_participantes(entidade, False),
+                  4: lambda entidade, input: self.abrir_menu_confirmar_participantes(entidade, True)}
 
         def menu():
             part_list = self.listar_participantes(evento)
             return self.tela.mostrar_menu_participantes(part_list)
+
+        self.abrir_menu(menu, opcoes, evento, True)
+
+    def abrir_menu_confirmar_participantes(self, evento, filtro):
+
+        opcoes = {1: lambda entidade, input: self.confirmar_participante(
+            entidade, input, True), 2: lambda entidade, input: self.confirmar_participante(entidade, input, False)}
+
+        def menu():
+            part_list = self.listar_participantes(evento, filtro)
+            return self.tela.mostrar_tela_listar_participantes(part_list, confirmar=filtro)
 
         self.abrir_menu(menu, opcoes, evento, True)
 
@@ -100,10 +111,6 @@ class ControladorEvento(Controlador):
             return self.tela.mostrar_menu_organizadores(org_list)
 
         self.abrir_menu(menu, opcoes, evento, True)
-
-    # def gerenciar_participantes(self, evento):
-    #    self.listar_participantes(evento)
-    #    self.abrir_menu_participantes(evento)
 
     def gerenciar_registros_de_presenca(self, evento):
         try:
@@ -228,7 +235,7 @@ class ControladorEvento(Controlador):
         try:
             if (filtro is None):
                 participantes = evento.get_all_participantes()
-            elif (filtro == False):
+            elif (filtro == True):
                 participantes = evento.participantes_a_confirmar
             else:
                 participantes = evento.participantes_confirmados
@@ -279,7 +286,7 @@ class ControladorEvento(Controlador):
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
 
-    def confirmar_participante(self, evento, index):
+    def confirmar_participante(self, evento, input, modo):
         try:
             # exibe participantes não confirmados
             # pede seleção de um participante
@@ -287,11 +294,6 @@ class ControladorEvento(Controlador):
             index = input["row_index"][0]
 
             participante = evento.participantes_a_confirmar[index]
-
-            self.tela.mostrar_menu_confirmar_participantes()
-            modo = self.tela.ler_inteiro(
-                validators=self.tela.validar_inteiro(opcoes=[1, 2])) == 1
-            # verifica vacinação
 
             if(modo):
                 confirmacao = participante.cartao_de_vacina.is_complete()

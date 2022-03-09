@@ -110,6 +110,19 @@ class TelaEvento(Tela):
         self.window = sg.Window(
             "Gerenciar Participantes", default_element_size=(40, 1)).Layout(layout)
 
+    def init_tela_lista_participantes(self, part_list, confirmar=False):
+
+        sg.ChangeLookAndFeel('Reddit')
+
+        layout = [
+            part_list,
+            [sg.Button("Confirmar com Vacina", key=1),  sg.Button(
+                "Confirmar com exame", key=2), sg.Button("Voltar", key=0)] if confirmar else [sg.Button("Voltar", key=0)]
+        ]
+
+        self.window = sg.Window(
+            "Participantes confirmados" if not confirmar else "Participantes a confirmar", default_element_size=(40, 1)).Layout(layout)
+
     def mostrar_menu_inicial(self, entidades):
 
         self.init_menu_inicial(entidades)
@@ -142,12 +155,19 @@ class TelaEvento(Tela):
         print("4 - Ordenar Por Participantes")
         print("0 - Voltar")
 
-    def mostrar_menu_listar_participantes(self):
-        print("Escolha sua opção:")
-        print("1 - Ver todos os participantes")
-        print("2 - Ver participantes a confirmar")
-        print("3 - Ver participantes confirmados")
-        print("0 - Voltar")
+    def mostrar_tela_listar_participantes(self, part_list, confirmar=False):
+        self.init_tela_lista_participantes(part_list, confirmar)
+        button, values = self.open()
+        self.close()
+
+        if(button == 0):
+            return button, None
+
+        if(len(values["row_index"]) == 0):
+            raise ValueError(
+                "É necessário escolher um participante para confirmar")
+
+        return button, values
 
     def mostrar_menu_participantes(self, part_list):
         self.init_menu_participantes(part_list)
