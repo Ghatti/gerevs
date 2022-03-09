@@ -23,6 +23,16 @@ class TelaExame(Tela):
         self.window = sg.Window(
             "Exames", default_element_size=(40, 1)).Layout(layout)
 
+    def init_tela_selecao(self, exames):
+        sg.ChangeLookAndFeel('Reddit')
+
+        table = self.generate_table(exames)
+
+        layout = [table, [sg.Ok(key="ok")]]
+
+        self.window = sg.Window(
+            "Exames", default_element_size=(40, 1)).Layout(layout)
+
     def init_tela_cadastro(self, values, alterar=False):
 
         sg.ChangeLookAndFeel('Reddit')
@@ -89,3 +99,8 @@ class TelaExame(Tela):
 
         for key in validator_dispatch.keys():
             validator_dispatch[key](dados[key])
+
+    def generate_table(self, opcoes):
+
+        return [sg.Table([[exame["data"], exame["resultado"]] for exame in opcoes],  headings=["Data", "Resultado"
+                                                                                               ], key="row_index", select_mode=sg.TABLE_SELECT_MODE_BROWSE)]

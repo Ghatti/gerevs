@@ -315,8 +315,7 @@ class ControladorEvento(Controlador):
 
     def confirmar_com_exame(self, data_evento, exames):
 
-        exame = self.controlador_sistema.controlador_exame.selecionar(
-            lista=exames, listar=True)
+        exame = self.controlador_sistema.controlador_exame.selecionar(exames)
 
         prazo = data_evento - exame.data
         if(exame.data <= data_evento and not exame.resultado and prazo <= timedelta(days=3)):
