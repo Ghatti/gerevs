@@ -159,9 +159,24 @@ class ControladorEvento(Controlador):
 
             self.tela.mostrar_mensagem(err)
 
-    def alterar(self, evento):
+    def alterar(self, dados):
 
-        dados = self.tela.mostrar_tela_cadastro(alterar=True)
+        evento = self.get_entidade(dados["row_index"])
+
+        dados = self.tela.mostrar_tela_cadastro(
+            self.unpack(evento), alterar=True)
+
+        if dados is None:
+            return
+
+        dados["endereco"] = {
+            "cep": dados["cep"],
+            "rua": dados["rua"],
+            "numero": dados["numero"],
+            "bairro": dados["bairro"],
+            "cidade": dados["cidade"],
+            "estado": dados["estado"]
+        }
 
         evento.titulo = dados["titulo"]
         evento.data = dados["data"]
@@ -470,7 +485,8 @@ class ControladorEvento(Controlador):
 
         return {
             "titulo": evento.titulo,
-            "data": evento.data.strftime("%d/%m/%Y %H:%M"),
+            "data": evento.data.strftime("%d/%m/%Y"),
+            "horario": evento.data.strftime("%H:%M"),
             "cep": evento.local.cep,
             "rua": evento.local.rua,
             "numero": evento.local.numero,
