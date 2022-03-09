@@ -53,7 +53,7 @@ class Controlador(ABC):
         return dados
 
     def abrir_tela_selecionar(self, lista):
-        return self.tela.selecionar(range(1, len(lista)+1))
+        return self.tela.selecionar(self.unpack_all(lista))
 
     def tem_entidades(self):
         return len(self.entidades) != 0
@@ -89,16 +89,17 @@ class Controlador(ABC):
         for i, entidade in enumerate(lista):
             self.tela.mostrar(self.unpack(entidade))
 
-    def selecionar(self, lista=None, listar=True):
+    def selecionar(self, lista=None):
 
         if lista is None:
             lista = self.entidades
 
-        if(listar):
-            self.listar(lista)
-
         opcao = self.abrir_tela_selecionar(lista)
-        entidade = lista[opcao-1]
+
+        if(opcao is None):
+            return None
+
+        entidade = lista[opcao]
         return entidade
 
     # @abstract
@@ -135,6 +136,10 @@ class Controlador(ABC):
             self.tela.mostrar_mensagem(err)
         except StopIteration as err:
             return
+
+    def unpack_all(self, lista):
+
+        return [self.unpack(item) for item in lista]
 
     def unpack(self, entidade):
         pass

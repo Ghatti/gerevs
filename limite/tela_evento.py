@@ -1,5 +1,6 @@
+import PySimpleGUI as sg
 from limite.tela import Tela
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 
 
 class TelaEvento(Tela):
@@ -8,13 +9,60 @@ class TelaEvento(Tela):
 
         super().__init__(controlador)
 
-    def mostrar_menu_inicial(self):
-        print("------ Modulo de Eventos------")
-        print("Escolha sua opção:")
-        print("1 - Cadastrar Evento")
-        print("2 - Listar Eventos")
-        print("3 - Ver Evento")
-        print("0 - Voltar")
+    def init_menu_inicial(self, entidades):
+        sg.ChangeLookAndFeel('Reddit')
+
+        layout = [
+            [sg.Text("Módulo de Eventos",
+                     size=(30, 1), font=("Helvetica", 25))],
+            [sg.Table([[entidade["titulo"], entidade["data"], entidade["participantes_total"]] for entidade in entidades],  headings=["Título", "Data",
+                      "Participantes"], key="row_index", select_mode=sg.TABLE_SELECT_MODE_BROWSE)],
+            [sg.Button("Cadastrar", key=1), sg.Button("Alterar", key=2), sg.Button("Remover", key=4), sg.Button(
+                "Ver Detalhes", key=3), sg.Button("Voltar", key=0)]
+        ]
+
+        self.window = sg.Window(
+            "Módulo de Eventos", default_element_size=(40, 1)).Layout(layout)
+
+    def init_tela_cadastro(self, values, alterar=False):
+
+        sg.ChangeLookAndFeel('Reddit')
+
+        layout = [
+
+            [sg.Text("Título:", size=(15, 1)), sg.InputText(
+                values["titulo"] if values else None, key="titulo")],
+            [sg.Text("Data:", size=(15, 1)), sg.InputText(values["data"] if values else None,
+                                                          key="data"), sg.CalendarButton("Calendário", target="data", format="%d/%m/%Y")],
+            [sg.Text("Horário:", size=(15, 1)), sg.InputText(
+                values["horario"] if values else None, key="horario")],
+            [sg.Text("Capacidade:", size=(15, 1)), sg.InputText(
+                values["capacidade"] if values else None, key="capacidade", disabled=alterar)],
+            [sg.Text("CEP:", size=(15, 1)), sg.InputText(
+                values["cep"] if values else None, key="cep")],
+            [sg.Text("Rua:", size=(15, 1)), sg.InputText(
+                values["rua"] if values else None, key="rua")],
+            [sg.Text("Número:", size=(15, 1)), sg.InputText(
+                values["numero"] if values else None, key="numero")],
+            [sg.Text("Bairro:", size=(15, 1)), sg.InputText(
+                values["bairro"] if values else None, key="bairro")],
+            [sg.Text("Cidade:", size=(15, 1)), sg.InputText(
+                values["cidade"] if values else None, key="cidade")],
+            [sg.Text("Estado:", size=(15, 1)), sg.InputText(
+                values["estado"] if values else None, key="estado")],
+            [sg.Submit("Enviar", key="enviar"),
+             sg.Cancel("Cancelar", key=0)]
+        ]
+
+        self.window = sg.Window(
+            "Cadastrar Evento", default_element_size=(40, 1)).Layout(layout)
+
+    def mostrar_menu_inicial(self, entidades):
+
+        self.init_menu_inicial(entidades)
+        button, values = self.open()
+        self.close()
+        return button, values
 
     def mostrar_menu_visualizacao(self):
         print("------ Menu de Detalhes ------")
@@ -91,34 +139,34 @@ class TelaEvento(Tela):
 
         self.mostrar_endereco(evento.local)
 
-    def mostrar_tela_cadastro(self, alterar=False):
-        print("------ Cadastrar Evento ------") if not alterar else print(
-            "------ Alterar Evento ------")
+    def mostrar_tela_cadastro(self, default_values=None, alterar=False):
 
-        evento = {}
+        values = default_values
 
-        evento["titulo"] = self.ler_string(
-            "Informe o título do evento: ", self.validar_string(min=3, max=50))
+        while(True):
+            try:
+                self.init_tela_cadastro(values, alterar)
+                button, values = self.open()
+                self.close()
 
-        evento["data"] = self.ler_data("Data do evento (use o formato dd/mm/aaaa): ",
-                                       self.validar_data(min=datetime(year=2019, month=1, day=1)))
+                if(button == 0):
+                    return
 
-        horario = self.ler_horario(
-            "Informe o horário do evento (use o formato hh:mm): ")
+                self.validar_cadastro(values)
 
-        evento["data"] = evento["data"] + \
-            timedelta(hours=horario.hour, minutes=horario.minute)
+                try:
+                    horario = time.fromisoformat(values["horario"])
+                except ValueError:
+                    raise ValueError(
+                        "O horário informado não é válido. Utilize o formato hh:mm.")
 
-        if(evento["data"] < datetime.today()):
-            print("Atenção: você está cadastrando um evento que já ocorreu.")
+                values["data"] = datetime.strptime(
+                    values["data"], "%d/%m/%Y") + timedelta(hours=horario.hour, minutes=horario.minute)
+                values["capacidade"] = int(values["capacidade"])
 
-        if(not alterar):
-            evento["capacidade"] = self.ler_inteiro(
-                "Informe a capacidade máxima do evento: ", self.validar_inteiro(min=1))
-
-        evento["endereco"] = self.mostrar_tela_endereco()
-
-        return evento
+                return values
+            except ValueError as err:
+                self.mostrar_mensagem(err, "Erro")
 
     def mostrar_registro(self, registro, i):
         print(i, registro.participante.nome)
@@ -155,3 +203,19 @@ class TelaEvento(Tela):
                 break
 
         return data
+
+    def validar_cadastro(self, dados):
+
+        validator_dispatch = {
+            "titulo": self.validar_string(min=3, max=50),
+            "capacidade": self.validar_inteiro(min=1),
+            "data": self.validar_data(min=datetime(year=2019, month=1, day=1)),
+            "cep": self.validar_string(formato=r"^\d{2}\.\d{3}\-\d{3}$"),
+            "numero": self.validar_inteiro(min=0),
+            "bairro": self.validar_string(no_digit=True),
+            "cidade": self.validar_string(no_digit=True),
+            "estado": self.validar_string(no_digit=True)
+        }
+
+        for key in validator_dispatch.keys():
+            validator_dispatch[key](dados[key])

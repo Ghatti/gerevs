@@ -13,11 +13,13 @@ class ControladorEvento(Controlador):
 
     def abrir_menu_inicial(self):
 
-        opcoes = {1: self.cadastrar, 2: self.abrir_menu_listar,
-                  3: self.ver_detalhes}
-        menu = self.tela.mostrar_menu_inicial
+        opcoes = {1: lambda input: self.cadastrar(
+        ), 2: lambda input: self.alterar(input), 3: lambda input: self.ver_detalhes(input), 4: lambda input: self.remover(input)}
 
-        self.ver_todos()
+        def menu():
+            entidades = [self.unpack(entidade) for entidade in self.entidades]
+            return self.tela.mostrar_menu_inicial(entidades)
+
         self.abrir_menu(menu, opcoes)
 
     def abrir_menu_visualizacao(self, entidade):
@@ -115,23 +117,36 @@ class ControladorEvento(Controlador):
 
             if(not self.controlador_sistema.controlador_organizador.tem_entidades()):
 
-                cadastrar_org = self.tela.ler_string(
-                    "Não é possível cadastrar um evento porque ainda não há organizadores cadastrados. Deseja cadastrar um organizador primeiro? (s/n)", self.tela.validar_string(opcoes=["s", "n"]))
-
-                if(cadastrar_org == "s"):
-                    self.controlador_sistema.controlador_organizador.cadastrar()
-                    self.tela.mostrar_mensagem(
-                        "Agora, vamos continuar o cadastro do evento.")
-                else:
-                    raise ValueError(
-                        "Como não há organizadores registrados, não será possível cadastrar um evento.")
+                # self.tela
+                # cadastrar_org = self.tela.ler_string(
+                #    "Não é possível cadastrar um evento porque ainda não há organizadores cadastrados. Deseja cadastrar um organizador primeiro? (s/n)", self.tela.validar_string(opcoes=["s", "n"]))
+                #
+                # if(cadastrar_org == "s"):
+                #    self.controlador_sistema.controlador_organizador.cadastrar()
+                #    self.tela.mostrar_mensagem(
+                #        "Agora, vamos continuar o cadastro do evento.")
+                # else:
+                raise ValueError(
+                    "Como não há organizadores registrados, não será possível cadastrar um evento.")
 
             dados = self.tela.mostrar_tela_cadastro()
-            dados["organizador"] = self.controlador_sistema.controlador_organizador.selecionar()
+
+            organizador = self.controlador_sistema.controlador_organizador.selecionar()
+
+            dados["organizador"] = organizador
 
             if(dados["organizador"].nascimento > dados["data"]):
                 raise ValueError(
                     "O organizador escolhido nasceu após o evento ser realizado. Tente novamente")
+
+            dados["endereco"] = {
+                "cep": dados["cep"],
+                "rua": dados["rua"],
+                "numero": dados["numero"],
+                "bairro": dados["bairro"],
+                "cidade": dados["cidade"],
+                "estado": dados["estado"],
+            }
 
             # Cadastrar evento
             novo_evento = Evento(dados["titulo"], dados["data"],
@@ -139,7 +154,6 @@ class ControladorEvento(Controlador):
 
             self.entidades.append(novo_evento)
             self.tela.mostrar_mensagem("Evento cadastrado!")
-            self.ver_todos()
 
         except ValueError as err:
 
@@ -451,3 +465,18 @@ class ControladorEvento(Controlador):
             evento.remover_registro_de_presenca(registro)
 
         raise StopIteration
+
+    def unpack(self, evento):
+
+        return {
+            "titulo": evento.titulo,
+            "data": evento.data.strftime("%d/%m/%Y %H:%M"),
+            "cep": evento.local.cep,
+            "rua": evento.local.rua,
+            "numero": evento.local.numero,
+            "bairro": evento.local.bairro,
+            "cidade": evento.local.cidade,
+            "estado": evento.local.estado,
+            "capacidade": evento.capacidade,
+            "participantes_total": len(evento.get_all_participantes())
+        }

@@ -40,13 +40,14 @@ class TelaPessoa(TelaIntegrante):
         self.window = sg.Window(
             "Cadastrar Pessoa", default_element_size=(40, 1)).Layout(layout)
 
-    def mostrar_tela_cadastro(self, default_values=None, alterar=False):
+    def mostrar_tela_cadastro(self, organizadores=[], default_values=None, alterar=False):
 
         values = default_values
 
         while(True):
             try:
-                self.init_tela_cadastro(values, alterar)
+                self.init_tela_cadastro(
+                    values, alterar)
                 button, values = self.open()
                 self.close()
 

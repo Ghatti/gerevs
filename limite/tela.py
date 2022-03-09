@@ -1,3 +1,4 @@
+from multiprocessing.sharedctypes import Value
 import re
 import PySimpleGUI as sg
 from abc import ABC, abstractmethod
@@ -64,29 +65,16 @@ class Tela(TelaGui, ABC):
 
     def selecionar(self, opcoes):
 
-        return self.ler_inteiro(validators=self.validar_inteiro(opcoes=opcoes))
+        self.init_tela_selecao(opcoes)
+        button, values = self.open()
+        self.close()
 
-    def mostrar_tela_endereco(self):
-        print("Agora, informe o endereço.")
-        endereco = {}
+        if(button == 0 or len(values["row_index"]) == 0):
+            raise ValueError(
+                "Não é possível continuar o cadastro sem um organizador.")
 
-        endereco["cep"] = self.ler_string(
-            "CEP: (use o formato 00.000-000) ", self.validar_string(formato=r"^\d{2}\.\d{3}\-\d{3}$"))
-        endereco["rua"] = self.ler_string(
-            "Rua: ")
+        return values["row_index"][0]
 
-        endereco["numero"] = self.ler_inteiro(
-            "Informe o número: ", self.validar_inteiro(min=0))
-
-        endereco["bairro"] = self.ler_string(
-            "Bairro: ", validators=self.validar_string(no_digit=True))
-
-        endereco["cidade"] = self.ler_string(
-            "Cidade: ", validators=self.validar_string(no_digit=True))
-        endereco["estado"] = self.ler_string(
-            "Estado: ", validators=self.validar_string(no_digit=True))
-
-        return endereco
 
     def ler_inteiro(self, input_msg="Escolha a opção: ", validators=[]):
 

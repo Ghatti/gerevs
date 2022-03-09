@@ -10,14 +10,26 @@ class TelaIntegrante(Tela, ABC):
 
         super().__init__(controlador)
 
+    def init_tela_selecao(self, opcoes):
+
+        sg.ChangeLookAndFeel('Reddit')
+
+        table = self.generate_table(opcoes)
+
+        layout = [table, [sg.Ok(key="ok")]]
+
+        self.window = sg.Window(
+            "Seleção", default_element_size=(40, 1)).Layout(layout)
+
     def init_menu_inicial(self, entidades):
         sg.ChangeLookAndFeel('Reddit')
+
+        table = self.generate_table(entidades)
 
         layout = [
             [sg.Text("Menu Inicial",
                      size=(30, 1), font=("Helvetica", 25))],
-            [sg.Table([[entidade["nome"], entidade["cpf"], entidade["nascimento"]] for entidade in entidades],  headings=["Nome", "CPF",
-                      "Nascimento"], key="row_index", select_mode=sg.TABLE_SELECT_MODE_BROWSE)],
+            table,
             [sg.Button("Cadastrar", key=1), sg.Button("Alterar", key=2), sg.Button("Remover", key=4), sg.Button(
                 "Ver Detalhes", key=3), sg.Button("Voltar", key=0)]
         ]
@@ -63,3 +75,8 @@ class TelaIntegrante(Tela, ABC):
         button, values = self.open()
         self.close()
         return button, values
+
+    def generate_table(self, opcoes):
+
+        return [sg.Table([[entidade["nome"], entidade["cpf"], entidade["nascimento"]] for entidade in opcoes],  headings=["Nome", "CPF",
+                                                                                                                          "Nascimento"], key="row_index", select_mode=sg.TABLE_SELECT_MODE_BROWSE)]
