@@ -24,8 +24,8 @@ class ControladorEvento(Controlador):
 
     def abrir_menu_visualizacao(self, entidade):
 
-        opcoes = {1: self.gerenciar_participantes,
-                  2: self.abrir_menu_organizadores, 3: self.gerenciar_registros_de_presenca}
+        opcoes = {1: self.abrir_menu_participantes,
+                  2: self.abrir_menu_organizadores, 3: self.abrir_menu_registros}
 
         def menu():
             return self.tela.mostrar_detalhes(self.unpack(entidade))
@@ -71,12 +71,15 @@ class ControladorEvento(Controlador):
 
     def abrir_menu_participantes(self, evento):
 
-        opcoes = {1: self.adicionar_participante,
-                  2: self.remover_participante, 3: self.abrir_menu_listar_participantes, 4: self.confirmar_participante}
+        opcoes = {1: lambda entidade, input: self.adicionar_participante(entidade),
+                  2: self.remover_participante, 3: lambda entidade, input: self.listar_participantes(entidade, False),
+                  4: lambda entidade, input: self.listar_participantes(entidade, True)}
 
-        menu = self.tela.mostrar_menu_participantes
+        def menu():
+            part_list = self.listar_participantes(evento)
+            return self.tela.mostrar_menu_participantes(part_list)
 
-        self.abrir_menu(menu, opcoes, evento)
+        self.abrir_menu(menu, opcoes, evento, True)
 
     def abrir_menu_registros(self, evento):
 
@@ -98,13 +101,9 @@ class ControladorEvento(Controlador):
 
         self.abrir_menu(menu, opcoes, evento, True)
 
-    # def gerenciar_organizadores(self, evento):
-#
-    #    self.abrir_menu_organizadores(evento)
-
-    def gerenciar_participantes(self, evento):
-        self.listar_participantes(evento)
-        self.abrir_menu_participantes(evento)
+    # def gerenciar_participantes(self, evento):
+    #    self.listar_participantes(evento)
+    #    self.abrir_menu_participantes(evento)
 
     def gerenciar_registros_de_presenca(self, evento):
         try:
@@ -234,7 +233,7 @@ class ControladorEvento(Controlador):
             else:
                 participantes = evento.participantes_confirmados
 
-            self.controlador_sistema.controlador_participante.listar(
+            return self.controlador_sistema.controlador_participante.listar(
                 participantes)
 
         except ValueError as err:
@@ -261,12 +260,13 @@ class ControladorEvento(Controlador):
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
 
-    def remover_participante(self, evento):
+    def remover_participante(self, evento, input):
         try:
             participantes_registrados = evento.get_all_participantes()
 
-            participante = self.controlador_sistema.controlador_participante.selecionar(
-                participantes_registrados)
+            index = input["row_index"][0]
+
+            participante = participantes_registrados[index]
 
             evento.remover_participante(participante)
 
@@ -279,13 +279,14 @@ class ControladorEvento(Controlador):
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
 
-    def confirmar_participante(self, evento):
+    def confirmar_participante(self, evento, index):
         try:
             # exibe participantes não confirmados
             # pede seleção de um participante
 
-            participante = self.controlador_sistema.controlador_participante.selecionar(
-                evento.participantes_a_confirmar)
+            index = input["row_index"][0]
+
+            participante = evento.participantes_a_confirmar[index]
 
             self.tela.mostrar_menu_confirmar_participantes()
             modo = self.tela.ler_inteiro(
@@ -350,14 +351,12 @@ class ControladorEvento(Controlador):
         try:
 
             index = input["row_index"][0]
-            
+
             if(len(evento.organizadores) == 1):
                 raise ValueError(
                     "Evento possui apenas um organizador. É necessário adicionar outro organizador antes de removê-lo.")
 
             organizador = evento.organizadores[index]
-            # organizador = self.controlador_sistema.controlador_organizador.selecionar(
-            #    evento.organizadores)
 
             evento.remover_organizador(organizador)
 

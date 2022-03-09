@@ -88,11 +88,27 @@ class TelaEvento(Tela):
 
         layout = [
             org_list,
-            [sg.Button("Adicionar", key=1), sg.Button("Remover", key=2), sg.Button("Voltar", key=0)]
+            [sg.Button("Adicionar", key=1), sg.Button(
+                "Remover", key=2), sg.Button("Voltar", key=0)]
         ]
 
         self.window = sg.Window(
             "Gerenciar Organizadores", default_element_size=(40, 1)).Layout(layout)
+
+    def init_menu_participantes(self, part_list):
+
+        sg.ChangeLookAndFeel('Reddit')
+
+        layout = [
+            part_list,
+            [sg.Button(
+                "Participantes Confirmados", key=3), sg.Button("Participantes a confirmar", key=4)],
+            [sg.Button("Adicionar", key=1),  sg.Button(
+                "Remover", key=2), sg.Button("Voltar", key=0)]
+        ]
+
+        self.window = sg.Window(
+            "Gerenciar Participantes", default_element_size=(40, 1)).Layout(layout)
 
     def mostrar_menu_inicial(self, entidades):
 
@@ -133,14 +149,19 @@ class TelaEvento(Tela):
         print("3 - Ver participantes confirmados")
         print("0 - Voltar")
 
-    def mostrar_menu_participantes(self):
-        print("------ Menu de Participantes ------")
-        print("Escolha sua opção:")
-        print("0 - Voltar")
-        print("1 - Adicionar participante")
-        print("2 - Remover participante")
-        print("3 - Listar Participantes")
-        print("4 - Confirmar participante")
+    def mostrar_menu_participantes(self, part_list):
+        self.init_menu_participantes(part_list)
+        button, values = self.open()
+        self.close()
+
+        if(button == 0):
+            return button, None
+
+        if(button == 2 and len(values["row_index"]) == 0):
+            raise ValueError(
+                "É necessário escolher um participante para remover")
+
+        return button, values
 
     def mostrar_menu_organizadores(self, org_list):
         self.init_menu_organizadores(org_list)
