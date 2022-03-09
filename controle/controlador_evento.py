@@ -94,11 +94,11 @@ class ControladorEvento(Controlador):
 
         def menu():
             org_list = self.listar_organizadores(evento)
-            self.tela.mostrar_menu_organizadores(org_list)
+            return self.tela.mostrar_menu_organizadores(org_list)
 
         self.abrir_menu(menu, opcoes, evento)
 
-    #def gerenciar_organizadores(self, evento):
+    # def gerenciar_organizadores(self, evento):
 #
     #    self.abrir_menu_organizadores(evento)
 
