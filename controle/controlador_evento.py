@@ -24,10 +24,11 @@ class ControladorEvento(Controlador):
 
     def abrir_menu_visualizacao(self, entidade):
 
-        opcoes = {1: self.alterar, 2: self.remover,
-                  3: self.gerenciar_participantes, 4: self.gerenciar_organizadores, 5: self.gerenciar_registros_de_presenca}
+        opcoes = {1: self.gerenciar_participantes,
+                  2: self.gerenciar_organizadores, 3: self.gerenciar_registros_de_presenca}
 
-        menu = self.tela.mostrar_menu_visualizacao
+        def menu():
+            return self.tela.mostrar_detalhes(self.unpack(entidade))
 
         self.abrir_menu(menu, opcoes,  entidade)
 
@@ -181,8 +182,6 @@ class ControladorEvento(Controlador):
         evento.titulo = dados["titulo"]
         evento.data = dados["data"]
         evento.endereco = dados["endereco"]
-
-        self.tela.mostrar_detalhes(evento)
 
     def ver_ranking(self):
 

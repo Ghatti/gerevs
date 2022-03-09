@@ -24,6 +24,31 @@ class TelaEvento(Tela):
         self.window = sg.Window(
             "Módulo de Eventos", default_element_size=(40, 1)).Layout(layout)
 
+    def init_detalhes(self, evento):
+        sg.ChangeLookAndFeel('Reddit')
+
+        layout = [
+            [sg.Text("Título: ", size=(15, 1)), sg.Text(evento["titulo"])],
+            [sg.Text("Data: ", size=(15, 1)),
+             sg.Text(evento["data"])],
+            [sg.Text("Horário: ", size=(15, 1)),
+             sg.Text(evento["horario"])],
+            [sg.Text("Capacidade: ", size=(15, 1)),
+             sg.Text(evento["capacidade"])],
+            [sg.Text("Endereço", size=(15, 1))],
+            [sg.Text("CEP: ", size=(15, 1)), sg.Text(evento["cep"])],
+            [sg.Text("Rua: ", size=(15, 1)), sg.Text(evento["rua"])],
+            [sg.Text("Número: ", size=(15, 1)), sg.Text(evento["numero"])],
+            [sg.Text("Bairro: ", size=(15, 1)), sg.Text(evento["bairro"])],
+            [sg.Text("Cidade: ", size=(15, 1)), sg.Text(evento["cidade"])],
+            [sg.Text("Estado: ", size=(15, 1)), sg.Text(evento["estado"])],
+            [sg.Button("Participantes", key=1), sg.Button(
+                "Organizadores", key=2), sg.Button("Registros de Presença", key=3), sg.Button("Voltar", key=0)]
+        ]
+
+        self.window = sg.Window(
+            "Detalhes", default_element_size=(40, 1)).Layout(layout)
+
     def init_tela_cadastro(self, values, alterar=False):
 
         sg.ChangeLookAndFeel('Reddit')
@@ -128,16 +153,11 @@ class TelaEvento(Tela):
         print("3 - Registrar Presença")
         print("4 - Registrar Saída")
 
-    def mostrar(self, evento, i):
-        print(i, "-", evento.titulo, "-",
-              evento.data.strftime("%d/%m/%Y - %H:%M"), "-", len(evento.get_all_participantes()), "participante(s).")
-
     def mostrar_detalhes(self, evento):
-        print("------ Visualizar evento ------")
-        print("Nome: {}".format(evento.titulo))
-        print("Data: {}".format(evento.data.strftime("%d/%m/%Y - %H:%M")))
-
-        self.mostrar_endereco(evento.local)
+        self.init_detalhes(evento)
+        button, values = self.open()
+        self.close()
+        return button, values
 
     def mostrar_tela_cadastro(self, default_values=None, alterar=False):
 
