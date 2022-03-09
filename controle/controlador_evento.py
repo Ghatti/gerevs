@@ -25,7 +25,7 @@ class ControladorEvento(Controlador):
     def abrir_menu_visualizacao(self, entidade):
 
         opcoes = {1: self.gerenciar_participantes,
-                  2: self.gerenciar_organizadores, 3: self.gerenciar_registros_de_presenca}
+                  2: self.abrir_menu_organizadores, 3: self.gerenciar_registros_de_presenca}
 
         def menu():
             return self.tela.mostrar_detalhes(self.unpack(entidade))
@@ -90,16 +90,17 @@ class ControladorEvento(Controlador):
     def abrir_menu_organizadores(self, evento):
 
         opcoes = {1: self.adicionar_organizador,
-                  2: self.remover_organizador, 3: self.listar_organizadores}
+                  2: self.remover_organizador}
 
-        menu = self.tela.mostrar_menu_organizadores
+        def menu():
+            org_list = self.listar_organizadores(evento)
+            self.tela.mostrar_menu_organizadores(org_list)
 
         self.abrir_menu(menu, opcoes, evento)
 
-    def gerenciar_organizadores(self, evento):
-
-        self.listar_organizadores(evento)
-        self.abrir_menu_organizadores(evento)
+    #def gerenciar_organizadores(self, evento):
+#
+    #    self.abrir_menu_organizadores(evento)
 
     def gerenciar_participantes(self, evento):
         self.listar_participantes(evento)
@@ -323,7 +324,7 @@ class ControladorEvento(Controlador):
     def listar_organizadores(self, evento):
 
         try:
-            self.controlador_sistema.controlador_organizador.listar(
+            return self.controlador_sistema.controlador_organizador.listar(
                 evento.organizadores)
 
         except ValueError as err:

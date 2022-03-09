@@ -84,10 +84,7 @@ class Controlador(ABC):
 
     def listar(self, lista=[]):
 
-        if(len(lista) == 0):
-            raise ValueError("Não há elementos para listar")
-        for i, entidade in enumerate(lista):
-            self.tela.mostrar(self.unpack(entidade))
+        return self.tela.generate_table(self.unpack_all(lista))
 
     def selecionar(self, lista=None):
 
