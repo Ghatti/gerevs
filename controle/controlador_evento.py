@@ -89,14 +89,14 @@ class ControladorEvento(Controlador):
 
     def abrir_menu_organizadores(self, evento):
 
-        opcoes = {1: self.adicionar_organizador,
+        opcoes = {1: lambda entidade, input: self.adicionar_organizador(entidade),
                   2: self.remover_organizador}
 
         def menu():
             org_list = self.listar_organizadores(evento)
             return self.tela.mostrar_menu_organizadores(org_list)
 
-        self.abrir_menu(menu, opcoes, evento)
+        self.abrir_menu(menu, opcoes, evento, True)
 
     # def gerenciar_organizadores(self, evento):
 #
@@ -346,15 +346,18 @@ class ControladorEvento(Controlador):
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
 
-    def remover_organizador(self, evento):
+    def remover_organizador(self, evento, input):
         try:
 
+            index = input["row_index"][0]
+            
             if(len(evento.organizadores) == 1):
                 raise ValueError(
                     "Evento possui apenas um organizador. É necessário adicionar outro organizador antes de removê-lo.")
 
-            organizador = self.controlador_sistema.controlador_organizador.selecionar(
-                evento.organizadores)
+            organizador = evento.organizadores[index]
+            # organizador = self.controlador_sistema.controlador_organizador.selecionar(
+            #    evento.organizadores)
 
             evento.remover_organizador(organizador)
 

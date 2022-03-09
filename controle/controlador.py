@@ -117,7 +117,7 @@ class Controlador(ABC):
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
 
-    def abrir_menu(self, menu=None, opcoes={}, entidade=None):
+    def abrir_menu(self, menu=None, opcoes={}, entidade=None, pass_input=False):
 
         try:
             while(True):
@@ -127,8 +127,13 @@ class Controlador(ABC):
                     break
 
                 funcao_escolhida = opcoes[opcao_escolhida]
-                funcao_escolhida(
-                    entidade) if entidade else funcao_escolhida(dados)
+
+                if entidade:
+                    funcao_escolhida(
+                        entidade, dados) if pass_input else funcao_escolhida(entidade)
+                else:
+                    funcao_escolhida(dados)
+
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
         except StopIteration as err:

@@ -88,7 +88,7 @@ class TelaEvento(Tela):
 
         layout = [
             org_list,
-            [sg.Button("Adicionar", key=1), sg.Button("Remover", key=2)]
+            [sg.Button("Adicionar", key=1), sg.Button("Remover", key=2), sg.Button("Voltar", key=0)]
         ]
 
         self.window = sg.Window(
@@ -146,6 +146,14 @@ class TelaEvento(Tela):
         self.init_menu_organizadores(org_list)
         button, values = self.open()
         self.close()
+
+        if(button == 0):
+            return button, None
+
+        if(button == 2 and len(values["row_index"]) == 0):
+            raise ValueError(
+                "É necessário escolher um organizador para remover")
+
         return button, values
 
     def mostrar_menu_confirmar_participantes(self):
