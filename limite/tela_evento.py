@@ -139,6 +139,18 @@ class TelaEvento(Tela):
         self.window = sg.Window(
             "Megistros de Presença", default_element_size=(40, 1)).Layout(layout)
 
+    def init_tela_registrar_presenca(self, values):
+        sg.ChangeLookAndFeel('Reddit')
+
+        layout = [[sg.Text("Data:", size=(15, 1)), sg.InputText(values["data"] if values else None,
+                                                                key="data"), sg.CalendarButton("Calendário", target="data", format="%d/%m/%Y")],
+                  [sg.Text("Horário:", size=(15, 1)), sg.InputText(
+                      values["horario"] if values else None, key="horario")],
+                  [sg.Ok(), sg.Button("Voltar", key=0)]]
+
+        self.window = sg.Window(
+            "Megistros de Presença", default_element_size=(40, 1)).Layout(layout)
+
     def mostrar_menu_inicial(self, entidades):
 
         self.init_menu_inicial(entidades)
@@ -253,9 +265,6 @@ class TelaEvento(Tela):
             except ValueError as err:
                 self.mostrar_mensagem(err, "Erro")
 
-    def mostrar_registro(self, registro, i):
-        print(i, registro.participante.nome)
-
     def mostrar_detalhes_registro(self, registro):
         print("------ Visualizar registro ------")
         print("Participante", registro.participante.nome)
@@ -263,31 +272,39 @@ class TelaEvento(Tela):
         if(registro.saida):
             print("Saída:", registro.saida.data.strftime("%d/%m/%Y - %H:%M"))
 
-    def mostrar_tela_registrar_presenca(self, data_evento, limite, entrada=True):
+    def mostrar_tela_registrar_presenca(self, data_evento, limite, default_values=None, alterar=False):
 
-        print("------ Registrar entrada ------" if entrada else "------ Registrar saída ------")
-
+        values = default_values
         limite_inferior = data_evento - limite
         limite_superior = data_evento + limite
 
-        data = self.ler_data("Informe a data:")
-        if(data < limite_inferior or data > limite_superior):
-            raise ValueError(
-                "A data informada deve ser, no máximo, um dia após ou antes do evento.")
+        while True:
+            try:
+                self.init_tela_registrar_presenca(values)
 
-        while(True):
-            horario = self.ler_horario("Informe o horário:")
+                button, values = self.open()
+                self.close()
 
-            data = data + timedelta(hours=horario.hour, minutes=horario.minute)
-            if(data < data_evento):
-                confirmacao = self.confirmar(
-                    "A data/horário informado é anterior ao do evento. Deseja prosseguir mesmo assim? (s/n)")
-                if(confirmacao):
-                    break
-            else:
-                break
+                if(button == 0):
+                    raise ValueError("Registro cancelado")
+                    
+                try:
+                    horario = time.fromisoformat(values["horario"])
+                except ValueError:
+                    raise ValueError(
+                        "O horário informado não é válido. Utilize o formato hh:mm.")
 
-        return data
+                values["data"] = datetime.strptime(
+                    values["data"], "%d/%m/%Y") + timedelta(hours=horario.hour, minutes=horario.minute)
+
+                if(values["data"] < limite_inferior or values["data"] > limite_superior):
+                    raise ValueError(
+                        "A data informada deve ser, no máximo, um dia após ou antes do evento.")
+
+                return values
+
+            except ValueError as err:
+                self.mostrar_mensagem(err, "Erro")
 
     def validar_cadastro(self, dados):
 

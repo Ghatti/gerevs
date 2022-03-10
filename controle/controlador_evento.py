@@ -97,12 +97,12 @@ class ControladorEvento(Controlador):
         # , 4: lambda: self.alterar_registro_de_presenca(evento, registro), 5: lambda: self.remover_registro_de_presenca(evento, registro)
 
         opcoes = {1: self.ver_registro_de_presenca,
-                  2: self.registrar_entrada, 3: self.registrar_saida}
+                  2: lambda entidade, input: self.registrar_entrada(entidade), 3: self.registrar_saida}
 
         def menu():
             return self.tela.mostrar_menu_registros([self.unpack_registro(registro) for registro in evento.registros_de_presenca])
 
-        self.abrir_menu(menu, opcoes, evento)
+        self.abrir_menu(menu, opcoes, evento, True)
 
     def abrir_menu_organizadores(self, evento):
 
@@ -420,13 +420,13 @@ class ControladorEvento(Controlador):
                 evento.data, delta_limit)
 
             # Sistema cria o registro de presença e insere no evento
-            registro = RegistroDePresenca(participante, entrada)
+            registro = RegistroDePresenca(participante, entrada["data"])
             evento.adicionar_registro_de_presenca(registro)
 
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
 
-    def registrar_saida(self, evento):
+    def registrar_saida(self, evento, input):
 
         # na lista de participantes, o usuário seleciona a opção registrar saída
         # Não havendo registros de presença, exibe mensagem de que ainda não foram registradas entrada
@@ -436,6 +436,7 @@ class ControladorEvento(Controlador):
         # SIstema insere a saída no registro
 
         delta_limit = timedelta(days=1)
+        index = input["row_index"][0]
 
         try:
 
@@ -443,18 +444,22 @@ class ControladorEvento(Controlador):
                 raise ValueError(
                     "Ainda não foi registrada a entrada de nenhum participante")
 
-            self.listar_registros_de_presenca(evento)
-            registro = self.selecionar(
-                evento.registros_de_presenca, listar=False)
-
+            # registros = [
+            #    registro.participante for registro in evento.registros_de_presenca]
+#
+            # participante = self.controlador_sistema.controlador_participante.selecionar(
+            #    registros)
+#
+            registro = evento.registros_de_presenca[index]
+            
             if(registro.saida is not None):
                 raise ValueError(
                     "A saída deste participante já foi registrada")
 
             saida = self.tela.mostrar_tela_registrar_presenca(
-                evento.data, delta_limit, entrada=False)
+                evento.data, delta_limit)
 
-            registro.saida = saida
+            registro.saida = saida["data"]
 
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
@@ -507,6 +512,6 @@ class ControladorEvento(Controlador):
 
         return {
             "participante": registro.participante.nome,
-            "entrada": registro.entrada.data.strptime("%d/%m/%Y %H:%M"),
-            "saida": registro.saida.data.strptime("%d/%m/%Y %H:%M") if registro.saida else "Não registrada"
+            "entrada": registro.entrada.data.strftime("%d/%m/%Y %H:%M"),
+            "saida": registro.saida.data.strftime("%d/%m/%Y %H:%M") if registro.saida else ""
         }
