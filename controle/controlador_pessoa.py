@@ -3,11 +3,12 @@ from controle.controlador_organizador import ControladorOrganizador
 from controle.controlador_participante import ControladorParticipante
 from entidade.pessoa import Pessoa
 from limite.tela_pessoa import TelaPessoa
+from dao.pessoa_dao import PessoaDAO
 
 
 class ControladorPessoa(Controlador):
     def __init__(self, controlador_sistema):
-        super().__init__(controlador_sistema, TelaPessoa(self))
+        super().__init__(controlador_sistema, TelaPessoa(self), PessoaDAO("pessoas.pkl"))
         self.__controlador_organizador = ControladorOrganizador(
             controlador_sistema, self)
         self.__controlador_participante = ControladorParticipante(
@@ -65,7 +66,7 @@ class ControladorPessoa(Controlador):
                 dados["cpf"], dados["nome"], dados["nascimento"], endereco)
 
             # incluir pessoa
-            self.entidades.append(nova_pessoa)
+            self.dao.persist(nova_pessoa)
             incluir(nova_pessoa)
 
     def alterar(self, dados):
@@ -88,6 +89,8 @@ class ControladorPessoa(Controlador):
             entidade.nome = dados["nome"]
             entidade.nascimento = dados["nascimento"]
             entidade.endereco = novo_endereco
+
+            self.dao.persist(entidade)
         except ValueError as err:
             self.tela.mostrar_mensagem("Erro", err)
 

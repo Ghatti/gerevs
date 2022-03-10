@@ -118,7 +118,7 @@ class Controlador(ABC):
             confirmacao = self.tela.confirmar()
             if(confirmacao):
                 entidade = self.get_entidade(dados["row_index"])
-                self.__dao.remove(entidade)
+                self.dao.remove(entidade)
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
 

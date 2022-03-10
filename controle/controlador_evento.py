@@ -175,6 +175,8 @@ class ControladorEvento(Controlador):
         evento.data = dados["data"]
         evento.endereco = dados["endereco"]
 
+        self.dao.persist(evento)
+
     def ver_ranking(self):
 
         try:
@@ -251,6 +253,7 @@ class ControladorEvento(Controlador):
             if(participante not in participantes_registrados):
                 evento.adicionar_participante(participante)
                 self.tela.mostrar_mensagem("Participante incluído!")
+                self.dao.persist(evento)
             else:
                 raise ValueError("Participante já registrado no evento.")
         except ValueError as err:
@@ -270,6 +273,7 @@ class ControladorEvento(Controlador):
                 if registro.participante == participante:
                     evento.remover_registro_de_presenca(registro)
 
+            self.dao.persist(evento)
             self.tela.mostrar_mensagem("Participante removido!")
 
         except ValueError as err:
@@ -294,6 +298,7 @@ class ControladorEvento(Controlador):
                 # remove participante da lista de a confirmar
                 # inclui na lista de participantes confirmados
                 evento.confirmar_participante(participante)
+                self.dao.persist(evento)
                 self.tela.mostrar_mensagem("Participante confirmado!")
             else:
                 raise ValueError(
@@ -333,6 +338,7 @@ class ControladorEvento(Controlador):
                     "O organizador escolhido nasceu após o evento ser realizado.")
 
             evento.adicionar_organizador(organizador)
+            self.dao.persist(evento)
             self.tela.mostrar_mensagem("Organizador incluído!")
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
@@ -349,7 +355,7 @@ class ControladorEvento(Controlador):
             organizador = evento.organizadores[index]
 
             evento.remover_organizador(organizador)
-
+            self.dao.persist(evento)
             self.tela.mostrar_mensagem("Organizador removido!")
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
@@ -408,6 +414,7 @@ class ControladorEvento(Controlador):
             # Sistema cria o registro de presença e insere no evento
             registro = RegistroDePresenca(participante, entrada["data"])
             evento.adicionar_registro_de_presenca(registro)
+            self.dao.persist(evento)
 
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
@@ -440,6 +447,7 @@ class ControladorEvento(Controlador):
                 evento.data, delta_limit)
 
             registro.saida = saida["data"]
+            self.dao.persist(evento)
 
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
@@ -475,6 +483,7 @@ class ControladorEvento(Controlador):
                 evento.data, delta_limit, saida_antiga)
 
             registro.saida = saida["data"]
+            self.dao.persist(evento)
 
     def remover_registro_de_presenca(self, evento, input):
 
@@ -484,7 +493,8 @@ class ControladorEvento(Controlador):
         confirmacao = self.tela.confirmar()
         if(confirmacao):
             evento.remover_registro_de_presenca(registro)
-
+            self.dao.persist(evento)
+            
     def unpack(self, evento):
 
         return {

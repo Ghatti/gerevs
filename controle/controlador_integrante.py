@@ -3,8 +3,8 @@ from controle.controlador import Controlador
 
 class ControladorIntegrante(Controlador):
 
-    def __init__(self, controlador_sistema, controlador_pessoa, tela):
-        super().__init__(controlador_sistema, tela)
+    def __init__(self, controlador_sistema, controlador_pessoa, tela, dao):
+        super().__init__(controlador_sistema, tela, dao)
         self.__controlador_pessoa = controlador_pessoa
 
     @property
@@ -19,12 +19,13 @@ class ControladorIntegrante(Controlador):
         if(pessoa in self.entidades):
             raise ValueError("A pessoa indicada já está cadastrada!")
 
-        self.entidades.append(pessoa)
+        self.dao.persist(pessoa)
         self.tela.mostrar_mensagem("Cadastro realizado com sucesso")
 
     def alterar(self, pessoa):
 
         self.controlador_pessoa.alterar(pessoa)
+        self.dao.persist(pessoa)
 
     def unpack(self, pessoa):
 
