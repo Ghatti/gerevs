@@ -5,15 +5,19 @@ import pickle
 class AbstractDAO(ABC):
 
     @abstractmethod
-    def__init__(self, datasource=""):
+    def __init__(self, datasource=""):
         self.__datasource = datasource
         self.__cache = {}
+        try:
+            self.__load()
+        except FileNotFoundError:
+            self.__dump()
 
     def __dump(self):
         pickle.dump(self.__cache, open(self.__datasource, 'wb'))
 
     def __load(self):
-        self.__cache = pickle.load(open(self.__datasourc, 'rb'))
+        self.__cache = pickle.load(open(self.__datasource, 'rb'))
 
     def persist(self, key, object):
         self.__cache[key] = object
@@ -24,4 +28,4 @@ class AbstractDAO(ABC):
         self.__dump()
 
     def get_all(self):
-        return self.__cache.values()
+        return list(self.__cache.values())

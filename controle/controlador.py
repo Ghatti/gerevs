@@ -4,9 +4,10 @@ from abc import ABC, abstractmethod
 class Controlador(ABC):
 
     @abstractmethod
-    def __init__(self, controlador_sistema, tela):
+    def __init__(self, controlador_sistema, tela, dao=None):
         self.__controlador_sistema = controlador_sistema
         self.__tela = tela
+        self.__dao = dao
         self.__entidades = []
 
     @property
@@ -15,11 +16,15 @@ class Controlador(ABC):
 
     @property
     def entidades(self):
-        return self.__entidades
+        return self.dao.get_all() if self.dao else self.__entidades
 
     @property
     def tela(self):
         return self.__tela
+
+    @property
+    def dao(self):
+        return self.__dao
 
     def inicializar(self):
 
@@ -113,7 +118,7 @@ class Controlador(ABC):
             confirmacao = self.tela.confirmar()
             if(confirmacao):
                 entidade = self.get_entidade(dados["row_index"])
-                self.entidades.remove(entidade)
+                self.__dao.remove(entidade)
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
 

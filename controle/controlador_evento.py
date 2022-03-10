@@ -4,12 +4,13 @@ from entidade.evento import Evento
 from controle.controlador import Controlador
 from limite.tela_evento import TelaEvento
 from entidade.registro_de_presenca import RegistroDePresenca
+from dao.evento_dao import EventoDAO
 
 
 class ControladorEvento(Controlador):
 
     def __init__(self, controlador_sistema):
-        super().__init__(controlador_sistema, TelaEvento(self))
+        super().__init__(controlador_sistema, TelaEvento(self), EventoDAO())
 
     def abrir_menu_inicial(self):
 
@@ -41,20 +42,6 @@ class ControladorEvento(Controlador):
         menu = self.tela.mostrar_menu_visualizacao_registro
 
         self.abrir_menu(menu, opcoes)
-
-    # def abrir_menu_listar(self):
-    #    try:
-    #        if(len(self.entidades) == 0):
-    #            raise ValueError("Não há eventos cadastrados.")
-#
-    #        opcoes = {1: self.ver_todos, 2: self.ver_futuros,
-    #                  3: self.ver_realizados, 4: self.ver_ranking}
-#
-    #        menu = self.tela.mostrar_menu_listar
-#
-    #        self.abrir_menu(menu, opcoes)
-    #    except ValueError as err:
-    #        self.tela.mostrar_mensagem(err)
 
     def abrir_menu_listar_participantes(self, evento):
         try:
@@ -154,7 +141,7 @@ class ControladorEvento(Controlador):
             novo_evento = Evento(dados["titulo"], dados["data"],
                                  dados["endereco"], dados["capacidade"], dados["organizador"])
 
-            self.entidades.append(novo_evento)
+            self.dao.persist(novo_evento)
             self.tela.mostrar_mensagem("Evento cadastrado!")
 
         except ValueError as err:
