@@ -23,8 +23,6 @@ class TelaGui(ABC):
         if(button == sg.WIN_CLOSED):
             return (0, {})
 
-        print(button)
-
         return button, values
 
     def close(self):

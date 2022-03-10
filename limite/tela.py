@@ -41,22 +41,6 @@ class Tela(TelaGui, ABC):
     def mostrar_detalhes(self, entidade):
         pass
 
-    def mostrar_menu_visualizacao(self):
-        print("------ Menu de Detalhes ------")
-        print("Escolha sua opção:")
-        print("1 - Alterar")
-        print("2 - Remover")
-        print("0 - Voltar")
-
-    def mostrar_endereco(self, endereco):
-
-        print("------ Endereço ------")
-        print("CEP: ", endereco.cep)
-        print("Rua: ", endereco.rua)
-        print("Número: ", endereco.numero)
-        print("Bairro: ", endereco.bairro)
-        print("Cidade: ", endereco.cidade)
-        print("Estado: ", endereco.estado)
 
     def confirmar(self, input_msg="Deseja confirmar a operação?"):
         confirmacao = sg.popup_yes_no(input_msg)
@@ -93,7 +77,7 @@ class Tela(TelaGui, ABC):
 
                 return valor
             except ValueError as err:
-                print(err)
+                self.mostrar_mensagem(err, "Erro")
 
     def ler_string(self, input_msg, validators=[]):
 
@@ -109,7 +93,7 @@ class Tela(TelaGui, ABC):
                 return valor_informado
 
             except ValueError as err:
-                print(err)
+                self.mostrar_mensagem(err, "Erro")
 
     def ler_data(self, input_msg, validators=[]):
 
@@ -131,7 +115,7 @@ class Tela(TelaGui, ABC):
                 return date
 
             except ValueError as err:
-                print(err)
+                self.mostrar_mensagem(err, "Erro")
 
     def ler_horario(self, input_msg="Informe o horário: ", validators=[]):
         while True:
@@ -152,7 +136,7 @@ class Tela(TelaGui, ABC):
                 return horario
 
             except ValueError as err:
-                print(err)
+                self.mostrar_mensagem(err, "Erro")
 
     def validar_string(self, min=None, max=None, equal=None, formato=None, no_digit=None, opcoes=None):
 
