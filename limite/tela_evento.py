@@ -17,12 +17,26 @@ class TelaEvento(Tela):
                      size=(30, 1), font=("Helvetica", 25))],
             [sg.Table([[entidade["titulo"], entidade["data"], entidade["participantes_total"]] for entidade in entidades],  headings=["Título", "Data",
                       "Participantes"], key="row_index", select_mode=sg.TABLE_SELECT_MODE_BROWSE)],
-            [sg.Button("Cadastrar", key=1), sg.Button("Alterar", key=2), sg.Button("Remover", key=4), sg.Button(
-                "Ver Detalhes", key=3), sg.Button("Voltar", key=0)]
+            [sg.Button("Ver Eventos Futuros", key=4), sg.Button(
+                "Ver Eventos Realizados", key=5), sg.Button("Ver Ranking", key=6)],
+            [sg.Button("Cadastrar", key=1), sg.Button("Alterar", key=2), sg.Button(
+                "Remover", key=4), sg.Button("Ver Detalhes", key=3), sg.Button("Voltar", key=0)]
         ]
 
         self.window = sg.Window(
             "Módulo de Eventos", default_element_size=(40, 1)).Layout(layout)
+
+    def init_tela_listar(self, event_list, titulo):
+
+        sg.ChangeLookAndFeel('Reddit')
+
+        layout = [
+            event_list,
+            [sg.Button("Voltar", key=0)]
+        ]
+
+        self.window = sg.Window(
+            titulo, default_element_size=(40, 1)).Layout(layout)
 
     def init_detalhes(self, evento):
         sg.ChangeLookAndFeel('Reddit')
@@ -158,13 +172,12 @@ class TelaEvento(Tela):
         self.close()
         return button, values
 
-    def mostrar_menu_listar(self):
-        print("Escolha sua opção:")
-        print("1 - Ver todos")
-        print("2 - Ver Eventos Futuros")
-        print("3 - Ver Eventos Realizados")
-        print("4 - Ordenar Por Participantes")
-        print("0 - Voltar")
+    def mostrar_tela_listar(self, event_list=[], titulo="Lista de eventos"):
+
+        self.init_tela_listar(event_list, titulo)
+        button, values = self.open()
+        self.close()
+        return button, values
 
     def mostrar_tela_listar_participantes(self, part_list, confirmar=False):
         self.init_tela_lista_participantes(part_list, confirmar)
@@ -240,7 +253,7 @@ class TelaEvento(Tela):
                 self.close()
 
                 if(button == 0):
-                    return
+                    raise StopIteration("Cadastro Cancelado")
 
                 self.validar_cadastro(values)
 
@@ -307,3 +320,8 @@ class TelaEvento(Tela):
 
         for key in validator_dispatch.keys():
             validator_dispatch[key](dados[key])
+
+    def generate_table(self, opcoes):
+
+        return [sg.Table([[entidade["titulo"], entidade["data"], entidade["participantes_total"]] for entidade in opcoes],  headings=["Título", "Data",
+                                                                                                                                      "Participantes"], key="row_index", select_mode=sg.TABLE_SELECT_MODE_BROWSE)]

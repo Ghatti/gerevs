@@ -13,8 +13,9 @@ class ControladorEvento(Controlador):
 
     def abrir_menu_inicial(self):
 
-        opcoes = {1: lambda input: self.cadastrar(
-        ), 2: lambda input: self.alterar(input), 3: lambda input: self.ver_detalhes(input), 4: lambda input: self.remover(input)}
+        opcoes = {1: lambda input: self.cadastrar(),
+                  2: lambda input: self.alterar(input), 3: lambda input: self.ver_detalhes(input), 4: lambda input: self.remover(input),
+                  4: lambda input: self.ver_futuros(), 5: lambda input: self.ver_realizados(), 6: lambda input: self.ver_ranking()}
 
         def menu():
             entidades = [self.unpack(entidade) for entidade in self.entidades]
@@ -41,19 +42,19 @@ class ControladorEvento(Controlador):
 
         self.abrir_menu(menu, opcoes)
 
-    def abrir_menu_listar(self):
-        try:
-            if(len(self.entidades) == 0):
-                raise ValueError("Não há eventos cadastrados.")
-
-            opcoes = {1: self.ver_todos, 2: self.ver_futuros,
-                      3: self.ver_realizados, 4: self.ver_ranking}
-
-            menu = self.tela.mostrar_menu_listar
-
-            self.abrir_menu(menu, opcoes)
-        except ValueError as err:
-            self.tela.mostrar_mensagem(err)
+    # def abrir_menu_listar(self):
+    #    try:
+    #        if(len(self.entidades) == 0):
+    #            raise ValueError("Não há eventos cadastrados.")
+#
+    #        opcoes = {1: self.ver_todos, 2: self.ver_futuros,
+    #                  3: self.ver_realizados, 4: self.ver_ranking}
+#
+    #        menu = self.tela.mostrar_menu_listar
+#
+    #        self.abrir_menu(menu, opcoes)
+    #    except ValueError as err:
+    #        self.tela.mostrar_mensagem(err)
 
     def abrir_menu_listar_participantes(self, evento):
         try:
@@ -93,8 +94,6 @@ class ControladorEvento(Controlador):
         self.abrir_menu(menu, opcoes, evento, True)
 
     def abrir_menu_registros(self, evento):
-
-        # , 4: lambda: self.alterar_registro_de_presenca(evento, registro), 5: lambda: self.remover_registro_de_presenca(evento, registro)
 
         opcoes = {
             1: lambda entidade, input: self.registrar_entrada(entidade), 2: self.registrar_saida, 3: self.alterar_registro_de_presenca, 4: self.remover_registro_de_presenca}
@@ -162,6 +161,10 @@ class ControladorEvento(Controlador):
 
             self.tela.mostrar_mensagem(err)
 
+        except StopIteration as err:
+
+            self.tela.mostrar_mensagem(err)
+
     def alterar(self, dados):
 
         evento = self.get_entidade(dados["row_index"])
@@ -191,7 +194,9 @@ class ControladorEvento(Controlador):
 
             sorted_eventos = sorted(self.entidades, key=lambda evento: len(
                 evento.get_all_participantes()), reverse=True)
-            self.listar(sorted_eventos)
+            event_list = self.listar(sorted_eventos)
+            self.tela.mostrar_tela_listar(
+                event_list, "Ranking por Participantes")
 
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
@@ -208,7 +213,8 @@ class ControladorEvento(Controlador):
                 if evento.data > hoje:
                     eventos_futuros.append(evento)
 
-            self.listar(eventos_futuros)
+            event_list = self.listar(eventos_futuros)
+            self.tela.mostrar_tela_listar(event_list, "Eventos Futuros")
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
 
@@ -222,7 +228,8 @@ class ControladorEvento(Controlador):
                 if evento.data < hoje:
                     eventos_realizados.append(evento)
 
-            self.listar(eventos_realizados)
+            event_list = self.listar(eventos_realizados)
+            self.tela.mostrar_tela_listar(event_list, "Eventos Realizados")
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
 
