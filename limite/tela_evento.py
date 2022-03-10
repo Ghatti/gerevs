@@ -132,12 +132,12 @@ class TelaEvento(Tela):
                      size=(30, 1), font=("Helvetica", 25))],
             [sg.Table([[entidade["participante"], entidade["entrada"], entidade["saida"]] for entidade in registros],  headings=["Participante", "Entrada",
                       "Saída"], key="row_index", select_mode=sg.TABLE_SELECT_MODE_BROWSE)],
-            [sg.Button("Ver Detalhes", key=1), sg.Button("Registrar Entrada", key=2), sg.Button("Registrar Saída", key=3), sg.Button(
-                "Alterar", key=4), sg.Button("Remover", key=5), sg.Button("Voltar", key=0)]
+            [sg.Button("Registrar Entrada", key=1), sg.Button("Registrar Saída", key=2), sg.Button(
+                "Alterar", key=3), sg.Button("Remover", key=4), sg.Button("Voltar", key=0)]
         ]
 
         self.window = sg.Window(
-            "Megistros de Presença", default_element_size=(40, 1)).Layout(layout)
+            "Registros de Presença", default_element_size=(40, 1)).Layout(layout)
 
     def init_tela_registrar_presenca(self, values):
         sg.ChangeLookAndFeel('Reddit')
@@ -149,7 +149,7 @@ class TelaEvento(Tela):
                   [sg.Ok(), sg.Button("Voltar", key=0)]]
 
         self.window = sg.Window(
-            "Megistros de Presença", default_element_size=(40, 1)).Layout(layout)
+            "Registros de Presença", default_element_size=(40, 1)).Layout(layout)
 
     def mostrar_menu_inicial(self, entidades):
 
@@ -224,7 +224,7 @@ class TelaEvento(Tela):
         if(button == 0):
             return button, None
 
-        if(button != 2 and len(values["row_index"]) == 0):
+        if(button != 1 and len(values["row_index"]) == 0):
             raise ValueError(
                 "É necessário escolher um registro.")
 
@@ -272,7 +272,7 @@ class TelaEvento(Tela):
         if(registro.saida):
             print("Saída:", registro.saida.data.strftime("%d/%m/%Y - %H:%M"))
 
-    def mostrar_tela_registrar_presenca(self, data_evento, limite, default_values=None, alterar=False):
+    def mostrar_tela_registrar_presenca(self, data_evento, limite, default_values=None):
 
         values = default_values
         limite_inferior = data_evento - limite
@@ -287,7 +287,7 @@ class TelaEvento(Tela):
 
                 if(button == 0):
                     raise ValueError("Registro cancelado")
-                    
+
                 try:
                     horario = time.fromisoformat(values["horario"])
                 except ValueError:

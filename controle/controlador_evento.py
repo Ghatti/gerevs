@@ -96,8 +96,8 @@ class ControladorEvento(Controlador):
 
         # , 4: lambda: self.alterar_registro_de_presenca(evento, registro), 5: lambda: self.remover_registro_de_presenca(evento, registro)
 
-        opcoes = {1: self.ver_registro_de_presenca,
-                  2: lambda entidade, input: self.registrar_entrada(entidade), 3: self.registrar_saida}
+        opcoes = {
+            1: lambda entidade, input: self.registrar_entrada(entidade), 2: self.registrar_saida, 3: self.alterar_registro_de_presenca, 4: self.remover_registro_de_presenca}
 
         def menu():
             return self.tela.mostrar_menu_registros([self.unpack_registro(registro) for registro in evento.registros_de_presenca])
@@ -444,14 +444,8 @@ class ControladorEvento(Controlador):
                 raise ValueError(
                     "Ainda não foi registrada a entrada de nenhum participante")
 
-            # registros = [
-            #    registro.participante for registro in evento.registros_de_presenca]
-#
-            # participante = self.controlador_sistema.controlador_participante.selecionar(
-            #    registros)
-#
             registro = evento.registros_de_presenca[index]
-            
+
             if(registro.saida is not None):
                 raise ValueError(
                     "A saída deste participante já foi registrada")
@@ -464,33 +458,46 @@ class ControladorEvento(Controlador):
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
 
-    def alterar_registro_de_presenca(self, evento, registro):
+    def alterar_registro_de_presenca(self, evento, input):
 
         delta_limit = timedelta(days=1)
 
-        alterar_entrada = self.tela.ler_string(
-            "Deseja alterar o registro de entrada? (s/n)", self.tela.validar_string(opcoes=["s", "n"])) == "s"
+        index = input["row_index"][0]
+        registro = evento.registros_de_presenca[index]
 
-        if(alterar_entrada):
-            entrada = self.tela.mostrar_tela_registrar_presenca(
-                evento.data, delta_limit)
-            registro.entrada = entrada
+        self.tela.mostrar_mensagem("Informe a nova entrada", "Alterar entrada")
+
+        entrada_antiga = {
+            "data": registro.entrada.data.strftime("%d/%m/%Y"),
+            "horario": registro.entrada.data.strftime("%H:%M")
+        }
+
+        entrada = self.tela.mostrar_tela_registrar_presenca(
+            evento.data, delta_limit, entrada_antiga)
+        registro.entrada = entrada["data"]
 
         if(registro.saida is not None):
-            alterar_saida = self.tela.ler_string(
-                "Deseja alterar o registro de saída? (s/n)", self.tela.validar_string(opcoes=["s", "n"])) == "s"
-            if(alterar_saida):
-                saida = self.tela.mostrar_tela_registrar_presenca(
-                    evento.data, delta_limit, entrada=False)
 
-                registro.saida = saida
+            self.tela.mostrar_mensagem("Informe a nova saída", "Alterar saída")
 
-    def remover_registro_de_presenca(self, evento, registro):
+            saida_antiga = {
+                "data": registro.saida.data.strftime("%d/%m/%Y"),
+                "horario": registro.saida.data.strftime("%H:%M")
+            }
+
+            saida = self.tela.mostrar_tela_registrar_presenca(
+                evento.data, delta_limit, saida_antiga)
+
+            registro.saida = saida["data"]
+
+    def remover_registro_de_presenca(self, evento, input):
+
+        index = input["row_index"][0]
+        registro = evento.registros_de_presenca[index]
+
         confirmacao = self.tela.confirmar()
         if(confirmacao):
             evento.remover_registro_de_presenca(registro)
-
-        raise StopIteration
 
     def unpack(self, evento):
 
