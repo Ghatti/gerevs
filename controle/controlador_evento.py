@@ -94,10 +94,13 @@ class ControladorEvento(Controlador):
 
     def abrir_menu_registros(self, evento):
 
-        opcoes = {1: self.listar_registros_de_presenca, 2: self.ver_registro_de_presenca,
-                  3: self.registrar_entrada, 4: self.registrar_saida}
+        # , 4: lambda: self.alterar_registro_de_presenca(evento, registro), 5: lambda: self.remover_registro_de_presenca(evento, registro)
 
-        menu = self.tela.mostrar_menu_registros
+        opcoes = {1: self.ver_registro_de_presenca,
+                  2: self.registrar_entrada, 3: self.registrar_saida}
+
+        def menu():
+            return self.tela.mostrar_menu_registros([self.unpack_registro(registro) for registro in evento.registros_de_presenca])
 
         self.abrir_menu(menu, opcoes, evento)
 
@@ -498,4 +501,12 @@ class ControladorEvento(Controlador):
             "estado": evento.local.estado,
             "capacidade": evento.capacidade,
             "participantes_total": len(evento.get_all_participantes())
+        }
+
+    def unpack_registro(self, registro):
+
+        return {
+            "participante": registro.participante.nome,
+            "entrada": registro.entrada.data.strptime("%d/%m/%Y %H:%M"),
+            "saida": registro.saida.data.strptime("%d/%m/%Y %H:%M") if registro.saida else "Não registrada"
         }

@@ -123,22 +123,28 @@ class TelaEvento(Tela):
         self.window = sg.Window(
             "Participantes confirmados" if not confirmar else "Participantes a confirmar", default_element_size=(40, 1)).Layout(layout)
 
+    def init_tela_registros(self, registros):
+
+        sg.ChangeLookAndFeel('Reddit')
+
+        layout = [
+            [sg.Text("Registros de Presença",
+                     size=(30, 1), font=("Helvetica", 25))],
+            [sg.Table([[entidade["participante"], entidade["entrada"], entidade["saida"]] for entidade in registros],  headings=["Participante", "Entrada",
+                      "Saída"], key="row_index", select_mode=sg.TABLE_SELECT_MODE_BROWSE)],
+            [sg.Button("Ver Detalhes", key=1), sg.Button("Registrar Entrada", key=2), sg.Button("Registrar Saída", key=3), sg.Button(
+                "Alterar", key=4), sg.Button("Remover", key=5), sg.Button("Voltar", key=0)]
+        ]
+
+        self.window = sg.Window(
+            "Megistros de Presença", default_element_size=(40, 1)).Layout(layout)
+
     def mostrar_menu_inicial(self, entidades):
 
         self.init_menu_inicial(entidades)
         button, values = self.open()
         self.close()
         return button, values
-
-    def mostrar_menu_visualizacao(self):
-        print("------ Menu de Detalhes ------")
-        print("Escolha sua opção:")
-        print("1 - Alterar")
-        print("2 - Remover")
-        print("3 - Gerenciar Participantes")
-        print("4 - Gerenciar Organizadores")
-        print("5 - Gerenciar Registros de Presença")
-        print("0 - Voltar")
 
     def mostrar_menu_visualizacao_registro(self):
         print("------ Visualização de Registro ------")
@@ -197,20 +203,20 @@ class TelaEvento(Tela):
 
         return button, values
 
-    def mostrar_menu_confirmar_participantes(self):
-        print("------ Menu de Confirmação ------")
-        print("Escolha sua opção:")
-        print("1 - Confirmar com vacina")
-        print("2 - Confirmar com exame")
+    def mostrar_menu_registros(self, registros):
 
-    def mostrar_menu_registros(self):
-        print("------ Menu de Registros de Presença ------")
-        print("Escolha sua opção:")
-        print("0 - Voltar")
-        print("1 - Listar Registros")
-        print("2 - Ver Registro")
-        print("3 - Registrar Presença")
-        print("4 - Registrar Saída")
+        self.init_tela_registros(registros)
+        button, values = self.open()
+        self.close()
+
+        if(button == 0):
+            return button, None
+
+        if(button != 2 and len(values["row_index"]) == 0):
+            raise ValueError(
+                "É necessário escolher um registro.")
+
+        return button, values
 
     def mostrar_detalhes(self, evento):
         self.init_detalhes(evento)
