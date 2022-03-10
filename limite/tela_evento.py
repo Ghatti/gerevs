@@ -158,13 +158,6 @@ class TelaEvento(Tela):
         self.close()
         return button, values
 
-    def mostrar_menu_visualizacao_registro(self):
-        print("------ Visualização de Registro ------")
-        print("Escolha sua opção:")
-        print("1 - Alterar")
-        print("2 - Remover")
-        print("0 - Voltar")
-
     def mostrar_menu_listar(self):
         print("Escolha sua opção:")
         print("1 - Ver todos")
@@ -264,13 +257,6 @@ class TelaEvento(Tela):
                 return values
             except ValueError as err:
                 self.mostrar_mensagem(err, "Erro")
-
-    def mostrar_detalhes_registro(self, registro):
-        print("------ Visualizar registro ------")
-        print("Participante", registro.participante.nome)
-        print("Entrada:", registro.entrada.data.strftime("%d/%m/%Y - %H:%M"))
-        if(registro.saida):
-            print("Saída:", registro.saida.data.strftime("%d/%m/%Y - %H:%M"))
 
     def mostrar_tela_registrar_presenca(self, data_evento, limite, default_values=None):
 

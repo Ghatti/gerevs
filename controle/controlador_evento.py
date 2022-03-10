@@ -115,30 +115,22 @@ class ControladorEvento(Controlador):
 
         self.abrir_menu(menu, opcoes, evento, True)
 
-    def gerenciar_registros_de_presenca(self, evento):
-        try:
-            self.listar_registros_de_presenca(evento)
-        except ValueError as err:
-            self.tela.mostrar_mensagem(err)
-        self.abrir_menu_registros(evento)
-
     def cadastrar(self):
 
         try:
 
             if(not self.controlador_sistema.controlador_organizador.tem_entidades()):
 
-                # self.tela
-                # cadastrar_org = self.tela.ler_string(
-                #    "Não é possível cadastrar um evento porque ainda não há organizadores cadastrados. Deseja cadastrar um organizador primeiro? (s/n)", self.tela.validar_string(opcoes=["s", "n"]))
-                #
-                # if(cadastrar_org == "s"):
-                #    self.controlador_sistema.controlador_organizador.cadastrar()
-                #    self.tela.mostrar_mensagem(
-                #        "Agora, vamos continuar o cadastro do evento.")
-                # else:
-                raise ValueError(
-                    "Como não há organizadores registrados, não será possível cadastrar um evento.")
+                self.tela.mostrar_mensagem(
+                    "Não há organizadores registrados, você será redirecionado para o registro de organizadores.", "Alerta")
+                self.controlador_sistema.controlador_organizador.cadastrar()
+
+                if(self.controlador_sistema.controlador_organizador.tem_entidades()):
+                    self.tela.mostrar_mensagem(
+                        "Agora, vamos continuar o cadastro do evento.", "Alerta")
+                else:
+                    raise ValueError(
+                        "Como não há organizadores registrados, não será possível cadastrar um evento.")
 
             dados = self.tela.mostrar_tela_cadastro()
 
