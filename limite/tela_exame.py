@@ -72,8 +72,10 @@ class TelaExame(Tela):
                     raise ValueError(
                         "O horário informado não é válido. Utilize o formato hh:mm.")
 
+                
                 data = datetime.strptime(
                     values["data"], "%d/%m/%Y") + timedelta(hours=horario.hour, minutes=horario.minute)
+
 
                 return {
                     "data": data,

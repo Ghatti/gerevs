@@ -99,7 +99,7 @@ class Controlador(ABC):
         opcao = self.abrir_tela_selecionar(lista)
 
         if(opcao is None):
-            return None
+            raise ValueError("É necessário selecionar uma opção.")
 
         entidade = lista[opcao]
         return entidade
@@ -115,9 +115,9 @@ class Controlador(ABC):
     def remover(self, dados):
 
         try:
+            entidade = self.get_entidade(dados["row_index"])
             confirmacao = self.tela.confirmar()
             if(confirmacao):
-                entidade = self.get_entidade(dados["row_index"])
                 self.dao.remove(entidade)
         except ValueError as err:
             self.tela.mostrar_mensagem(err)

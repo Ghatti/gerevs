@@ -16,7 +16,7 @@ class ControladorEvento(Controlador):
 
         opcoes = {1: lambda input: self.cadastrar(),
                   2: lambda input: self.alterar(input), 3: lambda input: self.ver_detalhes(input), 4: lambda input: self.remover(input),
-                  4: lambda input: self.ver_futuros(), 5: lambda input: self.ver_realizados(), 6: lambda input: self.ver_ranking()}
+                  5: lambda input: self.ver_futuros(), 6: lambda input: self.ver_realizados(), 7: lambda input: self.ver_ranking()}
 
         def menu():
             entidades = [self.unpack(entidade) for entidade in self.entidades]
@@ -171,7 +171,6 @@ class ControladorEvento(Controlador):
             "estado": dados["estado"]
         }
 
-        evento.titulo = dados["titulo"]
         evento.data = dados["data"]
         evento.endereco = dados["endereco"]
 
@@ -483,7 +482,8 @@ class ControladorEvento(Controlador):
                 evento.data, delta_limit, saida_antiga)
 
             registro.saida = saida["data"]
-            self.dao.persist(evento)
+
+        self.dao.persist(evento)
 
     def remover_registro_de_presenca(self, evento, input):
 
@@ -494,7 +494,7 @@ class ControladorEvento(Controlador):
         if(confirmacao):
             evento.remover_registro_de_presenca(registro)
             self.dao.persist(evento)
-            
+
     def unpack(self, evento):
 
         return {

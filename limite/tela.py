@@ -257,8 +257,12 @@ class Tela(TelaGui, ABC):
 
         def run_validators(value):
 
-            value = datetime.strptime(
-                value, "%d/%m/%Y")
+            try:
+                value = datetime.strptime(
+                    value, "%d/%m/%Y")
+            except ValueError:
+                raise ValueError(
+                    "A data informada não é válida, utilize o formado dd/m/aaaa.")
 
             for validator in validators:
                 validator(value)

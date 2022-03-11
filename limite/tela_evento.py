@@ -17,8 +17,8 @@ class TelaEvento(Tela):
                      size=(30, 1), font=("Helvetica", 25))],
             [sg.Table([[entidade["titulo"], entidade["data"], entidade["participantes_total"]] for entidade in entidades],  headings=["Título", "Data",
                       "Participantes"], key="row_index", select_mode=sg.TABLE_SELECT_MODE_BROWSE)],
-            [sg.Button("Ver Eventos Futuros", key=4), sg.Button(
-                "Ver Eventos Realizados", key=5), sg.Button("Ver Ranking", key=6)],
+            [sg.Button("Ver Eventos Futuros", key=5), sg.Button(
+                "Ver Eventos Realizados", key=6), sg.Button("Ver Ranking", key=7)],
             [sg.Button("Cadastrar", key=1), sg.Button("Alterar", key=2), sg.Button(
                 "Remover", key=4), sg.Button("Ver Detalhes", key=3), sg.Button("Voltar", key=0)]
         ]
@@ -70,7 +70,7 @@ class TelaEvento(Tela):
         layout = [
 
             [sg.Text("Título:", size=(15, 1)), sg.InputText(
-                values["titulo"] if values else None, key="titulo")],
+                values["titulo"] if values else None, key="titulo", disabled=alterar)],
             [sg.Text("Data:", size=(15, 1)), sg.InputText(values["data"] if values else None,
                                                           key="data"), sg.CalendarButton("Calendário", target="data", format="%d/%m/%Y")],
             [sg.Text("Horário:", size=(15, 1)), sg.InputText(
