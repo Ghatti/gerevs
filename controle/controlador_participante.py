@@ -7,7 +7,7 @@ class ControladorParticipante(ControladorIntegrante):
 
     def __init__(self, controlador_sistema, controlador_pessoa):
         super().__init__(controlador_sistema, controlador_pessoa,
-                         TelaParticipante(self), PessoaDAO("Participantes.pkl"))
+                         TelaParticipante(self), PessoaDAO("participantes.pkl"))
 
     def abrir_menu_visualizacao(self, participante):
 

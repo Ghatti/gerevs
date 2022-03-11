@@ -54,7 +54,7 @@ class Tela(TelaGui, ABC):
 
         if(button == 0 or len(values["row_index"]) == 0):
             raise ValueError(
-                "Não é possível continuar o cadastro sem um organizador.")
+                "É necessário selecionar um item.")
 
         return values["row_index"][0]
 
