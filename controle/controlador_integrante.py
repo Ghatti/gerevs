@@ -22,9 +22,14 @@ class ControladorIntegrante(Controlador):
         self.dao.persist(pessoa)
         self.tela.mostrar_mensagem("Cadastro realizado com sucesso")
 
-    def alterar(self, pessoa):
+    def alterar(self, input):
+
+        pessoa = self.get_entidade(input["row_index"])
 
         self.controlador_pessoa.alterar(pessoa)
+
+    def atualizar(self, pessoa):
+
         self.dao.persist(pessoa)
 
     def unpack(self, pessoa):

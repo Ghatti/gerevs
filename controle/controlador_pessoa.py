@@ -69,13 +69,12 @@ class ControladorPessoa(Controlador):
             self.dao.persist(nova_pessoa)
             incluir(nova_pessoa)
 
-    def alterar(self, dados):
+    def alterar(self, pessoa):
 
         try:
-            entidade = self.get_entidade(dados["row_index"])
 
             dados = self.tela.mostrar_tela_cadastro(
-                default_values=self.unpack(entidade), alterar=True)
+                default_values=self.unpack(pessoa), alterar=True)
 
             novo_endereco = {
                 "cep": dados["cep"],
@@ -86,11 +85,14 @@ class ControladorPessoa(Controlador):
                 "estado": dados["estado"]
             }
 
-            entidade.nome = dados["nome"]
-            entidade.nascimento = dados["nascimento"]
-            entidade.endereco = novo_endereco
+            pessoa.nome = dados["nome"]
+            pessoa.nascimento = dados["nascimento"]
+            pessoa.endereco = novo_endereco
 
-            self.dao.persist(entidade)
+            self.dao.persist(pessoa)
+            self.controlador_organizador.atualizar(pessoa)
+            self.controlador_participante.atualizar(pessoa)
+
         except ValueError as err:
             self.tela.mostrar_mensagem("Erro", err)
 
