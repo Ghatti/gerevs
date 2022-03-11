@@ -30,3 +30,5 @@ class TelaGui(ABC):
 
     def mostrar_mensagem(self, mensagem: str, titulo="Mensagem"):
         sg.Popup(titulo, mensagem)
+
+    

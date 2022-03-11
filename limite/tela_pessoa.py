@@ -78,9 +78,10 @@ class TelaPessoa(TelaIntegrante):
             "nascimento": self.validar_data(max=datetime.today(), delta=timedelta(days=150*365)),
             "cep": self.validar_string(formato=r"^\d{2}\.\d{3}\-\d{3}$"),
             "numero": self.validar_inteiro(min=0),
-            "bairro": self.validar_string(no_digit=True),
-            "cidade": self.validar_string(no_digit=True),
-            "estado": self.validar_string(no_digit=True)
+            "rua": self.validar_string(min=1),
+            "bairro": self.validar_string(min=1, no_digit=True),
+            "cidade": self.validar_string(min=1, no_digit=True),
+            "estado": self.validar_string(min=1, no_digit=True)
         }
 
         for key in validator_dispatch.keys():

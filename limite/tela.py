@@ -41,7 +41,6 @@ class Tela(TelaGui, ABC):
     def mostrar_detalhes(self, entidade):
         pass
 
-
     def confirmar(self, input_msg="Deseja confirmar a operação?"):
         confirmacao = sg.popup_yes_no(input_msg)
 
@@ -58,7 +57,6 @@ class Tela(TelaGui, ABC):
                 "Não é possível continuar o cadastro sem um organizador.")
 
         return values["row_index"][0]
-
 
     def ler_inteiro(self, input_msg="Escolha a opção: ", validators=[]):
 
@@ -222,7 +220,10 @@ class Tela(TelaGui, ABC):
 
         def run_validators(value):
 
-            value = int(value)
+            try:
+                value = int(value)
+            except ValueError as err:
+                raise ValueError("O valor informado não é um inteiro")
             for validator in validators:
                 validator(value)
 
