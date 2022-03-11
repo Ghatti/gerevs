@@ -16,11 +16,6 @@ class ControladorCartaoDeVacina(Controlador):
 
         self.abrir_menu(menu, opcoes, cartao)
 
-    # def mostrar(self, cartao):
-#
-    #    self.tela.mostrar_detalhes(cartao)
-    #    self.abrir_menu_visualizacao(cartao)
-
     def registrar_dose(self, cartao=CartaoDeVacina):
 
         if(not cartao.is_complete()):
