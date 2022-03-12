@@ -239,6 +239,7 @@ class ControladorEvento(Controlador):
     def adicionar_participante(self, evento):
         try:
             participantes_registrados = evento.get_all_participantes()
+            cpfs = [participante.cpf for participante in participantes_registrados]
 
             if(len(participantes_registrados) == evento.capacidade):
                 raise ValueError("O evento já está lotado.")
@@ -249,7 +250,7 @@ class ControladorEvento(Controlador):
                 raise ValueError(
                     "O participante escolhido nasceu após o evento ser realizado.")
 
-            if(participante not in participantes_registrados):
+            if(participante.cpf not in cpfs):
                 evento.adicionar_participante(participante)
                 self.tela.mostrar_mensagem("Participante incluído!")
                 self.dao.persist(evento)
@@ -328,8 +329,9 @@ class ControladorEvento(Controlador):
     def adicionar_organizador(self, evento):
         try:
             organizador = self.controlador_sistema.controlador_organizador.selecionar()
+            cpfs = [organizador.cpf for organizador in evento.organizadores]
 
-            if(organizador in evento.organizadores):
+            if(organizador.cpf in cpfs):
                 raise ValueError("Organizador já registrado no evento.")
 
             if(organizador.nascimento > evento.data):

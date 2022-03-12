@@ -23,8 +23,6 @@ class EventoDAO(AbstractDAO):
 
     def update_pessoa(self, pessoa):
 
-        print(pessoa.nome)
-
         for evento in self.get_all():
 
             for i, participante in enumerate(evento.participantes_a_confirmar):
