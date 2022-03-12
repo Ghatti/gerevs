@@ -51,8 +51,8 @@ class TelaPessoa(TelaIntegrante):
                 button, values = self.open()
                 self.close()
 
-                if(button == 0):
-                    raise StopIteration("Cadastro/Alteração cancelado")
+#                if(button == 0):
+                #    raise StopIteration("Cadastro/Alteração cancelado")
 
                 self.validar_cadastro(values)
                 values["nascimento"] = datetime.strptime(
@@ -62,9 +62,6 @@ class TelaPessoa(TelaIntegrante):
                 return values
             except ValueError as err:
                 self.mostrar_mensagem(err, "Erro")
-            except StopIteration as err:
-                self.mostrar_mensagem(err, "Erro")
-                break
 
     def mostrar_tela_cadastro_repetido(self, pessoa):
 

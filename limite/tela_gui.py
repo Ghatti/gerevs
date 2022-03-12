@@ -1,5 +1,6 @@
 import PySimpleGUI as sg
 from abc import ABC, abstractmethod
+from exceptions.cancelOperationException import CancelOperationException
 
 
 class TelaGui(ABC):
@@ -20,8 +21,10 @@ class TelaGui(ABC):
 
         button, values = self.window.Read()
 
-        if(button == sg.WIN_CLOSED):
-            return (0, {})
+        if(button == sg.WIN_CLOSED or button == 0):
+            self.window.close()
+            raise CancelOperationException()
+            # return (0, {})
 
         return button, values
 
@@ -30,5 +33,3 @@ class TelaGui(ABC):
 
     def mostrar_mensagem(self, mensagem: str, titulo="Mensagem"):
         sg.Popup(titulo, mensagem)
-
-    

@@ -5,6 +5,7 @@ from controle.controlador import Controlador
 from limite.tela_evento import TelaEvento
 from entidade.registro_de_presenca import RegistroDePresenca
 from dao.evento_dao import EventoDAO
+from exceptions.cancelOperationException import CancelOperationException
 
 
 class ControladorEvento(Controlador):
@@ -145,36 +146,33 @@ class ControladorEvento(Controlador):
             self.tela.mostrar_mensagem("Evento cadastrado!")
 
         except ValueError as err:
-
             self.tela.mostrar_mensagem(err)
 
-        except StopIteration as err:
-
+        except CancelOperationException as err:
             self.tela.mostrar_mensagem(err)
 
     def alterar(self, dados):
+        try:
+            evento = self.get_entidade(dados["row_index"])
 
-        evento = self.get_entidade(dados["row_index"])
+            dados = self.tela.mostrar_tela_cadastro(
+                self.unpack(evento), alterar=True)
 
-        dados = self.tela.mostrar_tela_cadastro(
-            self.unpack(evento), alterar=True)
+            dados["endereco"] = {
+                "cep": dados["cep"],
+                "rua": dados["rua"],
+                "numero": dados["numero"],
+                "bairro": dados["bairro"],
+                "cidade": dados["cidade"],
+                "estado": dados["estado"]
+            }
 
-        if dados is None:
-            return
+            evento.data = dados["data"]
+            evento.endereco = dados["endereco"]
 
-        dados["endereco"] = {
-            "cep": dados["cep"],
-            "rua": dados["rua"],
-            "numero": dados["numero"],
-            "bairro": dados["bairro"],
-            "cidade": dados["cidade"],
-            "estado": dados["estado"]
-        }
-
-        evento.data = dados["data"]
-        evento.endereco = dados["endereco"]
-
-        self.dao.persist(evento)
+            self.dao.persist(evento)
+        except CancelOperationException as err:
+            self.tela.mostrar_mensagem(err)
 
     def ver_ranking(self):
 
@@ -186,6 +184,8 @@ class ControladorEvento(Controlador):
             self.tela.mostrar_tela_listar(
                 event_list, "Ranking por Participantes")
 
+        except CancelOperationException as err:
+            pass
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
 
@@ -203,6 +203,8 @@ class ControladorEvento(Controlador):
 
             event_list = self.listar(eventos_futuros)
             self.tela.mostrar_tela_listar(event_list, "Eventos Futuros")
+        except CancelOperationException as err:
+            pass
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
 
@@ -218,6 +220,8 @@ class ControladorEvento(Controlador):
 
             event_list = self.listar(eventos_realizados)
             self.tela.mostrar_tela_listar(event_list, "Eventos Realizados")
+        except CancelOperationException as err:
+            pass
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
 
@@ -256,6 +260,8 @@ class ControladorEvento(Controlador):
                 self.dao.persist(evento)
             else:
                 raise ValueError("Participante já registrado no evento.")
+        except CancelOperationException as err:
+            self.tela.mostrar_mensagem(err)
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
 
@@ -341,6 +347,8 @@ class ControladorEvento(Controlador):
             evento.adicionar_organizador(organizador)
             self.dao.persist(evento)
             self.tela.mostrar_mensagem("Organizador incluído!")
+        except CancelOperationException as err:
+            self.tela.mostrar_mensagem(err)
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
 
@@ -417,6 +425,8 @@ class ControladorEvento(Controlador):
             evento.adicionar_registro_de_presenca(registro)
             self.dao.persist(evento)
 
+        except CancelOperationException as err:
+            self.tela.mostrar_mensagem(err)
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
 
@@ -450,42 +460,49 @@ class ControladorEvento(Controlador):
             registro.saida = saida["data"]
             self.dao.persist(evento)
 
+        except CancelOperationException as err:
+            self.tela.mostrar_mensagem(err)
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
 
     def alterar_registro_de_presenca(self, evento, input):
 
-        delta_limit = timedelta(days=1)
+        try:
+            delta_limit = timedelta(days=1)
 
-        index = input["row_index"][0]
-        registro = evento.registros_de_presenca[index]
+            index = input["row_index"][0]
+            registro = evento.registros_de_presenca[index]
 
-        self.tela.mostrar_mensagem("Informe a nova entrada", "Alterar entrada")
+            self.tela.mostrar_mensagem(
+                "Informe a nova entrada", "Alterar entrada")
 
-        entrada_antiga = {
-            "data": registro.entrada.data.strftime("%d/%m/%Y"),
-            "horario": registro.entrada.data.strftime("%H:%M")
-        }
-
-        entrada = self.tela.mostrar_tela_registrar_presenca(
-            evento.data, delta_limit, entrada_antiga)
-        registro.entrada = entrada["data"]
-
-        if(registro.saida is not None):
-
-            self.tela.mostrar_mensagem("Informe a nova saída", "Alterar saída")
-
-            saida_antiga = {
-                "data": registro.saida.data.strftime("%d/%m/%Y"),
-                "horario": registro.saida.data.strftime("%H:%M")
+            entrada_antiga = {
+                "data": registro.entrada.data.strftime("%d/%m/%Y"),
+                "horario": registro.entrada.data.strftime("%H:%M")
             }
 
-            saida = self.tela.mostrar_tela_registrar_presenca(
-                evento.data, delta_limit, saida_antiga)
+            entrada = self.tela.mostrar_tela_registrar_presenca(
+                evento.data, delta_limit, entrada_antiga)
+            registro.entrada = entrada["data"]
 
-            registro.saida = saida["data"]
+            if(registro.saida is not None):
 
-        self.dao.persist(evento)
+                self.tela.mostrar_mensagem(
+                    "Informe a nova saída", "Alterar saída")
+
+                saida_antiga = {
+                    "data": registro.saida.data.strftime("%d/%m/%Y"),
+                    "horario": registro.saida.data.strftime("%H:%M")
+                }
+
+                saida = self.tela.mostrar_tela_registrar_presenca(
+                    evento.data, delta_limit, saida_antiga)
+
+                registro.saida = saida["data"]
+
+            self.dao.persist(evento)
+        except CancelOperationException as err:
+            self.tela.mostrar_mensagem(err)
 
     def remover_registro_de_presenca(self, evento, input):
 

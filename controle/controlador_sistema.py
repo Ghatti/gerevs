@@ -3,6 +3,7 @@ from controle.controlador_evento import ControladorEvento
 from controle.controlador_cartao_de_vacina import ControladorCartaoDeVacina
 from controle.controlador_exame import ControladorExame
 from limite.tela_sistema import TelaSistema
+from exceptions.cancelOperationException import CancelOperationException
 
 
 class ControladorSistema:
@@ -42,7 +43,10 @@ class ControladorSistema:
         return self.__tela
 
     def inicializar(self):
-        self.abrir_menu_inicial()
+        try:
+            self.abrir_menu_inicial()
+        except CancelOperationException:
+            pass
 
     def abrir_menu_inicial(self):
 

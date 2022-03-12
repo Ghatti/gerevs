@@ -4,6 +4,7 @@ from controle.controlador_participante import ControladorParticipante
 from entidade.pessoa import Pessoa
 from limite.tela_pessoa import TelaPessoa
 from dao.pessoa_dao import PessoaDAO
+from exceptions.cancelOperationException import CancelOperationException
 
 
 class ControladorPessoa(Controlador):
@@ -33,9 +34,6 @@ class ControladorPessoa(Controlador):
 
             dados = self.abrir_tela_cadastro()
 
-            if dados is None:
-                return
-
             for pessoa in self.entidades:
                 if(pessoa.cpf == dados["cpf"]):
 
@@ -48,6 +46,8 @@ class ControladorPessoa(Controlador):
                         raise ValueError(
                             "Não é possível cadastrar duas pessoas com o mesmo CPF.")
 
+        except CancelOperationException as err:
+            self.tela.mostrar_mensagem(err, "Operação cancelada")
         except ValueError as err:
             self.tela.mostrar_mensagem(err, "Erro")
         else:
@@ -95,6 +95,8 @@ class ControladorPessoa(Controlador):
             self.controlador_sistema.controlador_evento.atualizar_pessoa(
                 pessoa)
 
+        except CancelOperationException as err:
+            self.tela.mostrar_mensagem(err, "Operação cancelada")
         except ValueError as err:
             self.tela.mostrar_mensagem("Erro", err)
 

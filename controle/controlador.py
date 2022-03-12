@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 
+from exceptions.cancelOperationException import CancelOperationException
+
 
 class Controlador(ABC):
 
@@ -139,6 +141,8 @@ class Controlador(ABC):
                 else:
                     funcao_escolhida(dados)
 
+        except CancelOperationException as err:
+            return
         except ValueError as err:
             self.tela.mostrar_mensagem(err)
         except StopIteration as err:

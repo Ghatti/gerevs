@@ -1,3 +1,3 @@
-class CancelOperationException(ValueError):
-    def __init__(self):
-        super().__init__("A operação foi cancelada.")
+class CancelOperationException(StopIteration):
+    def __init__(self, err_msg="A operação foi cancelada."):
+        super().__init__(err_msg)
