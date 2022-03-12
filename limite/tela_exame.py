@@ -1,4 +1,5 @@
 import PySimpleGUI as sg
+from exceptions.validationException import ValidationException
 from limite.tela import Tela
 from datetime import datetime, timedelta, time
 
@@ -61,21 +62,16 @@ class TelaExame(Tela):
                 button, values = self.open()
                 self.close()
 
-                if(button == 0):
-                    return
-
                 self.validar_cadastro(values)
 
                 try:
                     horario = time.fromisoformat(values["horario"])
                 except ValueError:
-                    raise ValueError(
+                    raise ValidationException(
                         "O horário informado não é válido. Utilize o formato hh:mm.")
 
-                
                 data = datetime.strptime(
                     values["data"], "%d/%m/%Y") + timedelta(hours=horario.hour, minutes=horario.minute)
-
 
                 return {
                     "data": data,

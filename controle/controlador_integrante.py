@@ -1,4 +1,5 @@
 from controle.controlador import Controlador
+from exceptions.validationException import ValidationException
 
 
 class ControladorIntegrante(Controlador):
@@ -17,7 +18,7 @@ class ControladorIntegrante(Controlador):
 
     def incluir(self, pessoa):
         if(pessoa in self.entidades):
-            raise ValueError("A pessoa indicada já está cadastrada!")
+            raise ValidationException("A pessoa indicada já está cadastrada!")
 
         self.dao.persist(pessoa)
         self.tela.mostrar_mensagem("Cadastro realizado com sucesso")

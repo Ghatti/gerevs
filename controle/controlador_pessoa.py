@@ -2,6 +2,7 @@ from controle.controlador import Controlador
 from controle.controlador_organizador import ControladorOrganizador
 from controle.controlador_participante import ControladorParticipante
 from entidade.pessoa import Pessoa
+from exceptions.validationException import ValidationException
 from limite.tela_pessoa import TelaPessoa
 from dao.pessoa_dao import PessoaDAO
 from exceptions.cancelOperationException import CancelOperationException
@@ -43,12 +44,12 @@ class ControladorPessoa(Controlador):
                         incluir(pessoa)
                         return
                     else:
-                        raise ValueError(
+                        raise ValidationException(
                             "Não é possível cadastrar duas pessoas com o mesmo CPF.")
 
         except CancelOperationException as err:
             self.tela.mostrar_mensagem(err, "Operação cancelada")
-        except ValueError as err:
+        except ValidationException as err:
             self.tela.mostrar_mensagem(err, "Erro")
         else:
 
@@ -97,7 +98,7 @@ class ControladorPessoa(Controlador):
 
         except CancelOperationException as err:
             self.tela.mostrar_mensagem(err, "Operação cancelada")
-        except ValueError as err:
+        except ValidationException as err:
             self.tela.mostrar_mensagem("Erro", err)
 
     def unpack(self, pessoa):

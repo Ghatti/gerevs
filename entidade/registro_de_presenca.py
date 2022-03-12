@@ -1,7 +1,6 @@
 from entidade.pessoa import Pessoa
-
-
 from entidade.linha_de_registro import LinhaDeRegistro
+from exceptions.validationException import ValidationException
 
 
 class RegistroDePresenca:
@@ -31,7 +30,7 @@ class RegistroDePresenca:
         if self.saida is not None:
             if(registro_entrada.data > self.saida.data):
 
-                raise ValueError(
+                raise ValidationException(
                     "A entrada não pode ser posterior à saída. Altere a saída primeiro ou informe outra entrada.")
 
         self.__entrada = registro_entrada
@@ -42,7 +41,7 @@ class RegistroDePresenca:
         registro_saida = LinhaDeRegistro(saida)
 
         if(registro_saida.data < self.entrada.data):
-            raise ValueError(
+            raise ValidationException(
                 "A saída não pode ser anterior à entrada. Altere a entrada primeiro ou informe outra saída")
 
         self.__saida = LinhaDeRegistro(saida)

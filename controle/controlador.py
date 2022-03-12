@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-
+from exceptions.validationException import ValidationException
 from exceptions.cancelOperationException import CancelOperationException
 
 
@@ -65,16 +65,10 @@ class Controlador(ABC):
     def tem_entidades(self):
         return len(self.entidades) != 0
 
-    def ver_todos(self):
-        try:
-            self.listar(self.entidades)
-        except ValueError as err:
-            self.tela.mostrar_mensagem(err)
-
     def get_entidade(self, index):
 
         if(len(index) == 0):
-            raise ValueError("É necessário selecionar um item.")
+            raise ValidationException("É necessário selecionar um item.")
 
         id = index[0]
         entidade = self.entidades[id]
@@ -86,7 +80,7 @@ class Controlador(ABC):
             entidade = self.get_entidade(dados["row_index"])
             self.abrir_menu_visualizacao(entidade)
 
-        except ValueError as err:
+        except ValidationException as err:
             self.tela.mostrar_mensagem(err)
 
     def listar(self, lista=[]):
@@ -101,7 +95,7 @@ class Controlador(ABC):
         opcao = self.abrir_tela_selecionar(lista)
 
         if(opcao is None):
-            raise ValueError("É necessário selecionar uma opção.")
+            raise ValidationException("É necessário selecionar uma opção.")
 
         entidade = lista[opcao]
         return entidade
@@ -121,7 +115,7 @@ class Controlador(ABC):
             confirmacao = self.tela.confirmar()
             if(confirmacao):
                 self.dao.remove(entidade)
-        except ValueError as err:
+        except ValidationException as err:
             self.tela.mostrar_mensagem(err)
 
     def abrir_menu(self, menu=None, opcoes={}, entidade=None, pass_input=False):
@@ -143,10 +137,8 @@ class Controlador(ABC):
 
         except CancelOperationException as err:
             return
-        except ValueError as err:
+        except ValidationException as err:
             self.tela.mostrar_mensagem(err)
-        except StopIteration as err:
-            return
 
     def unpack_all(self, lista):
 

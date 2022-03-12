@@ -51,9 +51,6 @@ class TelaPessoa(TelaIntegrante):
                 button, values = self.open()
                 self.close()
 
-#                if(button == 0):
-                #    raise StopIteration("Cadastro/Alteração cancelado")
-
                 self.validar_cadastro(values)
                 values["nascimento"] = datetime.strptime(
                     values["nascimento"], "%d/%m/%Y")

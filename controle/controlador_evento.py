@@ -1,7 +1,8 @@
 from datetime import datetime, timedelta
-from multiprocessing.sharedctypes import Value
+
 from entidade.evento import Evento
 from controle.controlador import Controlador
+from exceptions.validationException import ValidationException
 from limite.tela_evento import TelaEvento
 from entidade.registro_de_presenca import RegistroDePresenca
 from dao.evento_dao import EventoDAO
@@ -126,7 +127,7 @@ class ControladorEvento(Controlador):
             dados["organizador"] = organizador
 
             if(dados["organizador"].nascimento > dados["data"]):
-                raise ValueError(
+                raise ValidationException(
                     "O organizador escolhido nasceu após o evento ser realizado. Tente novamente")
 
             dados["endereco"] = {
@@ -145,7 +146,7 @@ class ControladorEvento(Controlador):
             self.dao.persist(novo_evento)
             self.tela.mostrar_mensagem("Evento cadastrado!")
 
-        except ValueError as err:
+        except ValidationException as err:
             self.tela.mostrar_mensagem(err)
 
         except CancelOperationException as err:
@@ -251,7 +252,7 @@ class ControladorEvento(Controlador):
             participante = self.controlador_sistema.controlador_participante.selecionar()
 
             if(participante.nascimento > evento.data):
-                raise ValueError(
+                raise ValidationException(
                     "O participante escolhido nasceu após o evento ser realizado.")
 
             if(participante.cpf not in cpfs):
@@ -259,7 +260,7 @@ class ControladorEvento(Controlador):
                 self.tela.mostrar_mensagem("Participante incluído!")
                 self.dao.persist(evento)
             else:
-                raise ValueError("Participante já registrado no evento.")
+                raise ValidationException("Participante já registrado no evento.")
         except CancelOperationException as err:
             self.tela.mostrar_mensagem(err)
         except ValueError as err:
@@ -307,7 +308,7 @@ class ControladorEvento(Controlador):
                 self.dao.persist(evento)
                 self.tela.mostrar_mensagem("Participante confirmado!")
             else:
-                raise ValueError(
+                raise ValidationException(
                     "Participante não completou os requisitos para confirmação")
 
         except ValueError as err:
@@ -338,10 +339,10 @@ class ControladorEvento(Controlador):
             cpfs = [organizador.cpf for organizador in evento.organizadores]
 
             if(organizador.cpf in cpfs):
-                raise ValueError("Organizador já registrado no evento.")
+                raise ValidationException("Organizador já registrado no evento.")
 
             if(organizador.nascimento > evento.data):
-                raise ValueError(
+                raise ValidationException(
                     "O organizador escolhido nasceu após o evento ser realizado.")
 
             evento.adicionar_organizador(organizador)
@@ -349,7 +350,7 @@ class ControladorEvento(Controlador):
             self.tela.mostrar_mensagem("Organizador incluído!")
         except CancelOperationException as err:
             self.tela.mostrar_mensagem(err)
-        except ValueError as err:
+        except ValidationException as err:
             self.tela.mostrar_mensagem(err)
 
     def remover_organizador(self, evento, input):
@@ -358,7 +359,7 @@ class ControladorEvento(Controlador):
             index = input["row_index"][0]
 
             if(len(evento.organizadores) == 1):
-                raise ValueError(
+                raise ValidationException(
                     "Evento possui apenas um organizador. É necessário adicionar outro organizador antes de removê-lo.")
 
             organizador = evento.organizadores[index]
@@ -366,7 +367,7 @@ class ControladorEvento(Controlador):
             evento.remover_organizador(organizador)
             self.dao.persist(evento)
             self.tela.mostrar_mensagem("Organizador removido!")
-        except ValueError as err:
+        except ValidationException as err:
             self.tela.mostrar_mensagem(err)
 
     def listar_registros_de_presenca(self, evento):
@@ -412,7 +413,7 @@ class ControladorEvento(Controlador):
             # Positivo, informa o usuário de que a entrada já foi registrada e retorna
             for registro in evento.registros_de_presenca:
                 if registro.participante == participante:
-                    raise ValueError(
+                    raise ValidationException(
                         "Participante já possui registro de entrada.")
 
             # Sistema solicita o horário da entrada.
@@ -451,7 +452,7 @@ class ControladorEvento(Controlador):
             registro = evento.registros_de_presenca[index]
 
             if(registro.saida is not None):
-                raise ValueError(
+                raise ValidationException(
                     "A saída deste participante já foi registrada")
 
             saida = self.tela.mostrar_tela_registrar_presenca(

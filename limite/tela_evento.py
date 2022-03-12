@@ -1,4 +1,5 @@
 import PySimpleGUI as sg
+from exceptions.validationException import ValidationException
 from limite.tela import Tela
 from datetime import datetime, timedelta, time
 
@@ -184,11 +185,8 @@ class TelaEvento(Tela):
         button, values = self.open()
         self.close()
 
-        if(button == 0):
-            return button, None
-
         if(len(values["row_index"]) == 0):
-            raise ValueError(
+            raise ValidationException(
                 "É necessário escolher um participante para confirmar")
 
         return button, values
@@ -198,11 +196,8 @@ class TelaEvento(Tela):
         button, values = self.open()
         self.close()
 
-        if(button == 0):
-            return button, None
-
         if(button == 2 and len(values["row_index"]) == 0):
-            raise ValueError(
+            raise ValidationException(
                 "É necessário escolher um participante para remover")
 
         return button, values
@@ -212,11 +207,8 @@ class TelaEvento(Tela):
         button, values = self.open()
         self.close()
 
-        if(button == 0):
-            return button, None
-
         if(button == 2 and len(values["row_index"]) == 0):
-            raise ValueError(
+            raise ValidationException(
                 "É necessário escolher um organizador para remover")
 
         return button, values
@@ -227,11 +219,8 @@ class TelaEvento(Tela):
         button, values = self.open()
         self.close()
 
-        if(button == 0):
-            return button, None
-
         if(button != 1 and len(values["row_index"]) == 0):
-            raise ValueError(
+            raise ValidationException(
                 "É necessário escolher um registro.")
 
         return button, values
@@ -252,15 +241,12 @@ class TelaEvento(Tela):
                 button, values = self.open()
                 self.close()
 
-                if(button == 0):
-                    raise StopIteration("Cadastro Cancelado")
-
                 self.validar_cadastro(values)
 
                 try:
                     horario = time.fromisoformat(values["horario"])
                 except ValueError:
-                    raise ValueError(
+                    raise ValidationException(
                         "O horário informado não é válido. Utilize o formato hh:mm.")
 
                 values["data"] = datetime.strptime(
@@ -284,20 +270,17 @@ class TelaEvento(Tela):
                 button, values = self.open()
                 self.close()
 
-                if(button == 0):
-                    raise ValueError("Registro cancelado")
-
                 try:
                     horario = time.fromisoformat(values["horario"])
                 except ValueError:
-                    raise ValueError(
+                    raise ValidationException(
                         "O horário informado não é válido. Utilize o formato hh:mm.")
 
                 values["data"] = datetime.strptime(
                     values["data"], "%d/%m/%Y") + timedelta(hours=horario.hour, minutes=horario.minute)
 
                 if(values["data"] < limite_inferior or values["data"] > limite_superior):
-                    raise ValueError(
+                    raise ValidationException(
                         "A data informada deve ser, no máximo, um dia após ou antes do evento.")
 
                 return values

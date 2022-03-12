@@ -1,4 +1,5 @@
 from controle.controlador_integrante import ControladorIntegrante
+from exceptions.validationException import ValidationException
 from limite.tela_participante import TelaParticipante
 from dao.participante_dao import ParticipanteDAO
 from exceptions.cancelOperationException import CancelOperationException
@@ -33,7 +34,7 @@ class ControladorParticipante(ControladorIntegrante):
                 return
 
             if(participante.nascimento > novo_exame.data):
-                raise ValueError(
+                raise ValidationException(
                     "O exame não pode ser realizado antes do nascimento do participante.")
 
             participante.add_exame(novo_exame)
