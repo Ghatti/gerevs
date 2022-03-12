@@ -1,13 +1,13 @@
 from controle.controlador_integrante import ControladorIntegrante
 from limite.tela_participante import TelaParticipante
-from dao.pessoa_dao import PessoaDAO
+from dao.participante_dao import ParticipanteDAO
 
 
 class ControladorParticipante(ControladorIntegrante):
 
     def __init__(self, controlador_sistema, controlador_pessoa):
         super().__init__(controlador_sistema, controlador_pessoa,
-                         TelaParticipante(self), PessoaDAO("participantes.pkl"))
+                         TelaParticipante(self), ParticipanteDAO())
 
     def abrir_menu_visualizacao(self, participante):
 

@@ -30,7 +30,11 @@ class ControladorIntegrante(Controlador):
 
     def atualizar(self, pessoa):
 
-        self.dao.persist(pessoa)
+        # check if pessoa is registered
+
+        cpfs = [entidade.cpf for entidade in self.entidades]
+        if(pessoa.cpf in cpfs):
+            self.dao.persist(pessoa)
 
     def unpack(self, pessoa):
 
