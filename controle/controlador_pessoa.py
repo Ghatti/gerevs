@@ -92,6 +92,8 @@ class ControladorPessoa(Controlador):
             self.dao.persist(pessoa)
             self.controlador_organizador.atualizar(pessoa)
             self.controlador_participante.atualizar(pessoa)
+            self.controlador_sistema.controlador_evento.atualizar_pessoa(
+                pessoa)
 
         except ValueError as err:
             self.tela.mostrar_mensagem("Erro", err)

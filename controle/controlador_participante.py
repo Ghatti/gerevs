@@ -21,7 +21,7 @@ class ControladorParticipante(ControladorIntegrante):
     def registrar_vacina(self, participante):
         self.controlador_sistema.controlador_cartao_de_vacina.registrar_dose(
             participante.cartao_de_vacina)
-        self.dao.persist(participante)
+        self.persist_change(participante)
 
     def registrar_exame(self, participante):
 
@@ -35,7 +35,7 @@ class ControladorParticipante(ControladorIntegrante):
                 "O exame não pode ser realizado antes do nascimento do participante.")
 
         participante.add_exame(novo_exame)
-        self.dao.persist(participante)
+        self.persist_change(participante)
 
         raise StopIteration
 
@@ -43,3 +43,8 @@ class ControladorParticipante(ControladorIntegrante):
 
         self.controlador_sistema.controlador_exame.mostrar(
             participante.exames, lambda: self.registrar_exame(participante))
+
+    def persist_change(self, participante):
+        self.dao.persist(participante)
+        self.controlador_sistema.controlador_evento.atualizar_pessoa(
+            participante)

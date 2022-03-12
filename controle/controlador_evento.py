@@ -495,6 +495,9 @@ class ControladorEvento(Controlador):
             evento.remover_registro_de_presenca(registro)
             self.dao.persist(evento)
 
+    def atualizar_pessoa(self, pessoa):
+        self.dao.update_pessoa(pessoa)
+
     def unpack(self, evento):
 
         return {
