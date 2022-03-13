@@ -42,7 +42,7 @@ class TelaExame(Tela):
             [sg.Text("Data:", size=(15, 1)), sg.InputText(values["data"] if values else None,
                                                           key="data"), sg.CalendarButton("Calendário", target="nascimento", format="%d/%m/%Y")],
             [sg.Text("Horário:", size=(15, 1)), sg.InputText(values["horario"] if values else None,
-                                                             key="horario")],
+                                                             key="horario"), sg.Text("Ex.: 12:30")],
             [sg.Text("Resultado:", size=(15, 1)), sg.Radio(
                 "Positivo", "resultado", key="positivo"), sg.Radio("Negativo", "resultado", default=True, key="negativo")],
             [sg.Submit("Enviar", key="enviar"),

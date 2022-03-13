@@ -29,7 +29,7 @@ class ControladorIntegrante(Controlador):
 
             self.controlador_pessoa.alterar(pessoa)
         except ValidationException as err:
-            self.tela.mostrar_mensagem(err)            
+            self.tela.mostrar_mensagem(err)
 
     def atualizar(self, pessoa):
 
@@ -51,5 +51,5 @@ class ControladorIntegrante(Controlador):
             "bairro": pessoa.endereco.bairro,
             "cidade": pessoa.endereco.cidade,
             "estado": pessoa.endereco.estado,
-            "vacina": [pessoa.cartao_de_vacina.doses[0], pessoa.cartao_de_vacina.doses[1]]
+            "vacina": ["Aplicada" if pessoa.cartao_de_vacina.doses[0] else "Não aplicada", "Aplicada" if pessoa.cartao_de_vacina.doses[1] else "Não aplicada"]
         }

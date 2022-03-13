@@ -15,9 +15,3 @@ class TelaParticipante(TelaIntegrante):
         self.close()
         return button, values
 
-    def mostrar_tela_erro_exame(self):
-
-        registrar = self.ler_string(
-            "Participante não possui exame cadastrado. Deseja registrar um exame?", self.validar_string(opcoes=["n", "s"])).strip().lower()
-
-        return registrar == "s"

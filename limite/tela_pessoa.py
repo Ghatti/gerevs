@@ -18,11 +18,11 @@ class TelaPessoa(TelaIntegrante):
             [sg.Text("Nome:", size=(15, 1)), sg.InputText(
                 values["nome"] if values else None, key="nome")],
             [sg.Text("CPF:", size=(15, 1)), sg.InputText(
-                values["cpf"] if values else None, key="cpf", disabled=alterar)],
+                values["cpf"] if values else None, key="cpf", disabled=alterar), sg.Text("Ex.: 000.000.000-00")],
             [sg.Text("Nascimento:", size=(15, 1)), sg.InputText(values["nascimento"] if values else None,
                                                                 key="nascimento"), sg.CalendarButton("Calendário", target="nascimento", format="%d/%m/%Y")],
             [sg.Text("CEP:", size=(15, 1)), sg.InputText(
-                values["cep"] if values else None, key="cep")],
+                values["cep"] if values else None, key="cep"), sg.Text("Ex.: 00.000-000")],
             [sg.Text("Rua:", size=(15, 1)), sg.InputText(
                 values["rua"] if values else None, key="rua")],
             [sg.Text("Número:", size=(15, 1)), sg.InputText(

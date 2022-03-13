@@ -75,11 +75,11 @@ class TelaEvento(Tela):
             [sg.Text("Data:", size=(15, 1)), sg.InputText(values["data"] if values else None,
                                                           key="data"), sg.CalendarButton("Calendário", target="data", format="%d/%m/%Y")],
             [sg.Text("Horário:", size=(15, 1)), sg.InputText(
-                values["horario"] if values else None, key="horario")],
+                values["horario"] if values else None, key="horario"), sg.Text("Ex.: 12:30")],
             [sg.Text("Capacidade:", size=(15, 1)), sg.InputText(
                 values["capacidade"] if values else None, key="capacidade", disabled=alterar)],
             [sg.Text("CEP:", size=(15, 1)), sg.InputText(
-                values["cep"] if values else None, key="cep")],
+                values["cep"] if values else None, key="cep"), sg.Text("Ex.: 00.000-000")],
             [sg.Text("Rua:", size=(15, 1)), sg.InputText(
                 values["rua"] if values else None, key="rua")],
             [sg.Text("Número:", size=(15, 1)), sg.InputText(
