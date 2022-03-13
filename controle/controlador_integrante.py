@@ -24,10 +24,12 @@ class ControladorIntegrante(Controlador):
         self.tela.mostrar_mensagem("Cadastro realizado com sucesso")
 
     def alterar(self, input):
+        try:
+            pessoa = self.get_entidade(input["row_index"])
 
-        pessoa = self.get_entidade(input["row_index"])
-
-        self.controlador_pessoa.alterar(pessoa)
+            self.controlador_pessoa.alterar(pessoa)
+        except ValidationException as err:
+            self.tela.mostrar_mensagem(err)            
 
     def atualizar(self, pessoa):
 

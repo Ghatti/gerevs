@@ -22,6 +22,10 @@ class RegistroDePresenca:
     def saida(self):
         return self.__saida
 
+    @participante.setter
+    def participante(self, part):
+        self.__participante = part
+
     @entrada.setter
     def entrada(self, entrada):
 

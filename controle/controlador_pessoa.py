@@ -99,7 +99,7 @@ class ControladorPessoa(Controlador):
         except CancelOperationException as err:
             self.tela.mostrar_mensagem(err, "Operação cancelada")
         except ValidationException as err:
-            self.tela.mostrar_mensagem("Erro", err)
+            self.tela.mostrar_mensagem(err, "Erro")
 
     def unpack(self, pessoa):
 

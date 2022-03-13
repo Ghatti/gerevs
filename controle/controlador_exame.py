@@ -19,10 +19,6 @@ class ControladorExame(Controlador):
     def cadastrar(self):
 
         dados = self.tela.mostrar_tela_cadastro()
-
-        if(dados is None):
-            return
-
         exame = Exame(dados["data"], dados["resultado"])
         return exame
 

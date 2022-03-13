@@ -135,8 +135,10 @@ class Controlador(ABC):
                 else:
                     funcao_escolhida(dados)
 
-        except CancelOperationException as err:
-            return
+        except CancelOperationException:
+            pass
+        except StopIteration:
+            pass
         except ValidationException as err:
             self.tela.mostrar_mensagem(err)
 

@@ -146,7 +146,7 @@ class ControladorEvento(Controlador):
             self.dao.persist(novo_evento)
             self.tela.mostrar_mensagem("Evento cadastrado!")
 
-        except ValidationException as err:
+        except ValueError as err:
             self.tela.mostrar_mensagem(err)
 
         except CancelOperationException as err:
@@ -173,6 +173,8 @@ class ControladorEvento(Controlador):
 
             self.dao.persist(evento)
         except CancelOperationException as err:
+            self.tela.mostrar_mensagem(err)
+        except ValidationException as err:
             self.tela.mostrar_mensagem(err)
 
     def ver_ranking(self):
@@ -260,7 +262,8 @@ class ControladorEvento(Controlador):
                 self.tela.mostrar_mensagem("Participante incluído!")
                 self.dao.persist(evento)
             else:
-                raise ValidationException("Participante já registrado no evento.")
+                raise ValidationException(
+                    "Participante já registrado no evento.")
         except CancelOperationException as err:
             self.tela.mostrar_mensagem(err)
         except ValueError as err:
@@ -339,7 +342,8 @@ class ControladorEvento(Controlador):
             cpfs = [organizador.cpf for organizador in evento.organizadores]
 
             if(organizador.cpf in cpfs):
-                raise ValidationException("Organizador já registrado no evento.")
+                raise ValidationException(
+                    "Organizador já registrado no evento.")
 
             if(organizador.nascimento > evento.data):
                 raise ValidationException(

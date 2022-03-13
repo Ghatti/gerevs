@@ -30,15 +30,13 @@ class ControladorParticipante(ControladorIntegrante):
         try:
             novo_exame = self.controlador_sistema.controlador_exame.cadastrar()
 
-            if novo_exame is None:
-                return
-
             if(participante.nascimento > novo_exame.data):
                 raise ValidationException(
                     "O exame não pode ser realizado antes do nascimento do participante.")
 
             participante.add_exame(novo_exame)
             self.persist_change(participante)
+            raise StopIteration
         except CancelOperationException as err:
             self.tela.mostrar_mensagem(err, "Operação cancelada")
 

@@ -37,4 +37,8 @@ class EventoDAO(AbstractDAO):
                 if(organizador.cpf == pessoa.cpf):
                     evento.organizadores[i] = pessoa
 
+            for registro in evento.registros_de_presenca:
+                if(registro.participante.cpf == pessoa.cpf):
+                    registro.participante = pessoa
+
             self.persist(evento)

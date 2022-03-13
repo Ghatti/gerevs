@@ -47,7 +47,10 @@ class Tela(TelaGui, ABC):
         button, values = self.open()
         self.close()
 
-        return values["row_index"][0]
+        try:
+            return values["row_index"][0]
+        except IndexError:
+            raise ValidationException("É necessário escolher uma opção")
 
     def validar_string(self, min=None, max=None, equal=None, formato=None, no_digit=None, opcoes=None):
 
