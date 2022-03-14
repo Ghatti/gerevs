@@ -374,29 +374,7 @@ class ControladorEvento(Controlador):
         except ValidationException as err:
             self.tela.mostrar_mensagem(err)
 
-    def listar_registros_de_presenca(self, evento):
-        try:
-            if(len(evento.registros_de_presenca) == 0):
-                raise ValueError(
-                    "Não há registros de presença cadastrados.")
 
-            for i, registro in enumerate(evento.registros_de_presenca):
-                self.tela.mostrar_registro(registro, i+1)
-        except ValueError as err:
-            self.tela.mostrar_mensagem(err)
-
-    def ver_registro_de_presenca(self, evento):
-        try:
-            if(len(evento.registros_de_presenca) == 0):
-                raise ValueError("Não há registros de presença cadastrados")
-
-            self.listar_registros_de_presenca(evento)
-            registro = self.selecionar(
-                evento.registros_de_presenca, listar=False)
-            self.tela.mostrar_detalhes_registro(registro)
-            self.abrir_menu_visualizacao_registro(evento, registro)
-        except ValueError as err:
-            self.tela.mostrar_mensagem(err)
 
     def registrar_entrada(self, evento):
 
